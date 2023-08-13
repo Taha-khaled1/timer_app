@@ -1,0 +1,134 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:task_manger/data_layer/models/task_model.dart';
+import 'package:task_manger/presentation_layer/resources/color_manager.dart';
+import 'package:task_manger/presentation_layer/resources/font_manager.dart';
+import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
+import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/pomodoro_timer_screen.dart';
+import 'package:task_manger/presentation_layer/src/get_packge.dart';
+
+class CardTask extends StatelessWidget {
+  const CardTask({
+    super.key,
+    required this.taskModel,
+  });
+
+  final TaskModel taskModel;
+  @override
+  Widget build(BuildContext context) {
+    int randomIndex = Random().nextInt(7);
+    return GestureDetector(
+      onTap: () {
+        Get.to(() => PomodoroTimerScreen(
+              taskModel: taskModel,
+            ));
+      },
+      child: Container(
+        width: 380,
+        height: 120,
+        padding: const EdgeInsets.only(
+          top: 20,
+          left: 20,
+          right: 24,
+          bottom: 20,
+        ),
+        margin: EdgeInsets.only(top: 15, right: 10, left: 10),
+        decoration: ShapeDecoration(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          shadows: [
+            BoxShadow(
+              color: Color(0x0C04060F),
+              blurRadius: 60,
+              offset: Offset(0, 4),
+              spreadRadius: 0,
+            )
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: ShapeDecoration(
+                color: taskModel.color,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 28,
+                    height: 28,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(),
+                    child: Stack(
+                      children: [
+                        Image.asset(taskModel.image),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    taskModel.title,
+                    style: MangeStyles().getRegularStyle(
+                      color: ColorManager.black,
+                      fontSize: FontSize.s20,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 7),
+                  Text(
+                    taskModel.subtitle,
+                    style: MangeStyles().getRegularStyle(
+                      color: ColorManager.black,
+                      fontSize: FontSize.s14,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              width: 44,
+              height: 44,
+              decoration: ShapeDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment(-0.96, 0.28),
+                  end: Alignment(0.96, -0.28),
+                  colors: [Color(0xFF1AB65C), Color(0xFF39E180)],
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100),
+                ),
+              ),
+              child: Icon(
+                Icons.play_arrow,
+                color: ColorManager.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

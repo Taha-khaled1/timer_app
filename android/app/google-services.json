@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "4715718055",
+    "project_id": "timekeepingpro",
+    "storage_bucket": "timekeepingpro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:4715718055:android:4207769f64b462ff574282",
+        "android_client_info": {
+          "package_name": "com.example.Timekeeping_pro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "4715718055-db83td4jgrm7ki7abf56jgegh1f2r5uk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.Timekeeping_pro",
+            "certificate_hash": "917855d086c4eda8722607c910bef50a76ad0c72"
+          }
+        },
+        {
+          "client_id": "4715718055-v5pek510hfgsgi027tp59t3noc2g4qm6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBA4qMQ9vWy_mO6hEj0VoRaOuW1TJ-9A10"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "4715718055-v5pek510hfgsgi027tp59t3noc2g4qm6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
