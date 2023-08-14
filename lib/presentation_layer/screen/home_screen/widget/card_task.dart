@@ -7,6 +7,7 @@ import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/pomodoro_timer_screen.dart';
 import 'package:task_manger/presentation_layer/src/get_packge.dart';
+import 'package:task_manger/presentation_layer/src/show_toast.dart';
 
 class CardTask extends StatelessWidget {
   const CardTask({
@@ -17,12 +18,17 @@ class CardTask extends StatelessWidget {
   final TaskModel taskModel;
   @override
   Widget build(BuildContext context) {
-    int randomIndex = Random().nextInt(7);
     return GestureDetector(
       onTap: () {
-        Get.to(() => PomodoroTimerScreen(
+        if (taskModel.isdone! == false) {
+          Get.to(
+            () => PomodoroTimerScreen(
               taskModel: taskModel,
-            ));
+            ),
+          );
+        } else {
+          showToast('The task has been completed successfully');
+        }
       },
       child: Container(
         width: 380,
@@ -70,6 +76,7 @@ class CardTask extends StatelessWidget {
                     width: 28,
                     height: 28,
                     clipBehavior: Clip.antiAlias,
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(),
                     child: Stack(
                       children: [
@@ -97,7 +104,7 @@ class CardTask extends StatelessWidget {
                   ),
                   SizedBox(height: 7),
                   Text(
-                    taskModel.subtitle,
+                    '25 minutes',
                     style: MangeStyles().getRegularStyle(
                       color: ColorManager.black,
                       fontSize: FontSize.s14,
@@ -122,7 +129,7 @@ class CardTask extends StatelessWidget {
                 ),
               ),
               child: Icon(
-                Icons.play_arrow,
+                taskModel.isdone! ? Icons.done : Icons.play_arrow,
                 color: ColorManager.white,
               ),
             ),

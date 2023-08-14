@@ -66,6 +66,7 @@ dependencies:
   circular_countdown_timer: ^0.2.3
   easy_date_timeline: ^0.0.7
   fluttertoast: ^8.2.2
+  intl: ^0.18.0
 
 
 

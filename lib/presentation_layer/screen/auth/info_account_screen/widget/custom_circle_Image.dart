@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 // import 'package:dating_app/main.dart';
 // import 'package:dating_app/presentation_layer/src/style_packge.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomCircleImage extends StatelessWidget {
   const CustomCircleImage(
@@ -49,10 +50,10 @@ class CustomCircleImageAsset extends StatelessWidget {
         backgroundColor: color,
         radius: radius,
         child: ClipOval(
-          child: Image.asset(
+          child: SvgPicture.asset(
             image!,
-            width: radius * 2,
-            height: radius * 2,
+            width: radius / 1.2,
+            height: radius / 1.2,
           ),
         ),
       ),

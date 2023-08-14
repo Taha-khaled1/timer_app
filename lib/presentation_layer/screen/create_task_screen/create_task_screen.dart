@@ -1,18 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:task_manger/application_layer/utils/valid.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
 import 'package:task_manger/presentation_layer/components/custom_butten.dart';
 import 'package:task_manger/presentation_layer/components/custom_text_field.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
+import 'package:task_manger/presentation_layer/screen/create_task_screen/widget/MyDropdownButton.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 
 import 'create_task_controller/create_task_controller.dart';
 
-class CreateTaskScreen extends StatelessWidget {
+class CreateTaskScreen extends StatefulWidget {
   const CreateTaskScreen({super.key});
+
+  @override
+  State<CreateTaskScreen> createState() => _CreateTaskScreenState();
+}
+
+class _CreateTaskScreenState extends State<CreateTaskScreen> {
+  @override
+  void dispose() {
+    Get.delete<CreateTaskController>();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +53,13 @@ class CreateTaskScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   CustomTextfield(
-                    valid: (p0) {},
+                    valid: (p0) {
+                      return validInput(p0.toString(), 3, 100, 'name');
+                    },
                     onsaved: (p0) {},
+                    onChanged: (p0) {
+                      _controller.title = p0.toString();
+                    },
                     titel: 'Task Title',
                     width: deviceInfo.localWidth * 1,
                     height: 60,
@@ -227,68 +245,15 @@ class CreateTaskScreen extends StatelessWidget {
                     haigh: 60,
                     color: ColorManager.kPrimary,
                     text: 'Create New Task',
-                    press: () {},
+                    press: () async {
+                      _controller.createTask();
+                    },
                   ),
                 ],
               ),
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class MyDropdownButton extends StatefulWidget {
-  @override
-  _MyDropdownButtonState createState() => _MyDropdownButtonState();
-}
-
-class _MyDropdownButtonState extends State<MyDropdownButton> {
-  String selectedValue = 'Meditation'; // Initially selected value
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 72,
-      padding: EdgeInsets.symmetric(horizontal: 13),
-      decoration: BoxDecoration(
-        color: Color(0xFFF9F9F9),
-        border: Border.all(color: ColorManager.grey2),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: selectedValue,
-          onChanged: (newValue) {
-            setState(() {
-              selectedValue = newValue!;
-            });
-          },
-          style: TextStyle(color: Colors.black, fontSize: 18),
-          icon: Icon(
-            Icons.arrow_drop_down,
-            color: Colors.black,
-          ),
-          items: <String>[
-            'Learn Programming',
-            'Dumbbell Exercise',
-            'Tech Exploration',
-            'Fixing Smartphone',
-            'Meditation',
-            'Reading Books',
-
-            // Add more options as needed
-          ].map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-          dropdownColor: Colors.grey[100],
-          elevation: 4,
-          isExpanded: true,
-        ),
       ),
     );
   }

@@ -1,14 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 
 class TaskInfoDataCard extends StatelessWidget {
   const TaskInfoDataCard({
     super.key,
+    required this.taskModel,
   });
-
+  final TaskModel taskModel;
   @override
   Widget build(BuildContext context) {
+    String timeString = taskModel.time!; // Replace with your actual time string
+    int minutesToAdd = 25;
+
+// Parse the time string
+    List<String> timeParts = timeString.split(' ');
+    String timeWithoutMeridiem = timeParts[0];
+    String meridiem = timeParts[1];
+
+    List<String> timeComponents = timeWithoutMeridiem.split(':');
+    int hours = int.parse(timeComponents[0]);
+    int minutes = int.parse(timeComponents[1]);
+
+// Convert to 24-hour format if meridiem is 'pm'
+    if (meridiem == 'pm' && hours != 12) {
+      hours += 12;
+    }
+
+// Create a DateTime object with today's date and the adjusted time
+    DateTime currentTime = DateTime.now();
+    DateTime adjustedTime = DateTime(
+      currentTime.year,
+      currentTime.month,
+      currentTime.day,
+      hours,
+      minutes,
+    ).add(Duration(minutes: minutesToAdd));
     return Container(
       width: 380,
       height: 90,
@@ -21,7 +49,7 @@ class TaskInfoDataCard extends StatelessWidget {
           SizedBox(
             width: 80,
             child: Text(
-              '09:00 AM',
+              taskModel.time!,
               style: MangeStyles().getBoldStyle(
                 color: Color(0xFF424242),
                 fontSize: FontSize.s16,
@@ -63,7 +91,7 @@ class TaskInfoDataCard extends StatelessWidget {
                           SizedBox(
                             width: double.infinity,
                             child: Text(
-                              'Learn UI Design',
+                              taskModel.title,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
@@ -77,7 +105,7 @@ class TaskInfoDataCard extends StatelessWidget {
                           SizedBox(
                             width: double.infinity,
                             child: Text(
-                              '09:00 - 11:00 AM',
+                              '${taskModel.time!} - ${adjustedTime.hour}:${adjustedTime.minute} ',
                               style: TextStyle(
                                 color: Color(0xFFEEEEEE),
                                 fontSize: 14,

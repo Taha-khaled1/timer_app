@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 
 class PomodoroTimerController extends GetxController {
-  final int duration = 25 * 60;
+  final int duration = (1 * 60);
   final CountDownController controller = CountDownController();
   final List<Color> colorsPomodoro = [
     ColorManager.kPrimary,

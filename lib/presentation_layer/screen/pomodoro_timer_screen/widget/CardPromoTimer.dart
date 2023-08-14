@@ -43,7 +43,7 @@ class CardPromoTimer extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: ShapeDecoration(
-              color: Color(0xFF4AAF57),
+              color: taskModel.color,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -54,6 +54,7 @@ class CardPromoTimer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
+                  alignment: Alignment.center,
                   width: 28,
                   height: 28,
                   clipBehavior: Clip.antiAlias,
@@ -90,7 +91,7 @@ class CardPromoTimer extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: Text(
-                      taskModel.subtitle,
+                      '25 minutes',
                       style: TextStyle(
                         color: Color(0xFF616161),
                         fontSize: 14,
@@ -105,40 +106,40 @@ class CardPromoTimer extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                if (istowSubtitle)
-                  Text(
-                    '2/4',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: Color(0xFF424242),
-                      fontSize: 20,
-                      fontFamily: 'Urbanist',
-                      fontWeight: FontWeight.w700,
-                      height: 1.20,
-                    ),
-                  ),
-                const SizedBox(height: 8),
-                Text(
-                  '${taskModel.subtitle}',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    color: Color(0xFF616161),
-                    fontSize: 14,
-                    fontFamily: 'Urbanist',
-                    fontWeight: FontWeight.w500,
-                    height: 1.40,
-                    letterSpacing: 0.20,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   child: Column(
+          //     mainAxisSize: MainAxisSize.min,
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     crossAxisAlignment: CrossAxisAlignment.end,
+          //     children: [
+          //       if (istowSubtitle)
+          //         Text(
+          //           '2/4',
+          //           textAlign: TextAlign.right,
+          //           style: TextStyle(
+          //             color: Color(0xFF424242),
+          //             fontSize: 20,
+          //             fontFamily: 'Urbanist',
+          //             fontWeight: FontWeight.w700,
+          //             height: 1.20,
+          //           ),
+          //         ),
+          //       const SizedBox(height: 8),
+          //       Text(
+          //         '${taskModel.subtitle}',
+          //         textAlign: TextAlign.right,
+          //         style: TextStyle(
+          //           color: Color(0xFF616161),
+          //           fontSize: 14,
+          //           fontFamily: 'Urbanist',
+          //           fontWeight: FontWeight.w500,
+          //           height: 1.40,
+          //           letterSpacing: 0.20,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

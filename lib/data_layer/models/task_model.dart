@@ -2,17 +2,20 @@ import 'package:task_manger/presentation_layer/src/style_packge.dart';
 
 class TaskModel {
   final String image, title, subtitle;
-  final String? text1, text2;
-  final bool? ishome;
+  final String? data, time;
+  final bool? ishome, isdone;
   final Color? color;
+  final String? id;
   TaskModel({
+    this.id,
+    this.isdone,
     required this.color,
     required this.image,
     this.ishome = false,
     required this.title,
     required this.subtitle,
-    this.text1,
-    this.text2,
+    this.data,
+    this.time,
   });
 }
 
@@ -29,7 +32,7 @@ List<TaskModel> taskmodelList = [
   TaskModel(
     image: 'assets/images/Reading.png',
     title: 'Reading Books',
-    subtitle: '50 minutes',
+    subtitle: '25 minutes',
     ishome: false,
     color: Color(0xFFFF5726),
   ),
@@ -37,14 +40,14 @@ List<TaskModel> taskmodelList = [
     color: Color(0xFFFFC02D),
     image: 'assets/images/music.png',
     title: 'Editing Audio',
-    subtitle: '50 minutes',
+    subtitle: '25 minutes',
     ishome: false,
   ),
   TaskModel(
     color: Color(0xFF00A9F1),
     image: 'assets/images/programing.png',
     title: 'Learn Programming',
-    subtitle: '50 minutes',
+    subtitle: '25 minutes',
     ishome: false,
   ),
   TaskModel(
@@ -58,7 +61,7 @@ List<TaskModel> taskmodelList = [
     color: Color(0xFFCDDC4C),
     image: 'assets/images/laptop.png',
     title: 'Tech Exploration',
-    subtitle: '50 minutes',
+    subtitle: '25 minutes',
     ishome: false,
   ),
   TaskModel(
