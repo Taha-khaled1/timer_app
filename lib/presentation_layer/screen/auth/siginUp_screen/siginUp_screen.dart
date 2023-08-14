@@ -154,7 +154,7 @@ class SiginUpScreen extends StatelessWidget {
                     title: 'Already have an account?',
                     title2: 'Sign in',
                     onTap: () {
-                      Get.to(() => LoginScreen());
+                      Get.off(() => LoginScreen());
                     },
                   ),
                   Spacer(),

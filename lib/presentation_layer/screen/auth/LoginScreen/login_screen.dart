@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
 import 'package:task_manger/presentation_layer/components/custom_butten.dart';
 import 'package:task_manger/presentation_layer/components/custom_text_field.dart';
+import 'package:task_manger/presentation_layer/components/nav_bar.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
@@ -11,6 +16,7 @@ import 'package:task_manger/presentation_layer/screen/auth/LoginScreen/widget/ci
 import 'package:task_manger/presentation_layer/screen/auth/forget_password/forget_password.dart';
 import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/info_account_screen.dart';
 import 'package:task_manger/presentation_layer/screen/auth/siginUp_screen/siginUp_screen.dart';
+import 'package:task_manger/presentation_layer/screen/auth/social_login/social_login.dart';
 import 'package:task_manger/presentation_layer/screen/auth/social_login/widget/EndAuthPage.dart';
 import 'package:task_manger/presentation_layer/screen/auth/social_login/widget/custom_dvider.dart';
 import 'package:task_manger/presentation_layer/src/get_packge.dart';
@@ -22,6 +28,24 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LoginController loginController = Get.put(LoginController());
+    Future<UserCredential> signInWithGoogle() async {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      // Once signed in, return the UserCredential
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    }
+
     return Scaffold(
       backgroundColor: ColorManager.background,
       appBar: appbar(),
@@ -54,8 +78,12 @@ class LoginScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         CustomTextfield(
-                          valid: (p0) {},
-                          onsaved: (p0) {},
+                          valid: (p0) {
+                            return validInput(p0.toString(), 3, 100, 'email');
+                          },
+                          onsaved: (p0) {
+                            loginController.emailAddress = p0.toString();
+                          },
                           titel: 'Email',
                           width: deviceInfo.localWidth * 0.8,
                           icon: Icons.email,
@@ -63,8 +91,17 @@ class LoginScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 20),
                         CustomTextfield(
-                          valid: (p0) {},
-                          onsaved: (p0) {},
+                          valid: (p0) {
+                            return validInput(
+                              p0.toString(),
+                              3,
+                              100,
+                              'password',
+                            );
+                          },
+                          onsaved: (p0) {
+                            loginController.password = p0.toString();
+                          },
                           titel: 'Password',
                           width: deviceInfo.localWidth * 0.8,
                           icon: Icons.lock,
@@ -83,12 +120,15 @@ class LoginScreen extends StatelessWidget {
                     color: ColorManager.kPrimaryButton,
                     text: "Sign in",
                     press: () {
-                      Get.to(() => InfoAccount());
+                      if (loginController.formKey.currentState!.validate()) {
+                        loginController.formKey.currentState!.save();
+                        loginController.signInWithEmailAndPassword();
+                      }
                     },
                   ),
                   TextButton(
                     onPressed: () {
-                      Get.to(() => ForgetPasswordScreen());
+                      Get.off(() => ForgetPasswordScreen());
                     },
                     child: Text(
                       'Forgot the password?',
@@ -110,7 +150,40 @@ class LoginScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       CircleSocialButton(image: 'assets/icons/facebook.svg'),
-                      CircleSocialButton(image: 'assets/icons/google.svg'),
+                      CircleSocialButton(
+                        image: 'assets/icons/google.svg',
+                        onTap: () async {
+                          try {
+                            final CollectionReference usersCollection =
+                                FirebaseFirestore.instance.collection('users');
+                            UserCredential user = await signInWithGoogle();
+                            if (user.user != null) {
+                              saveInformition(
+                                displayName: user.user!.displayName!,
+                                email: user.user!.email!,
+                                image: user.user!.photoURL!,
+                                id: user.user!.uid!,
+                              );
+                              final String userId =
+                                  sharedPreferences.getString('id')!;
+
+                              usersCollection
+                                  .doc(userId)
+                                  .get()
+                                  .then((docSnapshot) {
+                                if (docSnapshot.exists) {
+                                  Get.offAll(() => MainScreen());
+                                  sharedPreferences.setString("lev", '2');
+                                } else {
+                                  Get.offAll(() => InfoAccount());
+                                }
+                              });
+                            }
+                          } catch (e) {
+                            print(e);
+                          }
+                        },
+                      ),
                       CircleSocialButton(image: 'assets/icons/apple.svg'),
                     ],
                   ),
@@ -119,7 +192,7 @@ class LoginScreen extends StatelessWidget {
                     title: 'Don’t have an account?',
                     title2: 'Sign up',
                     onTap: () {
-                      Get.to(() => SiginUpScreen());
+                      Get.off(() => SiginUpScreen());
                     },
                   ),
                   Spacer(),

@@ -47,8 +47,9 @@ class StatisticScreen extends StatelessWidget {
                         return Column(
                           children: [
                             Transform.translate(
-                                offset: Offset(0, 0),
-                                child: LineChartSample2()),
+                              offset: Offset(0, 0),
+                              child: LineChartSample2(),
+                            ),
                             SizedBox(height: 50),
                             Padding(
                               padding:

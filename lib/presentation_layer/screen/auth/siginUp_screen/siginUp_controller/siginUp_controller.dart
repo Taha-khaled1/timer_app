@@ -26,9 +26,8 @@ class SiginUpController extends GetxController {
       );
       sharedPreferences.setString('id', credential.user!.uid);
       sharedPreferences.setString('email', credential.user!.email!);
-      print('444444444444444444444444444');
+
       Get.offAll(() => InfoAccount());
-      print('666666666666666666666');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         showToast('The password provided is too weak.');

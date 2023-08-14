@@ -18,6 +18,10 @@ class CustomCircleImage extends StatelessWidget {
       // استخدام عنصر ClipOval لعرض الصورة بشكل كامل داخل دائرة CircleAvatar
       child: ClipOval(
         child: CachedNetworkImage(
+          errorWidget: (context, url, error) {
+            return Image.network(
+                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
+          },
           imageUrl:
               image!, //?? sharedPreferences.getString('image').toString(),
           width: radius * 2,

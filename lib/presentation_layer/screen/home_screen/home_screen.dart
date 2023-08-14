@@ -71,6 +71,7 @@ class HomeScreen extends StatelessWidget {
 
                         double completionPercentage =
                             (completedTasks / totalTasks) * 100;
+                        print('---------> $completionPercentage');
                         return Column(
                           children: [
                             Container(
@@ -98,11 +99,14 @@ class HomeScreen extends StatelessWidget {
                                     backgroundColor: ColorManager.grey2,
                                     radius: 60.0,
                                     lineWidth: 15.0,
-                                    percent: (completionPercentage / 100),
+                                    percent: completionPercentage.isNaN
+                                        ? 0.0
+                                        : (completionPercentage / 100),
                                     progressColor: ColorManager.kPrimary,
                                     center: Text(
                                       completionPercentage == 0 ||
-                                              completionPercentage == null
+                                              completionPercentage == null ||
+                                              completionPercentage.isNaN
                                           ? '0'
                                           : "${completionPercentage.toInt().toString()}%",
                                       style: MangeStyles().getRegularStyle(

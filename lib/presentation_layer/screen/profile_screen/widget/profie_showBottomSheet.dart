@@ -75,6 +75,7 @@ customLogoutShowBottomSheet(BuildContext context) {
                       text: "Yes, Logout",
                       press: () {
                         sharedPreferences.remove('id');
+                        sharedPreferences.setString("lev", '1');
                         Get.offAll(() => LoginScreen());
                       },
                     ),

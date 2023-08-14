@@ -170,14 +170,14 @@ class _LineChartSample2State extends State<LineChartSample2> {
       lineBarsData: [
         LineChartBarData(
           spots: const [
-            FlSpot(0, 6),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 4),
-            FlSpot(8, 5),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-            FlSpot(13, 8),
+            FlSpot(0, 0),
+            FlSpot(1, 6),
+            FlSpot(3, 2),
+            FlSpot(5, 5),
+            FlSpot(7, 4),
+            FlSpot(9, 5),
+            FlSpot(11, 3),
+            FlSpot(13, 4),
           ],
           isCurved: true,
           gradient: LinearGradient(
