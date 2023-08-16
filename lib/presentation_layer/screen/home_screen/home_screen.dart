@@ -1,7 +1,13 @@
+import 'dart:isolate';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
+import 'package:task_manger/presentation_layer/notification_service/notification_service.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
@@ -10,6 +16,7 @@ import 'package:task_manger/presentation_layer/screen/home_screen/widget/card_ta
 import 'package:task_manger/presentation_layer/screen/whatch_task_screen/whatch_task_screen.dart';
 import 'package:task_manger/presentation_layer/src/get_packge.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
+import 'package:task_manger/presentation_layer/notification_service/notification_service.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -74,73 +81,83 @@ class HomeScreen extends StatelessWidget {
                         print('---------> $completionPercentage');
                         return Column(
                           children: [
-                            Container(
-                              width: deviceInfo.localWidth * 0.94,
-                              height: 160,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 24, vertical: 20),
-                              decoration: ShapeDecoration(
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(32),
+                            GestureDetector(
+                              onTap: () async {
+                                DateTime now = DateTime.now();
+                                await NotificationService().alarmCallback(
+                                  des: '',
+                                  scheduleDate: now,
+                                  title: '',
+                                );
+                              },
+                              child: Container(
+                                width: deviceInfo.localWidth * 0.94,
+                                height: 160,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 24, vertical: 20),
+                                decoration: ShapeDecoration(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(32),
+                                  ),
+                                  shadows: [
+                                    BoxShadow(
+                                      color: Color(0x0C04060F),
+                                      blurRadius: 60,
+                                      offset: Offset(0, 4),
+                                      spreadRadius: 0,
+                                    )
+                                  ],
                                 ),
-                                shadows: [
-                                  BoxShadow(
-                                    color: Color(0x0C04060F),
-                                    blurRadius: 60,
-                                    offset: Offset(0, 4),
-                                    spreadRadius: 0,
-                                  )
-                                ],
-                              ),
-                              child: Row(
-                                children: [
-                                  CircularPercentIndicator(
-                                    backgroundColor: ColorManager.grey2,
-                                    radius: 60.0,
-                                    lineWidth: 15.0,
-                                    percent: completionPercentage.isNaN
-                                        ? 0.0
-                                        : (completionPercentage / 100),
-                                    progressColor: ColorManager.kPrimary,
-                                    center: Text(
-                                      completionPercentage == 0 ||
-                                              completionPercentage == null ||
-                                              completionPercentage.isNaN
-                                          ? '0'
-                                          : "${completionPercentage.toInt().toString()}%",
-                                      style: MangeStyles().getRegularStyle(
-                                        color: ColorManager.black,
-                                        fontSize: FontSize.s20,
+                                child: Row(
+                                  children: [
+                                    CircularPercentIndicator(
+                                      backgroundColor: ColorManager.grey2,
+                                      radius: 60.0,
+                                      lineWidth: 15.0,
+                                      percent: completionPercentage.isNaN
+                                          ? 0.0
+                                          : (completionPercentage / 100),
+                                      progressColor: ColorManager.kPrimary,
+                                      center: Text(
+                                        completionPercentage == 0 ||
+                                                completionPercentage == null ||
+                                                completionPercentage.isNaN
+                                            ? '0'
+                                            : "${completionPercentage.toInt().toString()}%",
+                                        style: MangeStyles().getRegularStyle(
+                                          color: ColorManager.black,
+                                          fontSize: FontSize.s20,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(width: 15),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.topCenter,
-                                        child: Text(
-                                          "Wow! Your daily goals \n is almost done!",
-                                          style: MangeStyles().getBoldStyle(
+                                    SizedBox(width: 15),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Align(
+                                          alignment: Alignment.topCenter,
+                                          child: Text(
+                                            "Wow! Your daily goals \n is almost done!",
+                                            style: MangeStyles().getBoldStyle(
+                                              color: ColorManager.black,
+                                              fontSize: FontSize.s16,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 15),
+                                        Text(
+                                          '$completedTasks of $totalTasks completed!',
+                                          style: MangeStyles().getRegularStyle(
                                             color: ColorManager.black,
                                             fontSize: FontSize.s16,
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(height: 15),
-                                      Text(
-                                        '$completedTasks of $totalTasks completed!',
-                                        style: MangeStyles().getRegularStyle(
-                                          color: ColorManager.black,
-                                          fontSize: FontSize.s16,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             Padding(

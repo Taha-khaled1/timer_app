@@ -240,13 +240,30 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                     },
                   ),
                   SizedBox(height: 20),
-                  CustomButton(
-                    width: deviceInfo.localWidth * 0.9,
-                    haigh: 60,
-                    color: ColorManager.kPrimary,
-                    text: 'Create New Task',
-                    press: () async {
-                      _controller.createTask();
+                  GetBuilder<CreateTaskController>(
+                    builder: (controller) {
+                      return controller.isloading == false
+                          ? CustomButton(
+                              width: deviceInfo.localWidth * 0.9,
+                              haigh: 60,
+                              color: ColorManager.kPrimary,
+                              text: 'Create New Task',
+                              press: () async {
+                                _controller.createTask();
+                              },
+                            )
+                          : Center(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: CircularProgressIndicator(
+                                    color: ColorManager.kPrimary,
+                                  ),
+                                ),
+                              ),
+                            );
                     },
                   ),
                 ],

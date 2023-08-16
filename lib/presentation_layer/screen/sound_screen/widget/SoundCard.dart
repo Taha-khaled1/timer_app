@@ -74,7 +74,7 @@ class SoundCard extends StatelessWidget {
               child: GestureDetector(
                 onTap: onTap,
                 child: Icon(
-                  valueSelected != selectedOption && isStop
+                  valueSelected != selectedOption
                       ? Icons.play_arrow
                       : Icons.stop,
                   color: ColorManager.white,

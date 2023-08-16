@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:task_manger/data_layer/models/notf_model.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
+import 'package:task_manger/presentation_layer/resources/font_manager.dart';
+import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 
 import 'widget/NotificationCard.dart';
 
+// assets/json/no-notfication.json
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({Key? key}) : super(key: key);
   @override
@@ -15,14 +19,39 @@ class NotificationScreen extends StatelessWidget {
       appBar: appbarProfile(title: 'Today Tasks (16)'),
       body: InfoWidget(
         builder: (context, deviceInfo) {
-          return ListView.builder(
-            itemCount: notfModelList.length,
-            itemBuilder: (BuildContext context, int index) {
-              return NotificationCard(
-                notfModel: notfModelList[index],
-              );
-            },
-          );
+          return notfModelList == null || notfModelList.isEmpty
+              ? Center(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'There are no notifications at this time',
+                          style: MangeStyles().getBoldStyle(
+                            color: ColorManager.black,
+                            fontSize: FontSize.s18,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        Lottie.asset(
+                          'assets/json/empnotf.json',
+                          height: 400,
+                          width: 400,
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: notfModelList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return NotificationCard(
+                      notfModel: notfModelList[index],
+                    );
+                  },
+                );
         },
       ),
     );

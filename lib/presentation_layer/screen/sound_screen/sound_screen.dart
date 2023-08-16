@@ -16,7 +16,7 @@ List<String> aduis = [
   'audio/g.mp3',
   'audio/h.mp3'
 ];
-bool isStop = true;
+// bool isStop = true;
 
 class SoundScreen extends StatefulWidget {
   const SoundScreen({Key? key}) : super(key: key);
@@ -55,15 +55,15 @@ class _SoundScreenState extends State<SoundScreen> {
               onChanged: (value) async {
                 setState(() {
                   selectedOption = value!;
-                  isStop = false;
+                  // isStop = false;
                 });
                 playRecord(aduio: aduis[0]);
-                sharedPreferences.setString('tun', aduis[0]);
+                sharedPreferences.setString('tun', 'a');
               },
               onTap: () {
                 setState(() {
                   audioPlayer.stop();
-                  isStop = true;
+                  // isStop = true;
                 });
               },
               title: 'tune (1)',
@@ -73,16 +73,16 @@ class _SoundScreenState extends State<SoundScreen> {
               onTap: () {
                 setState(() {
                   audioPlayer.stop();
-                  isStop = true;
+                  // isStop = true;
                 });
               },
               onChanged: (value) {
                 setState(() {
                   selectedOption = value!;
-                  isStop = false;
+                  // isStop = false;
                 });
                 playRecord(aduio: aduis[1]);
-                sharedPreferences.setString('tun', aduis[1]);
+                sharedPreferences.setString('tun', 's');
               },
               title: 'tune (2)',
             ),
@@ -91,16 +91,16 @@ class _SoundScreenState extends State<SoundScreen> {
               onTap: () {
                 setState(() {
                   audioPlayer.stop();
-                  isStop = true;
+                  // isStop = true;
                 });
               },
               onChanged: (value) {
                 setState(() {
                   selectedOption = value!;
-                  isStop = false;
+                  // isStop = false;
                 });
                 playRecord(aduio: aduis[2]);
-                sharedPreferences.setString('tun', aduis[2]);
+                sharedPreferences.setString('tun', 's');
               },
               title: 'tune (3)',
             ),
@@ -109,16 +109,16 @@ class _SoundScreenState extends State<SoundScreen> {
               onTap: () {
                 setState(() {
                   audioPlayer.stop();
-                  isStop = true;
+                  // isStop = true;
                 });
               },
               onChanged: (value) {
                 setState(() {
                   selectedOption = value!;
-                  isStop = false;
+                  // isStop = false;
                 });
                 playRecord(aduio: aduis[3]);
-                sharedPreferences.setString('tun', aduis[3]);
+                sharedPreferences.setString('tun', 'd');
               },
               title: 'tune (4)',
             ),
@@ -127,16 +127,16 @@ class _SoundScreenState extends State<SoundScreen> {
               onTap: () {
                 setState(() {
                   audioPlayer.stop();
-                  isStop = true;
+                  // isStop = true;
                 });
               },
               onChanged: (value) {
                 setState(() {
                   selectedOption = value!;
-                  isStop = false;
+                  // isStop = false;
                 });
                 playRecord(aduio: aduis[4]);
-                sharedPreferences.setString('tun', aduis[4]);
+                sharedPreferences.setString('tun', 'f');
               },
               title: 'tune (5)',
             ),
@@ -145,14 +145,14 @@ class _SoundScreenState extends State<SoundScreen> {
               onTap: () {
                 setState(() {
                   audioPlayer.stop();
-                  isStop = true;
+                  // isStop = true;
                 });
               },
               onChanged: (value) {
-                sharedPreferences.setString('tun', aduis[5]);
+                sharedPreferences.setString('tun', 'h');
                 setState(() {
                   selectedOption = value!;
-                  isStop = false;
+                  // isStop = false;
                 });
                 playRecord(aduio: aduis[5]);
               },

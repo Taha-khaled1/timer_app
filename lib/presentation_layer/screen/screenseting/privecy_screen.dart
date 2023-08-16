@@ -28,12 +28,12 @@ class PrivacyScreen extends StatelessWidget {
     }
 
     h1 {
-      color: #fff;
+      color: #7206FC;
       font-size: 24px;
     }
 
     h2 {
-      color: #fff;
+      color: #7206FC;
       font-size: 18px;
     }
 
@@ -55,17 +55,17 @@ class PrivacyScreen extends StatelessWidget {
 
   <h2>Introduction</h2>
   <p>
-    We at [Website Name] value your privacy and understand the importance of protecting your personal information. This policy respects the privacy of our users and explains how we collect, use, and safeguard their information.
+    We at Timekeeping pro value your privacy and understand the importance of protecting your personal information. This policy respects the privacy of our users and explains how we collect, use, and safeguard their information.
   </p>
 
   <h2>Information We Collect</h2>
   <p>
-    [Website Name] collects the information you provide when registering on the application, including your username and email address. We also collect technical information such as IP address and browser information to improve our services and provide a better user experience.
+    Timekeeping pro collects the information you provide when registering on the application, including your username and email address. We also collect technical information such as IP address and browser information to improve our services and provide a better user experience.
   </p>
 
   <h2>Use of Information</h2>
   <p>
-    [Website Name] uses the collected information to provide and enhance our services, including facilitating random conversations between users and managing user accounts. We may also use the information to communicate with you regarding updates or important notifications.
+    Timekeeping pro uses the collected information to provide and enhance our services, including facilitating random conversations between users and managing user accounts. We may also use the information to communicate with you regarding updates or important notifications.
   </p>
 
   <h2>Privacy Protection</h2>
@@ -85,7 +85,7 @@ class PrivacyScreen extends StatelessWidget {
 
   <h2>Contact Us</h2>
   <p>
-    If you have any questions or inquiries about the privacy policy, please contact us via [insert contact information].
+    If you have any questions or inquiries about the privacy policy, please contact us via email.
   </p>
 </body>
 </html>

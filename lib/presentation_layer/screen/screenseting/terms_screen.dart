@@ -28,12 +28,12 @@ class TermsAndConditionsPage extends StatelessWidget {
     }
 
     h1 {
-      color: #fff;
+      color: #7206FC;
       font-size: 24px;
     }
 
     h2 {
-      color: #fff;
+      color: #7206FC;
       font-size: 18px;
     }
 
@@ -74,7 +74,7 @@ class TermsAndConditionsPage extends StatelessWidget {
   <p>We reserve the right to update these terms and conditions from time to time. Any changes will be posted on this page, and the changes will be effective immediately upon posting.</p>
 
   <h2>7. Contact</h2>
-  <p>If you have any questions or inquiries regarding the terms and conditions, please contact us via [insert contact information].</p>
+  <p>If you have any questions or inquiries regarding the terms and conditions, please contact us via email.</p>
 </body>
 </html>
 
