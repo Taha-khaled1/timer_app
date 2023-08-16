@@ -141,14 +141,7 @@ class SiginUpScreen extends StatelessWidget {
                   Spacer(),
                   CustomDvider(title: 'or continue with'),
                   SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CircleSocialButton(image: 'assets/icons/facebook.svg'),
-                      CircleSocialButton(image: 'assets/icons/google.svg'),
-                      CircleSocialButton(image: 'assets/icons/apple.svg'),
-                    ],
-                  ),
+                  StandSocialLogin(),
                   SizedBox(height: 20),
                   EndAuthPage(
                     title: 'Already have an account?',

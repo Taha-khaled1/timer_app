@@ -40,12 +40,12 @@ class ForgetPasswordScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Spacer(),
-              CustomBox(
-                image: 'assets/icons/chat.png',
-                text: '+1 111 ******99',
-                titlt: 'via SMS :\n ',
-              ),
+              // Spacer(),
+              // CustomBox(
+              //   image: 'assets/icons/chat.png',
+              //   text: '+1 111 ******99',
+              //   titlt: 'via SMS :\n ',
+              // ),
               SizedBox(
                 height: 15,
               ),

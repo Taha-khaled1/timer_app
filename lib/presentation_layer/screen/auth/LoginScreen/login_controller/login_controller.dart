@@ -10,16 +10,19 @@ import 'package:fluttertoast/fluttertoast.dart';
 class LoginController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool isCheckBox = false;
-  late String emailAddress, password;
+  String? emailAddress, password;
   void updateCheckBox(bool val) {
     isCheckBox = val;
     update();
   }
 
+  bool isload = false;
   signInWithEmailAndPassword() async {
     try {
-      final credential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: emailAddress, password: password);
+      isload = true;
+      update();
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailAddress!, password: password!);
       final userId = credential.user!.uid;
       sharedPreferences.setString('id', userId);
       sharedPreferences.setString('email', credential.user!.email!);
@@ -44,5 +47,7 @@ class LoginController extends GetxController {
         print('Wrong password provided for that user.');
       }
     }
+    isload = false;
+    update();
   }
 }

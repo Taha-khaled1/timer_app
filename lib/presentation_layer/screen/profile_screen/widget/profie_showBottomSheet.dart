@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_manger/main.dart';
@@ -73,7 +74,8 @@ customLogoutShowBottomSheet(BuildContext context) {
                       haigh: 60,
                       color: ColorManager.kPrimaryButton,
                       text: "Yes, Logout",
-                      press: () {
+                      press: () async {
+                        await FirebaseAuth.instance.signOut();
                         sharedPreferences.remove('id');
                         sharedPreferences.setString("lev", '1');
                         Get.offAll(() => LoginScreen());

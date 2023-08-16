@@ -1,6 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
+import 'package:task_manger/presentation_layer/screen/statistic_screen/statistic_controller/statistic_controller.dart';
 
 class LineChartSample2 extends StatefulWidget {
   const LineChartSample2({super.key});
@@ -11,7 +13,7 @@ class LineChartSample2 extends StatefulWidget {
 
 class _LineChartSample2State extends State<LineChartSample2> {
   List<Color> gradientColors = [ColorManager.kPrimary, ColorManager.kPrimary];
-
+  StatisticController statisticController = Get.put(StatisticController());
   bool showAvg = false;
 
   @override
@@ -169,16 +171,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       maxY: 7,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 0),
-            FlSpot(1, 6),
-            FlSpot(3, 2),
-            FlSpot(5, 5),
-            FlSpot(7, 4),
-            FlSpot(9, 5),
-            FlSpot(11, 3),
-            FlSpot(13, 4),
-          ],
+          spots: statisticController.spotsController,
           isCurved: true,
           gradient: LinearGradient(
             colors: gradientColors,

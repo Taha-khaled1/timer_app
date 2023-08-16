@@ -70,7 +70,7 @@ class StatisticScreen extends StatelessWidget {
                                   TextButton(
                                     onPressed: () {
                                       // tabController.changeTabIndex(5);
-                                      Get.to(() => WhatchTaskScreen());
+                                      // Get.to(() => WhatchTaskScreen());
                                     },
                                     child: Text(
                                       'See All',
