@@ -19,7 +19,7 @@ class StatisticScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.background,
-      appBar: appbarProfile(title: 'Statistics'),
+      appBar: appbarProfile(title: 'Statistics', isBack: false),
       body: InfoWidget(
         builder: (context, deviceInfo) {
           final StatisticController _controller =
@@ -70,7 +70,7 @@ class StatisticScreen extends StatelessWidget {
                                   TextButton(
                                     onPressed: () {
                                       // tabController.changeTabIndex(5);
-                                      // Get.to(() => WhatchTaskScreen());
+                                      Get.to(() => WhatchTaskScreen());
                                     },
                                     child: Text(
                                       'See All',
@@ -125,6 +125,7 @@ class StatisticScreen extends StatelessWidget {
                                       data: data[index]['datatime'],
                                       time: data[index]['timeOfDay'],
                                       isdone: data[index]['done'],
+                                      taskName: data[index]['title'],
                                     ),
                                     istowSubtitle: false,
                                   ),

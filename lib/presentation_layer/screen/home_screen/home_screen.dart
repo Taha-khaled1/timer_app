@@ -1,5 +1,6 @@
 import 'dart:isolate';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:task_manger/main.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
@@ -36,10 +37,10 @@ class HomeScreen extends StatelessWidget {
                     padding:
                         EdgeInsets.only(left: deviceInfo.localWidth * 0.05),
                     child: Text(
-                      'Morning, Christina 👋',
+                      'Morning, ${sharedPreferences.getString('name') ?? ''} 👋',
                       style: MangeStyles().getBoldStyle(
                         color: ColorManager.black,
-                        fontSize: FontSize.s30 + 2,
+                        fontSize: FontSize.s30,
                       ),
                       textAlign: TextAlign.left,
                     ),
@@ -209,6 +210,7 @@ class HomeScreen extends StatelessWidget {
                                     data: data[index]['datatime'],
                                     time: data[index]['timeOfDay'],
                                     isdone: data[index]['done'],
+                                    taskName: data[index]['title'],
                                   ),
                                 );
                               },

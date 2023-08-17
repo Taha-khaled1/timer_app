@@ -95,7 +95,7 @@ class CardTask extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    taskModel.title,
+                    taskModel.taskName ?? '',
                     style: MangeStyles().getRegularStyle(
                       color: ColorManager.black,
                       fontSize: FontSize.s20,

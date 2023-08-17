@@ -28,6 +28,7 @@ class _NoteScreenState extends State<NoteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.background,
+      appBar: appbarProfile(title: 'Notes', isBack: false),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           showModalBottomSheet(
@@ -163,7 +164,6 @@ class _NoteScreenState extends State<NoteScreen> {
         child: Icon(Icons.add),
         backgroundColor: ColorManager.kPrimary,
       ),
-      appBar: appbarProfile(title: 'Notes'),
       body: InfoWidget(
         builder: (context, deviceInfo) {
           return Padding(

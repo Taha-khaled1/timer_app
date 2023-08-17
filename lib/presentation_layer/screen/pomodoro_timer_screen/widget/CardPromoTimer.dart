@@ -13,13 +13,17 @@ class CardPromoTimer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      width: 380,
+      width: double.infinity,
       height: 100,
       padding: const EdgeInsets.only(
         top: 20,
         left: 20,
         right: 24,
         bottom: 20,
+      ),
+      margin: const EdgeInsets.only(
+        left: 15,
+        right: 15,
       ),
       decoration: ShapeDecoration(
         color: Colors.white,
@@ -77,7 +81,7 @@ class CardPromoTimer extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: Text(
-                      taskModel.title,
+                      taskModel.taskName ?? "",
                       style: TextStyle(
                         color: Color(0xFF212121),
                         fontSize: 20,

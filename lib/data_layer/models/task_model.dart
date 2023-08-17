@@ -5,8 +5,9 @@ class TaskModel {
   final String? data, time;
   final bool? ishome, isdone;
   final Color? color;
-  final String? id;
+  final String? id, taskName;
   TaskModel({
+    this.taskName,
     this.id,
     this.isdone,
     required this.color,

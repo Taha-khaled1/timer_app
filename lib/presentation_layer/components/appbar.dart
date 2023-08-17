@@ -25,22 +25,27 @@ PreferredSizeWidget appbar({String? title}) {
   );
 }
 
-PreferredSizeWidget appbarProfile({String? title}) {
+PreferredSizeWidget appbarProfile({String? title, bool isBack = true}) {
   return AppBar(
     elevation: 0,
     backgroundColor: ColorManager.background,
-    leading: BackButton(
-      color: ColorManager.black,
-    ),
+    leading: isBack == true
+        ? BackButton(
+            color: ColorManager.black,
+          )
+        : SizedBox(),
     centerTitle: false,
-    title: Text(
-      title ?? '',
-      style: TextStyle(
-        color: Color(0xFF212121),
-        fontSize: 24,
-        fontFamily: 'Urbanist',
-        fontWeight: FontWeight.w700,
-        height: 1.20,
+    title: Transform.translate(
+      offset: Offset(isBack == false ? -38 : 0, 0),
+      child: Text(
+        title ?? '',
+        style: TextStyle(
+          color: Color(0xFF212121),
+          fontSize: 24,
+          fontFamily: 'Urbanist',
+          fontWeight: FontWeight.w700,
+          height: 1.20,
+        ),
       ),
     ),
     actions: [

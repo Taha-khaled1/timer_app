@@ -91,7 +91,7 @@ class TaskInfoDataCard extends StatelessWidget {
                           SizedBox(
                             width: double.infinity,
                             child: Text(
-                              taskModel.title,
+                              taskModel.taskName ?? '',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,

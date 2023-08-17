@@ -123,6 +123,7 @@ class CreateTaskController extends GetxController {
       print(e.toString());
       showToast('Must be a date in the future');
     }
+    isloading = false;
     update();
   }
 

@@ -103,6 +103,7 @@ class _TaskScreenState extends State<TaskScreen> {
                                       data: data[index]['datatime'],
                                       time: data[index]['timeOfDay'],
                                       isdone: data[index]['done'],
+                                      taskName: data[index]['title'],
                                     ),
                                   );
                                 },
