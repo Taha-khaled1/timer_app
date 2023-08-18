@@ -4,11 +4,16 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
+import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/widget/CircularPomodoro.dart';
 
 class PomodoroTimerController extends GetxController {
   final int duration = (25 * 60);
   final CountDownController controller = CountDownController();
+  DateTime firstDateTime = DateTime.now();
+  static const String _keyPrefix = 'user_activity_';
+
   final List<Color> colorsPomodoro = [
     ColorManager.kPrimary,
     Color(0xFF1AB65C),
@@ -48,6 +53,7 @@ class PomodoroTimerController extends GetxController {
   }
 
   void playButton() {
+    prinetMin();
     if (isFirstplay == true) {
       startPomo();
       changePlay(true);
@@ -61,6 +67,14 @@ class PomodoroTimerController extends GetxController {
         changePlay(false);
       }
     }
+  }
+
+  void prinetMin() {
+    final formattedDate =
+        "${firstDateTime.year}-${firstDateTime.month}-${firstDateTime.day}";
+    final key = '$_keyPrefix$formattedDate';
+    var m = sharedPreferences.getInt(key);
+    print('$key  -- ${m}');
   }
 
   @override

@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
+import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/widget/CircularPomodoro.dart';
 import 'package:task_manger/presentation_layer/screen/statistic_screen/statistic_controller/statistic_controller.dart';
 
 class LineChartSample2 extends StatefulWidget {
@@ -12,9 +13,118 @@ class LineChartSample2 extends StatefulWidget {
 }
 
 class _LineChartSample2State extends State<LineChartSample2> {
-  List<Color> gradientColors = [ColorManager.kPrimary, ColorManager.kPrimary];
+  List<int> weeklyStatistics = [];
   StatisticController statisticController = Get.put(StatisticController());
+  List<Color> gradientColors = [ColorManager.kPrimary, ColorManager.kPrimary];
+  List<int> fO = [0, 2, 1, 0, 1, 10, 5, 0, 30, 0, 0, 0, 0, 2];
   bool showAvg = false;
+  @override
+  void initState() {
+    super.initState();
+    _loadStatistics();
+  }
+
+  Future<void> _loadStatistics() async {
+    weeklyStatistics = await statisticController.calculateWeeklyStatistics();
+    // 1 0 1 0 1 0 1 0 1 0 1 0 1
+    weeklyStatistics.insert(0, 0);
+    weeklyStatistics.insert(2, 0);
+    weeklyStatistics.insert(3, 0);
+    weeklyStatistics.insert(5, 0);
+    weeklyStatistics.insert(7, 0);
+    // weeklyStatistics.insert(9, 0);
+    // weeklyStatistics.insert(11, 0);
+    weeklyStatistics.add(0);
+    weeklyStatistics.add(0);
+    setState(() {});
+  }
+
+  LineChartData mainData() {
+    List<FlSpot> spots = weeklyStatistics.asMap().entries.map((entry) {
+      int dayIndex = entry.key;
+      int minutes = entry.value;
+      print('fO :=>: $dayIndex');
+      return FlSpot(dayIndex.toDouble(), minutes.toDouble());
+    }).toList();
+// for (var element in collection) {
+
+// }
+    return LineChartData(
+      gridData: FlGridData(
+        show: false,
+        drawVerticalLine: false,
+        horizontalInterval: 1,
+        verticalInterval: 1,
+        getDrawingHorizontalLine: (value) {
+          return const FlLine(
+            color: Colors.blue,
+            strokeWidth: 1,
+          );
+        },
+        getDrawingVerticalLine: (value) {
+          return const FlLine(
+            color: Colors.green,
+            strokeWidth: 1,
+          );
+        },
+      ),
+      titlesData: FlTitlesData(
+        show: true,
+        rightTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 25,
+            interval: 1,
+            getTitlesWidget: bottomTitleWidgets,
+          ),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: false,
+            interval: 1,
+            getTitlesWidget: leftTitleWidgets,
+            reservedSize: 42,
+          ),
+        ),
+      ),
+      borderData: FlBorderData(
+        show: false,
+        border: Border.all(color: const Color(0xff37434d)),
+      ),
+      minX: 0,
+      maxX: 13,
+      minY: 0,
+      maxY: 100,
+      lineBarsData: [
+        LineChartBarData(
+          spots: spots,
+          isCurved: true,
+          gradient: LinearGradient(
+            colors: gradientColors,
+          ),
+          barWidth: 5,
+          isStrokeCapRound: true,
+          dotData: const FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+            show: true,
+            gradient: LinearGradient(
+              colors: gradientColors
+                  .map((color) => color.withOpacity(0.3))
+                  .toList(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +226,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
     return Text(text, style: style, textAlign: TextAlign.left);
   }
 
-  LineChartData mainData() {
+  LineChartData mainDataF() {
     return LineChartData(
       gridData: FlGridData(
         show: false,

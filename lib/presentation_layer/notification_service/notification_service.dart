@@ -90,8 +90,8 @@ class NotificationService {
     );
     await NotificationService().localNotifications.zonedSchedule(
           12345,
-          "A Notification From My App",
-          "This notification is brought to you by Local Notifcations Package",
+          title,
+          des,
           tz.TZDateTime.from(
             scheduleDate.add(Duration(seconds: 5)),
             tz.local,

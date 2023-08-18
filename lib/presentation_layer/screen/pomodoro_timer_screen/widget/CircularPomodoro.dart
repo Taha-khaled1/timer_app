@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/main.dart';
 
@@ -21,6 +24,14 @@ class CircularPomodoro extends StatefulWidget {
 }
 
 class _CircularPomodoroState extends State<CircularPomodoro> {
+  Timer? timer;
+  DateTime firstDateTime = DateTime.now();
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     PomodoroTimerController pomodoroTimerController =
@@ -89,7 +100,12 @@ class _CircularPomodoroState extends State<CircularPomodoro> {
 
         // This Callback will execute when the Countdown Starts.
         onStart: () {
-          // Here, do whatever you want
+          timer = Timer.periodic(Duration(minutes: 1), (_) {
+            // final formattedDate =
+            //     "${firstDateTime!.year}-${firstDateTime!.month}-${firstDateTime!.day}";
+            UserActivityTracker.logActivity(firstDateTime, 1);
+          });
+
           debugPrint('Countdown Started');
         },
 
@@ -109,6 +125,7 @@ class _CircularPomodoroState extends State<CircularPomodoro> {
         // This Callback will execute when the Countdown Changes.
         onChange: (String timeStamp) {
           // Here, do whatever you want
+          print('object : $timeStamp');
           debugPrint('Countdown Changed $timeStamp');
         },
 
@@ -132,28 +149,20 @@ class _CircularPomodoroState extends State<CircularPomodoro> {
     );
   }
 }
-  //  pomodoroTimerController.isplay == true
-  //                           ? CustomCircleImageAsset(
-  //                               radius: 50,
-  //                               image: 'assets/images/play.png',
-  //                               color: Color(0xFF7306FD),
-  //                               onTap: () {
-  //                                 if (pomodoroTimerController.isplay == false) {
-  //                                   pomodoroTimerController.startPomo();
-  //                                 } else {
-  //                                   pomodoroTimerController.resumePomo();
-  //                                 }
-  //                               },
-  //                             )
-  //                           : CustomCircleImageAsset(
-  //                               radius: 50,
-  //                               image: 'assets/images/vidio.png',
-  //                               color: Color(0xFF7306FD),
-  //                               onTap: () {
-  //                                 if (pomodoroTimerController.isplay == false) {
-  //                                   pomodoroTimerController.startPomo();
-  //                                 } else {
-  //                                   pomodoroTimerController.resumePomo();
-  //                                 }
-  //                               },
-  //                             ),
+
+class UserActivityTracker {
+  static const String _keyPrefix = 'user_activity_';
+
+  static Future<void> logActivity(DateTime dateTime, int minutes) async {
+    final formattedDate = "${dateTime.year}-${dateTime.month}-${dateTime.day}";
+    final key = '$_keyPrefix$formattedDate';
+    final existingMinutes = sharedPreferences.getInt(key) ?? 0;
+    sharedPreferences.setInt(key, existingMinutes + minutes);
+  }
+
+  static Future<int> getMinutesForDay(DateTime dateTime) async {
+    final formattedDate = "${dateTime.year}-${dateTime.month}-${dateTime.day}";
+    final key = '$_keyPrefix$formattedDate';
+    return sharedPreferences.getInt(key) ?? 0;
+  }
+}

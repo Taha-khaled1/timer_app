@@ -21,14 +21,14 @@ void main() async {
   await Firebase.initializeApp();
   await NotificationService().initializePlatformNotifications();
   await AndroidAlarmManager.initialize();
-  // final int helloAlarmID = 0;
-  // await AndroidAlarmManager.periodic(
-  //   const Duration(minutes: 1),
-  //   helloAlarmID,
-  //   printHello,
-  //   exact: true,
-  //   wakeup: true,
-  // );
+  DateTime firstDateTime = DateTime.now();
+  const String _keyPrefix = 'user_activity_';
+  final formattedDate =
+      "${firstDateTime.year}-${firstDateTime.month}-${firstDateTime.day}";
+  final key = '$_keyPrefix$formattedDate';
+  if (sharedPreferences.getInt(key) == null) {
+    sharedPreferences.setInt(key, 0);
+  }
 
   runApp(
     DevicePreview(

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -102,6 +104,8 @@ class CreateTaskController extends GetxController {
         'done': false,
         'timestamp': timestamp,
       });
+      Random random = Random();
+      int randomIndex = random.nextInt(notificationList.length);
       String timeString =
           '${timeOfDay!.hour}:${timeOfDay!.minute} ${timeOfDay!.period.name}';
       String dateString =
@@ -109,9 +113,9 @@ class CreateTaskController extends GetxController {
       final DateTime combinedDateTime =
           await convertTDataTime(timeString, dateString);
       await NotificationService().alarmCallback(
-        des: '',
+        des: notificationList[randomIndex].description,
         scheduleDate: combinedDateTime,
-        title: '',
+        title: notificationList[randomIndex].title,
       );
 
       showToast('The task was created successfully');
@@ -136,3 +140,53 @@ class CreateTaskController extends GetxController {
 
   // ... Add your _selectDate and _selectTime functions here
 }
+
+class NotificationInfo {
+  final String title;
+  final String description;
+
+  NotificationInfo(this.title, this.description);
+}
+
+List<NotificationInfo> notificationList = [
+  NotificationInfo(
+    "Time to Shine",
+    "Your task is waiting for you. It's time to make progress and shine bright!",
+  ),
+  NotificationInfo(
+    "Leap into Productivity",
+    "Seize the moment! Dive into your task and make today a productive leap forward.",
+  ),
+  NotificationInfo(
+    "A Journey Begins",
+    "Embark on your journey toward completing a task. Every step counts!",
+  ),
+  NotificationInfo(
+    "Craft Your Success",
+    "The path to success is paved with effort. Craft your success story with this task.",
+  ),
+  NotificationInfo(
+    "Rise and Conquer",
+    "Wake up, conquer your tasks, and make today a stepping stone to your goals.",
+  ),
+  NotificationInfo(
+    "Unleash Your Potential",
+    "Your potential is limitless. Start this task and watch your capabilities unfold.",
+  ),
+  NotificationInfo(
+    "Create, Transform, Elevate",
+    "With this task, you have the power to create, transform, and elevate your journey.",
+  ),
+  NotificationInfo(
+    "A Task Awaits Your Touch",
+    "This task is waiting for your touch of brilliance. Make it your masterpiece.",
+  ),
+  NotificationInfo(
+    "Write Your Chapter",
+    "Life is a book, and every task is a chapter. Today, you're the author.",
+  ),
+  NotificationInfo(
+    "Seize Your Destiny",
+    "Destiny favors the proactive. Seize your destiny by completing this task.",
+  ),
+];

@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
 import 'package:task_manger/main.dart';
+import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/widget/CircularPomodoro.dart';
 import 'package:task_manger/presentation_layer/utils/shard_function/convert-time.dart';
 
 class StatisticController extends GetxController {
@@ -33,7 +36,14 @@ class StatisticController extends GetxController {
   }
 
   Future<void> getStatic() async {
-    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    List<int> x = await calculateWeeklyStatistics();
+    int i = 0;
+    for (var element in x) {
+      print('$i -->  value : $element');
+      i++;
+    }
+    print(
+        '!!!!!!!!!!!!!!!!!    ${calculateWeeklyStatistics()}!!!!!!!!!!!!!!!!');
     DateTime now = DateTime.now();
     DateTime startOfWeek = now.subtract(Duration(days: 7 - now.weekday));
     DateTime endOfWeek = now.add(Duration(days: now.weekday - 1));
@@ -94,9 +104,24 @@ class StatisticController extends GetxController {
     print('enndddddddddddddd');
   }
 
+  Future<List<int>> calculateWeeklyStatistics() async {
+    DateTime referenceDate = DateTime.now();
+    final List<int> weeklyStatistics = [];
+
+    for (int day = DateTime.monday; day <= DateTime.sunday; day++) {
+      final dateTime =
+          referenceDate.subtract(Duration(days: referenceDate.weekday - day));
+      final minutes = await UserActivityTracker.getMinutesForDay(dateTime);
+      weeklyStatistics.add(minutes);
+    }
+
+    return weeklyStatistics;
+  }
+
   @override
   void onInit() {
     // getStatic();
+
     super.onInit();
   }
 }
