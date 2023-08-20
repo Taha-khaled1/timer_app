@@ -33,6 +33,7 @@ class _InfoAccountState extends State<InfoAccount> {
   String? name = '';
   String? email = '';
   String? number = '';
+  String? code = 'US';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,7 +108,11 @@ class _InfoAccountState extends State<InfoAccount> {
                           },
                           validator: (p0) {
                             return validInput(
-                                p0!.number.toString(), 6, 100, 'number');
+                              p0!.number.toString(),
+                              6,
+                              100,
+                              'number',
+                            );
                           },
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
@@ -136,8 +141,10 @@ class _InfoAccountState extends State<InfoAccount> {
                               letterSpacing: 0.20,
                             ),
                           ),
-                          initialCountryCode: 'US',
+                          initialCountryCode: code,
                           onChanged: (phone) {
+                            number = phone.completeNumber;
+                            code = phone.countryISOCode;
                             print(phone.completeNumber);
                           },
                         ),
@@ -183,13 +190,17 @@ class _InfoAccountState extends State<InfoAccount> {
                               'userId': sharedPreferences.getString('id'),
                               'image': sharedPreferences.getString('image'),
                               'phone': number,
+                              'code': code,
                             });
 
                             sharedPreferences.setString(
                               'name',
                               name ?? "",
                             );
-
+                            sharedPreferences.setString(
+                              'code',
+                              code ?? '',
+                            );
                             sharedPreferences.setString(
                               'phone',
                               number ?? '',

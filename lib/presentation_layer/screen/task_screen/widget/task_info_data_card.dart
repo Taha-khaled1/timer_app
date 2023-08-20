@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
@@ -7,8 +8,12 @@ class TaskInfoDataCard extends StatelessWidget {
   const TaskInfoDataCard({
     super.key,
     required this.taskModel,
+    required this.taslength,
+    required this.index,
   });
   final TaskModel taskModel;
+  final int taslength;
+  final int index;
   @override
   Widget build(BuildContext context) {
     String timeString = taskModel.time!; // Replace with your actual time string
@@ -37,35 +42,152 @@ class TaskInfoDataCard extends StatelessWidget {
       hours,
       minutes,
     ).add(Duration(minutes: minutesToAdd));
+
+    String time = (taskModel.time!.split(' ').first); // Output: 3:06 PM
+
+    List<String> parts = time.split(':');
+    int hoursk = int.parse(parts[0]);
+    int minutesk = int.parse(parts[1]);
+
+// Convert the hours to a 12-hour format
+    int formattedHours = hoursk > 12 ? hoursk - 12 : hoursk;
+
+// Determine if it's morning (AM) or afternoon/evening (PM)
+    String period = hoursk >= 12 ? 'PM' : 'AM';
+
+// Format the time
+    String formattedTime = '$formattedHours:$minutesk $period';
+    bool isLine = taslength - 1 == index;
     return Container(
       width: 380,
-      height: 90,
+      height: isLine ? 130 : 90,
       margin: EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Column(
         children: [
-          SizedBox(
-            width: 80,
-            child: Text(
-              taskModel.time!,
-              style: MangeStyles().getBoldStyle(
-                color: Color(0xFF424242),
-                fontSize: FontSize.s16,
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 80,
+                child: Text(
+                  formattedTime,
+                  style: MangeStyles().getBoldStyle(
+                    color: Color(0xFF424242),
+                    fontSize: FontSize.s16,
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Container(
+                  height: 90,
+                  padding: const EdgeInsets.only(
+                    top: 20,
+                    left: 24,
+                    right: 16,
+                    bottom: 20,
+                  ),
+                  decoration: ShapeDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment(-0.96, 0.28),
+                      end: Alignment(0.96, -0.28),
+                      colors: [Color(0xFF7306FD), Color(0xFFB173FF)],
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: double.infinity,
+                                child: Text(
+                                  taskModel.taskName ?? '',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontFamily: 'Urbanist',
+                                    fontWeight: FontWeight.w700,
+                                    height: 1.20,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              GestureDetector(
+                                onTap: () {
+                                  print('${taskModel.time!}');
+                                },
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Text(
+                                    '$formattedTime - ${adjustedTime.hour}:${adjustedTime.minute} ',
+                                    style: TextStyle(
+                                      color: Color(0xFFEEEEEE),
+                                      fontSize: 14,
+                                      fontFamily: 'Urbanist',
+                                      fontWeight: FontWeight.w800,
+                                      height: 1.40,
+                                      letterSpacing: 0.20,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 16),
-          Expanded(
+          if (isLine)
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: CustomLine(),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class CustomLine extends StatefulWidget {
+  const CustomLine({super.key});
+
+  @override
+  State<CustomLine> createState() => _CustomLineState();
+}
+
+class _CustomLineState extends State<CustomLine> {
+  bool showSlider = false;
+  double sliderValue = 0.0;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 380,
+      height: 30,
+      child: Stack(
+        children: [
+          Positioned(
+            left: 0,
+            top: 6,
             child: Container(
-              height: 90,
-              padding: const EdgeInsets.only(
-                top: 20,
-                left: 24,
-                right: 16,
-                bottom: 20,
-              ),
+              width: 380,
+              height: 4,
               decoration: ShapeDecoration(
                 gradient: LinearGradient(
                   begin: Alignment(-0.96, 0.28),
@@ -73,59 +195,67 @@ class TaskInfoDataCard extends StatelessWidget {
                   colors: [Color(0xFF7306FD), Color(0xFFB173FF)],
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(100),
                 ),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Container(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: double.infinity,
-                            child: Text(
-                              taskModel.taskName ?? '',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontFamily: 'Urbanist',
-                                fontWeight: FontWeight.w700,
-                                height: 1.20,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 6),
-                          SizedBox(
-                            width: double.infinity,
-                            child: Text(
-                              '${taskModel.time!} - ${adjustedTime.hour}:${adjustedTime.minute} ',
-                              style: TextStyle(
-                                color: Color(0xFFEEEEEE),
-                                fontSize: 14,
-                                fontFamily: 'Urbanist',
-                                fontWeight: FontWeight.w500,
-                                height: 1.40,
-                                letterSpacing: 0.20,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
               ),
             ),
           ),
+          Positioned(
+            left: 0,
+            top: 0,
+            child: GestureDetector(
+              onTapDown: (_) {
+                setState(() {
+                  showSlider = true;
+                });
+              },
+              onTapUp: (_) {
+                setState(() {
+                  showSlider = false;
+                });
+              },
+              child: Container(
+                width: 16,
+                height: 16,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: OvalBorder(
+                    side: BorderSide(width: 2, color: Color(0xFF7306FD)),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          if (showSlider)
+            Transform.translate(
+              offset: Offset(0, -35),
+              child: Container(
+                alignment: Alignment.center,
+                width: 80,
+                height: 55,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.only(
+                    // bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  getCurrentTime(), // استخدام الوقت الحالي الذي تم الحصول عليه من الوظيفة
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+              ),
+            ),
         ],
       ),
     );
   }
+}
+
+String getCurrentTime() {
+  DateTime now = DateTime.now();
+  String formattedTime = DateFormat.jm().format(now);
+  return formattedTime;
 }

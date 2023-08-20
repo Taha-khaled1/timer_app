@@ -35,6 +35,16 @@ class StatisticController extends GetxController {
     return tasks;
   }
 
+  Future<void> deleteTask(id) async {
+    String userId = sharedPreferences.getString('id') ?? '';
+    var taskSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('tasks')
+        .doc(id)
+        .delete();
+  }
+
   Future<void> getStatic() async {
     List<int> x = await calculateWeeklyStatistics();
     int i = 0;

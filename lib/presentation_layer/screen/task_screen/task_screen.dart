@@ -105,6 +105,7 @@ class _TaskScreenState extends State<TaskScreen> {
                                       isdone: data[index]['done'],
                                       taskName: data[index]['title'],
                                     ),
+                                    taslength: totalTasks,index: index,
                                   );
                                 },
                               ),

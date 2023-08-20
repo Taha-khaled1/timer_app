@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:task_manger/main.dart';
@@ -11,8 +12,10 @@ import 'package:task_manger/presentation_layer/components/custom_butten.dart';
 import 'package:task_manger/presentation_layer/components/custom_listtile.dart';
 import 'package:task_manger/presentation_layer/components/custom_text_field.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
+import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/info_account_screen.dart';
 import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/widget/EditImage.dart';
 import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/widget/custom_phone_number.dart';
+import 'package:task_manger/presentation_layer/screen/profile_screen/profile_screen.dart';
 import 'package:task_manger/presentation_layer/src/show_toast.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 
@@ -27,7 +30,14 @@ class _EditScreenState extends State<EditScreen> {
   bool isLoading = false;
   String name = sharedPreferences.getString('name')!;
   String code = sharedPreferences.getString('code') ?? 'EG';
-  String phone = sharedPreferences.getString('phone')!;
+  String number = sharedPreferences.getString('phone')!;
+  String email = sharedPreferences.getString('email')!;
+  @override
+  void initState() {
+    print('image : ${sharedPreferences.getString('image')}  code : $code');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,8 +57,10 @@ class _EditScreenState extends State<EditScreen> {
                       _handleAttachmentPressed();
                     },
                     child: EditImage(
-                      image: sharedPreferences.getString('image') ??
-                          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+                      image: sharedPreferences.getString('image') == null ||
+                              sharedPreferences.getString('image')!.isEmpty
+                          ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+                          : sharedPreferences.getString('image')!,
                     ),
                   ),
                   // EditImage(),
@@ -82,12 +94,15 @@ class _EditScreenState extends State<EditScreen> {
                     titel: 'Full Email',
                     width: deviceInfo.localWidth * 0.85,
                     height: 60,
+                    onChanged: (p0) {
+                      email = p0.toString();
+                    },
                   ),
                   SizedBox(height: 20),
                   SizedBox(
                     width: deviceInfo.localWidth * 0.85,
                     child: IntlPhoneField(
-                      initialValue: phone,
+                      initialValue: number,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -117,9 +132,9 @@ class _EditScreenState extends State<EditScreen> {
                       ),
                       initialCountryCode: code,
                       onChanged: (phone) {
-                        name = phone.completeNumber;
-                        code = phone.countryCode;
-                        print(phone.countryCode);
+                        number = phone.completeNumber;
+                        code = phone.countryISOCode;
+                        print(phone.countryISOCode);
                         print(phone.completeNumber);
                       },
                     ),
@@ -140,22 +155,26 @@ class _EditScreenState extends State<EditScreen> {
                       await userDoc.update({
                         'name': name,
                         'code': code,
-                        'phone': phone,
+                        'phone': number,
                       });
                       sharedPreferences.setString(
                         'name',
-                        name ?? "",
+                        name,
                       );
                       sharedPreferences.setString(
                         'phone',
-                        phone,
+                        number,
+                      );
+                      sharedPreferences.setString(
+                        'email',
+                        email,
                       );
                       sharedPreferences.setString(
                         'code',
                         code,
                       );
                       showToast('The data has been updated successfully.');
-                      // Get.to(() => InfoAccount());
+                      Get.off(() => ProfileScreen());
                     },
                   ),
                 ],
@@ -233,7 +252,7 @@ class _EditScreenState extends State<EditScreen> {
               },
               titel: 'photo shoot',
               widget: Icon(Icons.camera),
-              color: ColorManager.background,
+              // color: ColorManager.background,
             ),
             CustomListtile(
               onTap: () {
@@ -242,14 +261,14 @@ class _EditScreenState extends State<EditScreen> {
               },
               titel: 'select a picture',
               widget: Icon(Icons.photo_album),
-              color: ColorManager.background,
+              // color: ColorManager.background,
             ),
             CustomListtile(
               onTap: () {
                 Navigator.pop(context);
               },
               titel: 'Close',
-              color: ColorManager.background,
+              // color: ColorManager.background,
               widget: Icon(
                 Icons.cancel,
                 color: Colors.red,

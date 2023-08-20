@@ -92,7 +92,10 @@ class StatisticScreen extends StatelessWidget {
                                 int ind = taskmodelList.indexWhere((element) =>
                                     element.title == data[index]['catogery']);
                                 return Dismissible(
-                                  onDismissed: (direction) {},
+                                  onDismissed: (direction) {
+                                    _controller
+                                        .deleteTask(data[index]['timestamp']);
+                                  },
                                   background: Container(
                                     margin:
                                         EdgeInsets.symmetric(horizontal: 15),

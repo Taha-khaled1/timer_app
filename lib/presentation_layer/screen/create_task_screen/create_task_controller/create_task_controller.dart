@@ -79,11 +79,15 @@ class CreateTaskController extends GetxController {
     try {
       if (timeOfDay == null || dataTime == null) {
         showToast('Please make sure you put the time and date');
+        isloading = false;
+        update();
         return;
       }
 
       if (title == null || title!.length < 3) {
         showToast('Please make sure you put a correct title');
+        isloading = false;
+        update();
         return;
       }
       final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
@@ -124,6 +128,7 @@ class CreateTaskController extends GetxController {
       tabController.changeTabIndex(0);
     } catch (e) {
       isloading = false;
+      update();
       print(e.toString());
       showToast('Must be a date in the future');
     }
