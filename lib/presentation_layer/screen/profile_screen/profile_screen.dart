@@ -58,7 +58,7 @@ class ProfileScreen extends StatelessWidget {
                 SizedBox(height: 30),
                 CustomListtile(
                   onTap: () {
-                    Get.to(() => EditScreen());
+                    Get.off(() => EditScreen());
                   },
                   titel: 'Edit Profile',
                   image: 'assets/icons/Profile.svg',

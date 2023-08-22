@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
+import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 
-class TaskInfoDataCard extends StatelessWidget {
+import 'line.dart';
+
+class TaskInfoDataCard extends StatefulWidget {
   const TaskInfoDataCard({
     super.key,
     required this.taskModel,
@@ -14,9 +18,16 @@ class TaskInfoDataCard extends StatelessWidget {
   final TaskModel taskModel;
   final int taslength;
   final int index;
+
+  @override
+  State<TaskInfoDataCard> createState() => _TaskInfoDataCardState();
+}
+
+class _TaskInfoDataCardState extends State<TaskInfoDataCard> {
   @override
   Widget build(BuildContext context) {
-    String timeString = taskModel.time!; // Replace with your actual time string
+    String timeString =
+        widget.taskModel.time!; // Replace with your actual time string
     int minutesToAdd = 25;
 
 // Parse the time string
@@ -43,7 +54,7 @@ class TaskInfoDataCard extends StatelessWidget {
       minutes,
     ).add(Duration(minutes: minutesToAdd));
 
-    String time = (taskModel.time!.split(' ').first); // Output: 3:06 PM
+    String time = (widget.taskModel.time!.split(' ').first); // Output: 3:06 PM
 
     List<String> parts = time.split(':');
     int hoursk = int.parse(parts[0]);
@@ -57,10 +68,10 @@ class TaskInfoDataCard extends StatelessWidget {
 
 // Format the time
     String formattedTime = '$formattedHours:$minutesk $period';
-    bool isLine = taslength - 1 == index;
+    bool isLine = widget.taslength - 1 == widget.index;
     return Container(
       width: 380,
-      height: isLine ? 130 : 90,
+      height: isLine ? 144 : 90,
       margin: EdgeInsets.symmetric(vertical: 8),
       child: Column(
         children: [
@@ -114,7 +125,7 @@ class TaskInfoDataCard extends StatelessWidget {
                               SizedBox(
                                 width: double.infinity,
                                 child: Text(
-                                  taskModel.taskName ?? '',
+                                  widget.taskModel.taskName ?? '',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 20,
@@ -127,7 +138,7 @@ class TaskInfoDataCard extends StatelessWidget {
                               const SizedBox(height: 6),
                               GestureDetector(
                                 onTap: () {
-                                  print('${taskModel.time!}');
+                                  print('${widget.taskModel.time!}');
                                 },
                                 child: SizedBox(
                                   width: double.infinity,
@@ -154,12 +165,45 @@ class TaskInfoDataCard extends StatelessWidget {
               ),
             ],
           ),
-          if (isLine)
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: CustomLine(),
-            ),
+          if (isLine) SliderLine(),
         ],
+      ),
+    );
+  }
+}
+
+class SliderLine extends StatefulWidget {
+  const SliderLine({
+    super.key,
+  });
+
+  @override
+  State<SliderLine> createState() => _SliderLineState();
+}
+
+class _SliderLineState extends State<SliderLine> {
+  double sliderValue3 = double.parse(getCurrentTime().split(':').first);
+  @override
+  Widget build(BuildContext context) {
+    print("--> ${int.parse(getCurrentTime().split(':').first)}");
+    return Padding(
+      padding: const EdgeInsets.only(top: 0),
+      child: SfSlider(
+        min: 1.0,
+        max: 24.0,
+        activeColor: ColorManager.kPrimary,
+        inactiveColor: ColorManager.grey2,
+        value: sliderValue3.toInt(),
+        interval: 24,
+        showTicks: false,
+        showLabels: false,
+        enableTooltip: true,
+        minorTicksPerInterval: 0,
+        thumbShape: SfThumbShape(),
+        tooltipTextFormatterCallback: (dynamic value, String formattedText) {
+          return getCurrentTimeD();
+        },
+        onChanged: (dynamic value) {},
       ),
     );
   }
@@ -255,6 +299,13 @@ class _CustomLineState extends State<CustomLine> {
 }
 
 String getCurrentTime() {
+  DateTime now = DateTime.now();
+  String formattedTime = DateFormat.Hm().format(now);
+  print("as-> $formattedTime");
+  return formattedTime;
+}
+
+String getCurrentTimeD() {
   DateTime now = DateTime.now();
   String formattedTime = DateFormat.jm().format(now);
   return formattedTime;

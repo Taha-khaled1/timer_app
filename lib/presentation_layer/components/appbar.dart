@@ -68,10 +68,10 @@ PreferredSizeWidget appbarMain({String? title, String? image, Widget? widget}) {
     backgroundColor: ColorManager.background,
     leading: Padding(
       padding: const EdgeInsets.only(left: 10),
-      child: Image.asset(image ?? 'assets/images/logo.png'),
+      child: Image.asset(image ?? 'assets/logo (1).png'),
     ),
     title: Text(
-      title ?? 'pomo',
+      title ?? 'Timekeeping pro',
       style: MangeStyles().getBoldStyle(
         color: ColorManager.black,
         fontSize: FontSize.s20,
