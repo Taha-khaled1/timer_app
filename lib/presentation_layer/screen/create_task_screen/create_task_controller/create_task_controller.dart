@@ -91,23 +91,6 @@ class CreateTaskController extends GetxController {
         return;
       }
       final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(sharedPreferences.getString('id'))
-          .collection('tasks')
-          .doc(timestamp)
-          .set({
-        'title': title,
-        'longBreak': sliderValue1.toInt(),
-        'workSessions': sliderValue2.toInt(),
-        'shortBreak': sliderValue3.toInt(),
-        'timeOfDay':
-            '${timeOfDay!.hour}:${timeOfDay!.minute} ${timeOfDay!.period.name}',
-        'datatime': '${dataTime!.year}/${dataTime!.month}/${dataTime!.day}',
-        'catogery': catogery,
-        'done': false,
-        'timestamp': timestamp,
-      });
       Random random = Random();
       int randomIndex = random.nextInt(notificationList.length);
       String timeString =
@@ -116,16 +99,42 @@ class CreateTaskController extends GetxController {
           '${dataTime!.year}/${dataTime!.month}/${dataTime!.day}';
       final DateTime combinedDateTime =
           await convertTDataTime(timeString, dateString);
-      await NotificationService().alarmCallback(
-        des: notificationList[randomIndex].description,
-        scheduleDate: combinedDateTime,
-        title: notificationList[randomIndex].title,
-      );
 
-      showToast('The task was created successfully');
-      isloading = false;
-      update();
-      tabController.changeTabIndex(0);
+      if (combinedDateTime.isBefore(DateTime.now())) {
+        showToast('Must be a date in the future');
+        isloading = false;
+        update();
+        return;
+        // Add any other logic you want to execute when combinedDateTime is in the past
+      } else {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(sharedPreferences.getString('id'))
+            .collection('tasks')
+            .doc(timestamp)
+            .set({
+          'title': title,
+          'longBreak': sliderValue1.toInt(),
+          'workSessions': sliderValue2.toInt(),
+          'shortBreak': sliderValue3.toInt(),
+          'timeOfDay':
+              '${timeOfDay!.hour}:${timeOfDay!.minute} ${timeOfDay!.period.name}',
+          'datatime': '${dataTime!.year}/${dataTime!.month}/${dataTime!.day}',
+          'catogery': catogery,
+          'done': false,
+          'timestamp': timestamp,
+        });
+
+        await NotificationService().alarmCallback(
+          des: notificationList[randomIndex].description,
+          scheduleDate: combinedDateTime,
+          title: notificationList[randomIndex].title,
+        );
+        showToast('The task was created successfully');
+        isloading = false;
+        update();
+        tabController.changeTabIndex(0);
+      }
     } catch (e) {
       isloading = false;
       update();

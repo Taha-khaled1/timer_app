@@ -223,7 +223,7 @@ class _CustomLineState extends State<CustomLine> {
   Widget build(BuildContext context) {
     return Container(
       width: 380,
-      height: 30,
+      height: 15,
       child: Stack(
         children: [
           Positioned(
@@ -247,51 +247,17 @@ class _CustomLineState extends State<CustomLine> {
           Positioned(
             left: 0,
             top: 0,
-            child: GestureDetector(
-              onTapDown: (_) {
-                setState(() {
-                  showSlider = true;
-                });
-              },
-              onTapUp: (_) {
-                setState(() {
-                  showSlider = false;
-                });
-              },
-              child: Container(
-                width: 16,
-                height: 16,
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: OvalBorder(
-                    side: BorderSide(width: 2, color: Color(0xFF7306FD)),
-                  ),
+            child: Container(
+              width: 16,
+              height: 16,
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: OvalBorder(
+                  side: BorderSide(width: 2, color: Color(0xFF7306FD)),
                 ),
               ),
             ),
           ),
-          if (showSlider)
-            Transform.translate(
-              offset: Offset(0, -35),
-              child: Container(
-                alignment: Alignment.center,
-                width: 80,
-                height: 55,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.only(
-                    // bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10),
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  ),
-                ),
-                child: Text(
-                  getCurrentTime(), // استخدام الوقت الحالي الذي تم الحصول عليه من الوظيفة
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
-              ),
-            ),
         ],
       ),
     );

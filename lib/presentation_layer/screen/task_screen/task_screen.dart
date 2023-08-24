@@ -1,6 +1,7 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
@@ -18,6 +19,24 @@ class TaskScreen extends StatefulWidget {
 
 class _TaskScreenState extends State<TaskScreen> {
   DateTime dateTime = DateTime.now();
+
+  TimeOfDay parseTime(String timeStr) {
+    final parts = timeStr.split(' ');
+    final timeParts = parts[0].split(':');
+    int hour = int.parse(timeParts[0]);
+    final minute = int.parse(timeParts[1]);
+
+    if (parts[1].toLowerCase() == 'pm' && hour != 12) {
+      hour += 12;
+    }
+
+    if (parts[1].toLowerCase() == 'am' && hour == 12) {
+      hour = 0;
+    }
+
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+
   @override
   Widget build(BuildContext context) {
     final TaskController _controller = Get.put(TaskController());
@@ -29,103 +48,169 @@ class _TaskScreenState extends State<TaskScreen> {
           return Padding(
             padding:
                 EdgeInsets.symmetric(horizontal: deviceInfo.localWidth * 0.03),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FutureBuilder(
-                    builder: (ctx, snapshot) {
-                      // Checking if future is resolved or not
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        // If we got an error
-                        if (snapshot.hasError) {
-                          return Center(
-                            child: Text(
-                              '${snapshot.error} occurred',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          );
-
-                          // if we got our data
-                        } else if (snapshot.hasData) {
-                          final data = snapshot.data;
-                          int totalTasks = data!.length;
-                          return Column(
-                            children: [
-                              EasyDateTimeLine(
-                                initialDate: dateTime,
-                                onDateChange: (selectedDate) {
-                                  dateTime = selectedDate;
-                                  // _controller.getTasksBydata(selectedDate);
-                                  setState(() {});
-                                },
-                                dayProps: const EasyDayProps(
-                                  inactiveDayDecoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30)),
-                                    color: Color(0xFFF5F5F5),
-                                  ),
-                                  activeDayDecoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30)),
-                                    gradient: LinearGradient(
-                                      begin: Alignment(0.96, -0.28),
-                                      end: Alignment(-0.96, 0.28),
-                                      colors: [
-                                        Color(0xFF7306FD),
-                                        Color(0xFFB173FF)
-                                      ],
+            child: FutureBuilder(
+              builder: (ctx, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        '${snapshot.error} occurred',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    );
+                  } else if (snapshot.hasData) {
+                    final data = snapshot.data;
+                    int totalTasks = data!.length;
+                    return ListView.custom(
+                      childrenDelegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          if (index == DateTime.now().hour) {
+                            return Column(
+                              children: [
+                                Stack(
+                                  children: [
+                                    Container(
+                                      height: DateTime.now().minute * 1.0,
+                                      color: index.isEven
+                                          ? Colors.grey[200]
+                                          : Colors.white,
+                                    ),
+                                    Container(
+                                      height:
+                                          (60 - DateTime.now().minute) * 1.0,
+                                      color: index.isEven
+                                          ? Colors.grey[200]
+                                          : Colors.white,
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 16.0),
+                                          child: Text(
+                                            "$index:00",
+                                            style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 58),
+                                  child: Transform.translate(
+                                      offset: Offset(0, -25),
+                                      child: CustomLine()),
+                                ),
+                                for (var task in data)
+                                  if (parseTime(task['timeOfDay']).hour ==
+                                      index)
+                                    TaskInfoDataCard(
+                                      taskModel: TaskModel(
+                                        color: taskmodelList[taskmodelList
+                                                .indexWhere((element) =>
+                                                    element.title ==
+                                                    task['catogery'])]
+                                            .color,
+                                        image: taskmodelList[taskmodelList
+                                                .indexWhere((element) =>
+                                                    element.title ==
+                                                    task['catogery'])]
+                                            .image,
+                                        title: taskmodelList[taskmodelList
+                                                .indexWhere((element) =>
+                                                    element.title ==
+                                                    task['catogery'])]
+                                            .title,
+                                        subtitle: taskmodelList[taskmodelList
+                                                .indexWhere((element) =>
+                                                    element.title ==
+                                                    task['catogery'])]
+                                            .subtitle,
+                                        id: task['timestamp'],
+                                        data: task['datatime'],
+                                        time: task['timeOfDay'],
+                                        isdone: task['done'],
+                                        taskName: task['title'],
+                                      ),
+                                      taslength: totalTasks,
+                                      index: index,
+                                    ),
+                              ],
+                            );
+                          } else {
+                            return Column(
+                              children: [
+                                Container(
+                                  height: 60.0,
+                                  color: index.isEven
+                                      ? Colors.grey[200]
+                                      : Colors.white,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 16.0),
+                                      child: Text(
+                                        "$index:00",
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                                headerProps: const EasyHeaderProps(
-                                  selectedDateFormat:
-                                      SelectedDateFormat.fullDateDMonthAsStrY,
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: totalTasks,
-                                itemBuilder: (BuildContext context, int index) {
-                                  int ind = taskmodelList.indexWhere(
-                                      (element) =>
-                                          element.title ==
-                                          data[index]['catogery']);
-                                  return TaskInfoDataCard(
-                                    taskModel: TaskModel(
-                                      color: taskmodelList[ind].color,
-                                      image: taskmodelList[ind].image,
-                                      title: taskmodelList[ind].title,
-                                      subtitle: taskmodelList[ind].subtitle,
-                                      id: data[index]['timestamp'],
-                                      data: data[index]['datatime'],
-                                      time: data[index]['timeOfDay'],
-                                      isdone: data[index]['done'],
-                                      taskName: data[index]['title'],
+                                for (var task in data)
+                                  if (parseTime(task['timeOfDay']).hour ==
+                                      index)
+                                    TaskInfoDataCard(
+                                      taskModel: TaskModel(
+                                        color: taskmodelList[taskmodelList
+                                                .indexWhere((element) =>
+                                                    element.title ==
+                                                    task['catogery'])]
+                                            .color,
+                                        image: taskmodelList[taskmodelList
+                                                .indexWhere((element) =>
+                                                    element.title ==
+                                                    task['catogery'])]
+                                            .image,
+                                        title: taskmodelList[taskmodelList
+                                                .indexWhere((element) =>
+                                                    element.title ==
+                                                    task['catogery'])]
+                                            .title,
+                                        subtitle: taskmodelList[taskmodelList
+                                                .indexWhere((element) =>
+                                                    element.title ==
+                                                    task['catogery'])]
+                                            .subtitle,
+                                        id: task['timestamp'],
+                                        data: task['datatime'],
+                                        time: task['timeOfDay'],
+                                        isdone: task['done'],
+                                        taskName: task['title'],
+                                      ),
+                                      taslength: totalTasks,
+                                      index: index,
                                     ),
-                                    taslength: totalTasks,index: index,
-                                  );
-                                },
-                              ),
-                            ],
-                          );
-                        }
-                      }
-
-                      // Displaying LoadingSpinner to indicate waiting state
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
-
-                    // Future that needs to be resolved
-                    // inorder to display something on the Canvas
-                    future: _controller.getTasksBydata(dateTime),
-                  ),
-                ],
-              ),
+                              ],
+                            );
+                          }
+                        },
+                        childCount: 24,
+                      ),
+                    );
+                  }
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+              future: _controller.getTasksBydata(dateTime),
             ),
           );
         },

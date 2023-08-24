@@ -1,6 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-// import 'package:dating_app/main.dart';
-// import 'package:dating_app/presentation_layer/src/style_packge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -20,7 +18,13 @@ class CustomCircleImage extends StatelessWidget {
         child: CachedNetworkImage(
           errorWidget: (context, url, error) {
             return Image.network(
-                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
+              'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+            );
+          },
+          placeholder: (context, url) {
+            return CircularProgressIndicator(
+              color: Colors.purple,
+            );
           },
           imageUrl:
               image!, //?? sharedPreferences.getString('image').toString(),

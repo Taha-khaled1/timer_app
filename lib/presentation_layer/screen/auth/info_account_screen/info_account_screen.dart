@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -64,15 +63,6 @@ class _InfoAccountState extends State<InfoAccount> {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 40),
-                // GestureDetector(
-                //   onTap: () {
-                //     // _handleAttachmentPressed();
-                //   },
-                //   child: EditImage(
-                //     image: sharedPreferences.getString('image') ??
-                //         'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-                //   ),
-                // ),
                 SizedBox(height: 30),
                 Form(
                   key: formkeysigin,
