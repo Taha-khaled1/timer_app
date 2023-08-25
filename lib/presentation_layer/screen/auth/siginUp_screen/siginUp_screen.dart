@@ -6,6 +6,7 @@ import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/screen/auth/LoginScreen/login_screen.dart';
+import 'package:task_manger/presentation_layer/screen/auth/LoginScreen/widget/StandSocialLogin.dart';
 import 'package:task_manger/presentation_layer/screen/auth/LoginScreen/widget/circle_social_button.dart';
 import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/info_account_screen.dart';
 import 'package:task_manger/presentation_layer/screen/auth/siginUp_screen/siginUp_controller/siginUp_controller.dart';

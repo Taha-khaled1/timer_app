@@ -17,11 +17,12 @@ import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/widget/EditImage.dart';
 import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/widget/custom_phone_number.dart';
+import 'package:task_manger/presentation_layer/src/show_toast.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 
 class InfoAccount extends StatefulWidget {
-  const InfoAccount({Key? key}) : super(key: key);
-
+  const InfoAccount({Key? key, required this.isgoogle}) : super(key: key);
+  final bool isgoogle;
   @override
   State<InfoAccount> createState() => _InfoAccountState();
 }
@@ -156,7 +157,22 @@ class _InfoAccountState extends State<InfoAccount> {
                       text: "Skip",
                       colorText: Colors.black,
                       press: () {
-                        // Get.to(() => InfoAccount());
+                        if (widget.isgoogle) {
+                          print("hi");
+                          sharedPreferences.setString(
+                            'code',
+                            'US',
+                          );
+                          sharedPreferences.setString(
+                            'phone',
+                            '00000',
+                          );
+                          sharedPreferences.setString("lev", '2');
+                          Get.offAll(() => MainScreen());
+                        } else {
+                          showToast(
+                              "You must fill in the data for a better experience");
+                        }
                       },
                     ),
                     CustomButton(

@@ -68,16 +68,18 @@ class _TaskScreenState extends State<TaskScreen> {
                             return Column(
                               children: [
                                 Stack(
+                                  alignment: AlignmentDirectional.center,
                                   children: [
                                     Container(
+                                      alignment: Alignment.center,
                                       height: DateTime.now().minute * 1.0,
                                       color: index.isEven
                                           ? Colors.grey[200]
                                           : Colors.white,
                                     ),
                                     Container(
-                                      height:
-                                          (60 - DateTime.now().minute) * 1.0,
+                                      alignment: Alignment.center,
+                                      height: 20,
                                       color: index.isEven
                                           ? Colors.grey[200]
                                           : Colors.white,
@@ -96,13 +98,15 @@ class _TaskScreenState extends State<TaskScreen> {
                                         ),
                                       ),
                                     ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 65, top: 43),
+                                      child: Transform.translate(
+                                        offset: Offset(0, -25),
+                                        child: CustomLine(),
+                                      ),
+                                    ),
                                   ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 58),
-                                  child: Transform.translate(
-                                      offset: Offset(0, -25),
-                                      child: CustomLine()),
                                 ),
                                 for (var task in data)
                                   if (parseTime(task['timeOfDay']).hour ==

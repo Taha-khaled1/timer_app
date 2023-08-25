@@ -28,10 +28,10 @@ class EditScreen extends StatefulWidget {
 
 class _EditScreenState extends State<EditScreen> {
   bool isLoading = false;
-  String name = sharedPreferences.getString('name')!;
-  String code = sharedPreferences.getString('code') ?? 'EG';
-  String number = sharedPreferences.getString('phone')!;
-  String email = sharedPreferences.getString('email')!;
+  String name = sharedPreferences.getString('name') ?? "name";
+  String code = sharedPreferences.getString('code') ?? 'US';
+  String number = sharedPreferences.getString('phone') ?? "0";
+  String email = sharedPreferences.getString('email') ?? "email@gmail.com";
   @override
   void initState() {
     print('image : ${sharedPreferences.getString('image')}  code : $code');

@@ -20,23 +20,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class SocialScreen extends StatelessWidget {
   const SocialScreen({Key? key}) : super(key: key);
-  Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,34 +51,7 @@ class SocialScreen extends StatelessWidget {
                 SocialCard(
                   image: 'assets/icons/google.svg',
                   title: 'Continue with Google',
-                  onTap: () async {
-                    try {
-                      final CollectionReference usersCollection =
-                          FirebaseFirestore.instance.collection('users');
-                      UserCredential user = await signInWithGoogle();
-                      if (user.user != null) {
-                        saveInformition(
-                          displayName: user.user!.displayName!,
-                          email: user.user!.email!,
-                          image: user.user!.photoURL!,
-                          id: user.user!.uid!,
-                        );
-                        final String userId =
-                            sharedPreferences.getString('id')!;
-
-                        usersCollection.doc(userId).get().then((docSnapshot) {
-                          if (docSnapshot.exists) {
-                            Get.offAll(() => MainScreen());
-                            sharedPreferences.setString("lev", '2');
-                          } else {
-                            Get.offAll(() => InfoAccount());
-                          }
-                        });
-                      }
-                    } catch (e) {
-                      print(e);
-                    }
-                  },
+                  onTap: signInWithGoogle,
                 ),
                 SizedBox(height: 15),
                 SocialCard(
@@ -153,4 +109,55 @@ saveInformition({
     image,
   );
   sharedPreferences.setString('id', id);
+}
+
+Future<UserCredential> signInWithGoogle() async {
+  // Trigger the authentication flow
+  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+  // Obtain the auth details from the request
+  final GoogleSignInAuthentication? googleAuth =
+      await googleUser?.authentication;
+
+  // Create a new credential
+  final credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth?.accessToken,
+    idToken: googleAuth?.idToken,
+  );
+  final CollectionReference usersCollection =
+      FirebaseFirestore.instance.collection('users');
+  UserCredential googelInfo =
+      await FirebaseAuth.instance.signInWithCredential(credential);
+  if (googelInfo.user != null) {
+    final String userId = sharedPreferences.getString('id')!;
+    final userDoc = FirebaseFirestore.instance
+        .collection('users')
+        .doc(sharedPreferences.getString('id'));
+
+    usersCollection.doc(userId).get().then((docSnapshot) {
+      if (docSnapshot.exists) {
+        Get.offAll(() => MainScreen());
+        sharedPreferences.setString("lev", '2');
+      } else {
+        saveInformition(
+          displayName: googelInfo.user!.displayName!,
+          email: googelInfo.user!.email!,
+          image: googelInfo.user!.photoURL!,
+          id: googelInfo.user!.uid,
+        );
+        userDoc.set({
+          'name': sharedPreferences.getString('name'),
+          'userId': sharedPreferences.getString('id'),
+          'image': sharedPreferences.getString('image'),
+          'phone': "000000",
+          'code': "US",
+        });
+        Get.offAll(() => InfoAccount(
+              isgoogle: true,
+            ));
+      }
+    });
+  }
+  // Once signed in, return the UserCredential
+  return await googelInfo;
 }

@@ -91,48 +91,52 @@ class StatisticScreen extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 int ind = taskmodelList.indexWhere((element) =>
                                     element.title == data[index]['catogery']);
-                                return Dismissible(
-                                  onDismissed: (direction) {
-                                    _controller
-                                        .deleteTask(data[index]['timestamp']);
-                                  },
-                                  background: Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 15),
-                                    decoration: BoxDecoration(
-                                      color: Colors.redAccent,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    alignment: Alignment.centerRight,
-                                    padding: EdgeInsets.only(right: 16),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                      ),
-                                      child: Icon(
-                                        Icons.delete,
-                                        color: ColorManager.white,
-                                        size: 30,
-                                      ),
-                                    ),
-                                  ),
-                                  direction: DismissDirection.endToStart,
-                                  key: UniqueKey(),
-                                  child: CardPromoTimer(
-                                    taskModel: TaskModel(
-                                      color: taskmodelList[ind].color,
-                                      image: taskmodelList[ind].image,
-                                      title: taskmodelList[ind].title,
-                                      subtitle: taskmodelList[ind].subtitle,
-                                      id: data[index]['timestamp'],
-                                      data: data[index]['datatime'],
-                                      time: data[index]['timeOfDay'],
-                                      isdone: data[index]['done'],
-                                      taskName: data[index]['title'],
-                                    ),
-                                    istowSubtitle: false,
-                                  ),
-                                );
+                                return data[index]['done'] == true
+                                    ? Dismissible(
+                                        onDismissed: (direction) {
+                                          _controller.deleteTask(
+                                              data[index]['timestamp']);
+                                        },
+                                        background: Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          decoration: BoxDecoration(
+                                            color: Colors.redAccent,
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                          ),
+                                          alignment: Alignment.centerRight,
+                                          padding: EdgeInsets.only(right: 16),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                            ),
+                                            child: Icon(
+                                              Icons.delete,
+                                              color: ColorManager.white,
+                                              size: 30,
+                                            ),
+                                          ),
+                                        ),
+                                        direction: DismissDirection.endToStart,
+                                        key: UniqueKey(),
+                                        child: CardPromoTimer(
+                                          taskModel: TaskModel(
+                                            color: taskmodelList[ind].color,
+                                            image: taskmodelList[ind].image,
+                                            title: taskmodelList[ind].title,
+                                            subtitle:
+                                                taskmodelList[ind].subtitle,
+                                            id: data[index]['timestamp'],
+                                            data: data[index]['datatime'],
+                                            time: data[index]['timeOfDay'],
+                                            isdone: data[index]['done'],
+                                            taskName: data[index]['title'],
+                                          ),
+                                          istowSubtitle: false,
+                                        ),
+                                      )
+                                    : SizedBox();
                               },
                             ),
                           ],

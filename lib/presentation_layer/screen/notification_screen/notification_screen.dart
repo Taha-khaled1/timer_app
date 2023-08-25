@@ -16,7 +16,7 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.background,
-      appBar: appbarProfile(title: 'Today Tasks (16)'),
+      appBar: appbarProfile(title: 'Notifications'),
       body: InfoWidget(
         builder: (context, deviceInfo) {
           return notfModelList == null || notfModelList.isEmpty

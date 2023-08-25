@@ -222,6 +222,7 @@ class _CustomLineState extends State<CustomLine> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      alignment: Alignment.center,
       width: 380,
       height: 15,
       child: Stack(
