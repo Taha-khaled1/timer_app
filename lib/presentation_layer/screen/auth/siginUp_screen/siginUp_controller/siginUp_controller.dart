@@ -9,6 +9,7 @@ import 'package:task_manger/presentation_layer/src/style_packge.dart';
 class SiginUpController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool isCheckBox = false;
+  bool isload = false;
   void updateCheckBox(bool val) {
     isCheckBox = val;
     update();
@@ -18,6 +19,8 @@ class SiginUpController extends GetxController {
 
   void createAccount(BuildContext context) async {
     try {
+      isload = true;
+      update();
       print('222222222222222');
       UserCredential credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -41,5 +44,7 @@ class SiginUpController extends GetxController {
     } catch (e) {
       print(e);
     }
+    isload = false;
+    update();
   }
 }

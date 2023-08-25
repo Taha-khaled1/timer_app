@@ -126,17 +126,29 @@ class SiginUpScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  CustomButton(
-                    width: deviceInfo.localWidth * 0.8,
-                    rectangel: 18,
-                    haigh: 60,
-                    color: ColorManager.kPrimaryButton,
-                    text: "Sign up",
-                    press: () {
-                      if (siginUpController.formKey.currentState!.validate()) {
-                        siginUpController.formKey.currentState!.save();
-                        siginUpController.createAccount(context);
-                      }
+                  GetBuilder<SiginUpController>(
+                    builder: (controller) {
+                      return controller.isload == false
+                          ? CustomButton(
+                              width: deviceInfo.localWidth * 0.8,
+                              rectangel: 18,
+                              haigh: 60,
+                              color: ColorManager.kPrimaryButton,
+                              text: "Sign up",
+                              press: () {
+                                if (controller.formKey.currentState!
+                                    .validate()) {
+                                  controller.formKey.currentState!.save();
+                                  siginUpController.createAccount(context);
+                                }
+                              },
+                            )
+                          : Align(
+                              alignment: Alignment.center,
+                              child: CircularProgressIndicator(
+                                color: ColorManager.kPrimary,
+                              ),
+                            );
                     },
                   ),
                   Spacer(),

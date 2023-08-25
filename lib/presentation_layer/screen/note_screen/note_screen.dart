@@ -24,6 +24,7 @@ class NoteScreen extends StatefulWidget {
 class _NoteScreenState extends State<NoteScreen> {
   String title = '';
   String message = '';
+  bool isNoteLoad = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,30 +131,39 @@ class _NoteScreenState extends State<NoteScreen> {
                         ),
                       ),
                       SizedBox(height: 15),
-                      CustomButton(
-                        width: double.infinity,
-                        haigh: 60,
-                        color: ColorManager.kPrimary,
-                        text: 'Create New Note',
-                        press: () async {
-                          if (message.isEmpty || title.isEmpty) {
-                            showToast('There are some empty fields');
-                          } else {
-                            await FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(sharedPreferences.getString('id'))
-                                .collection('notes')
-                                .add({
-                              'title': title,
-                              'note': message,
-                            });
-                            Get.back();
-                            showToast('Note added successfully');
-                            setState(() {});
-                          }
-                        },
-                        rectangel: 25,
-                      ),
+                      isNoteLoad
+                          ? CircularProgressIndicator(
+                              color: ColorManager.kPrimary,
+                            )
+                          : CustomButton(
+                              width: double.infinity,
+                              haigh: 60,
+                              color: ColorManager.kPrimary,
+                              text: 'Create New Note',
+                              press: () async {
+                                if (message.isEmpty || title.isEmpty) {
+                                  showToast('There are some empty fields');
+                                } else {
+                                  isNoteLoad = true;
+                                  // setState(() {});
+                                  await FirebaseFirestore.instance
+                                      .collection('users')
+                                      .doc(sharedPreferences.getString('id'))
+                                      .collection('notes')
+                                      .add({
+                                    'title': title,
+                                    'note': message,
+                                  });
+                                  title = '';
+                                  message = '';
+                                  isNoteLoad = false;
+                                  Get.back();
+                                  showToast('Note added successfully');
+                                  setState(() {});
+                                }
+                              },
+                              rectangel: 25,
+                            ),
                     ],
                   ),
                 ),
