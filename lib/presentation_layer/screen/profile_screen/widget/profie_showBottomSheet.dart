@@ -2,17 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:rating_dialog/rating_dialog.dart';
-import 'package:store_redirect/store_redirect.dart';
-import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/components/custom_butten.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/screen/auth/LoginScreen/login_screen.dart';
-import 'package:task_manger/presentation_layer/screen/task_screen/widget/task_info_data_card.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 
 customLogoutShowBottomSheet(BuildContext context) {
@@ -85,6 +80,7 @@ customLogoutShowBottomSheet(BuildContext context) {
                         await FirebaseAuth.instance.signOut();
                         await sharedPreferences.setString("lev", '1');
                         await sharedPreferences.remove('id');
+                        await sharedPreferences.remove('image');
                         Get.offAll(() => LoginScreen());
 
                         customRatingShowBottomSheet(context);

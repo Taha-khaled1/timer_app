@@ -1,11 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
 import 'package:rxdart/subjects.dart';
 import 'package:task_manger/main.dart';
-import 'package:task_manger/presentation_layer/screen/notification_screen/notification_screen.dart';
-import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {

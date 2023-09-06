@@ -1,9 +1,3 @@
-import 'dart:isolate';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:task_manger/main.dart';
-import 'package:timezone/data/latest_all.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
@@ -17,7 +11,8 @@ import 'package:task_manger/presentation_layer/screen/home_screen/widget/card_ta
 import 'package:task_manger/presentation_layer/screen/whatch_task_screen/whatch_task_screen.dart';
 import 'package:task_manger/presentation_layer/src/get_packge.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
-import 'package:task_manger/presentation_layer/notification_service/notification_service.dart';
+
+import '../../../main.dart';
 
 class HomeScreen extends StatelessWidget {
   @override

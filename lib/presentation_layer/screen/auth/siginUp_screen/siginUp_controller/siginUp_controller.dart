@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/info_account_screen.dart';
-import 'package:task_manger/presentation_layer/screen/auth/social_login/social_login.dart';
 import 'package:task_manger/presentation_layer/src/show_toast.dart';
 import 'package:task_manger/presentation_layer/src/style_packge.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SiginUpController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -29,7 +29,13 @@ class SiginUpController extends GetxController {
       );
       sharedPreferences.setString('id', credential.user!.uid);
       sharedPreferences.setString('email', credential.user!.email!);
-
+      final userDoc = FirebaseFirestore.instance
+          .collection('users')
+          .doc(sharedPreferences.getString('id'));
+      await userDoc.set({
+        'userId': sharedPreferences.getString('id'),
+        'image': sharedPreferences.getString('image'),
+      });
       Get.offAll(() => InfoAccount(
             isgoogle: false,
           ));

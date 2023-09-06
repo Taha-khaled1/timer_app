@@ -9,6 +9,7 @@ import 'package:task_manger/presentation_layer/notification_service/notification
 import 'package:task_manger/presentation_layer/src/show_toast.dart';
 import 'package:task_manger/presentation_layer/utils/shard_function/convert-time.dart';
 import 'package:task_manger/presentation_layer/utils/shard_function/formmat_time.dart';
+import 'package:task_manger/presentation_layer/utils/shard_function/printing_function_red.dart';
 
 class CreateTaskController extends GetxController {
   TextEditingController dateController = TextEditingController();
@@ -99,7 +100,8 @@ class CreateTaskController extends GetxController {
           '${dataTime!.year}/${dataTime!.month}/${dataTime!.day}';
       final DateTime combinedDateTime =
           await convertTDataTime(timeString, dateString);
-
+      printRedColor(convertTo12HourFormat(timeOfDay!.hour, timeOfDay!.minute));
+      printRedColor("${timeOfDay!.hour} -- ${timeOfDay!.minute}");
       if (combinedDateTime.isBefore(DateTime.now())) {
         showToast('Must be a date in the future');
         isloading = false;
@@ -118,7 +120,7 @@ class CreateTaskController extends GetxController {
           'workSessions': sliderValue2.toInt(),
           'shortBreak': sliderValue3.toInt(),
           'timeOfDay':
-              '${timeOfDay!.hour}:${timeOfDay!.minute} ${timeOfDay!.period.name}',
+              convertTo12HourFormat(timeOfDay!.hour, timeOfDay!.minute),
           'datatime': '${dataTime!.year}/${dataTime!.month}/${dataTime!.day}',
           'catogery': catogery,
           'done': false,

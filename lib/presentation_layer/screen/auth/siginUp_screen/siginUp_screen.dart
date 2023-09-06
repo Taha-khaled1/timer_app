@@ -7,8 +7,6 @@ import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/screen/auth/LoginScreen/login_screen.dart';
 import 'package:task_manger/presentation_layer/screen/auth/LoginScreen/widget/StandSocialLogin.dart';
-import 'package:task_manger/presentation_layer/screen/auth/LoginScreen/widget/circle_social_button.dart';
-import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/info_account_screen.dart';
 import 'package:task_manger/presentation_layer/screen/auth/siginUp_screen/siginUp_controller/siginUp_controller.dart';
 import 'package:task_manger/presentation_layer/screen/auth/social_login/widget/EndAuthPage.dart';
 import 'package:task_manger/presentation_layer/screen/auth/social_login/widget/custom_dvider.dart';
@@ -56,7 +54,8 @@ class SiginUpScreen extends StatelessWidget {
                             return validInput(p0.toString(), 3, 100, 'email');
                           },
                           onsaved: (p0) {
-                            siginUpController.emailAddress = p0.toString();
+                            return siginUpController.emailAddress =
+                                p0.toString();
                           },
                           titel: 'Email',
                           width: deviceInfo.localWidth * 0.8,
@@ -70,7 +69,7 @@ class SiginUpScreen extends StatelessWidget {
                                 p0.toString(), 3, 100, 'password');
                           },
                           onsaved: (p0) {
-                            siginUpController.password = p0.toString();
+                            return siginUpController.password = p0.toString();
                           },
                           titel: 'Password',
                           width: deviceInfo.localWidth * 0.8,

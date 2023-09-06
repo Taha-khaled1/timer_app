@@ -1,7 +1,5 @@
-import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
@@ -33,7 +31,7 @@ class _TaskScreenState extends State<TaskScreen> {
     if (parts[1].toLowerCase() == 'am' && hour == 12) {
       hour = 0;
     }
-
+    print("--> __ ${TimeOfDay(hour: hour, minute: minute)}");
     return TimeOfDay(hour: hour, minute: minute);
   }
 

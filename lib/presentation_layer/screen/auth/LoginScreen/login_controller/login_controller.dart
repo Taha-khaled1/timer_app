@@ -5,7 +5,6 @@ import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/components/nav_bar.dart';
 import 'package:task_manger/presentation_layer/src/show_toast.dart';
 import 'package:task_manger/presentation_layer/src/style_packge.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();

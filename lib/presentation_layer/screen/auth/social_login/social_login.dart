@@ -129,22 +129,32 @@ Future<UserCredential> signInWithGoogle() async {
   UserCredential googelInfo =
       await FirebaseAuth.instance.signInWithCredential(credential);
   if (googelInfo.user != null) {
+    saveInformition(
+      displayName: googelInfo.user!.displayName!,
+      email: googelInfo.user!.email!,
+      image: googelInfo.user!.photoURL!,
+      id: googelInfo.user!.uid,
+    );
     final String userId = sharedPreferences.getString('id')!;
     final userDoc = FirebaseFirestore.instance
         .collection('users')
         .doc(sharedPreferences.getString('id'));
 
-    usersCollection.doc(userId).get().then((docSnapshot) {
+    usersCollection.doc(googelInfo.user!.uid).get().then((docSnapshot) {
       if (docSnapshot.exists) {
+        print("---->   ${docSnapshot.data()}");
+        print("---->   ${docSnapshot["image"]}");
+        sharedPreferences.setString(
+          'code',
+          docSnapshot["code"] ?? 'US',
+        );
+        sharedPreferences.setString(
+          'phone',
+          docSnapshot["phone"] ?? '0',
+        );
         Get.offAll(() => MainScreen());
         sharedPreferences.setString("lev", '2');
       } else {
-        saveInformition(
-          displayName: googelInfo.user!.displayName!,
-          email: googelInfo.user!.email!,
-          image: googelInfo.user!.photoURL!,
-          id: googelInfo.user!.uid,
-        );
         userDoc.set({
           'name': sharedPreferences.getString('name'),
           'userId': sharedPreferences.getString('id'),

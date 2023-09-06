@@ -27,3 +27,19 @@ Future<DateTime> convertTDataTime(String timeString, String dateString) async {
   // print('c----------> ${combinedDateTime.difference(now)}');
   return combinedDateTime; // This is your desired DateTime object
 }
+
+String convertTo12HourFormat(int hour, int minute) {
+  String suffix;
+  if (hour >= 0 && hour <= 11) {
+    if (hour == 0) {
+      hour = 12;
+    }
+    suffix = "AM";
+  } else if (hour == 12) {
+    suffix = "PM";
+  } else {
+    hour -= 12;
+    suffix = "PM";
+  }
+  return "${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} ${suffix}";
+}

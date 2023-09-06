@@ -6,8 +6,6 @@ import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 
-import 'line.dart';
-
 class TaskInfoDataCard extends StatefulWidget {
   const TaskInfoDataCard({
     super.key,
