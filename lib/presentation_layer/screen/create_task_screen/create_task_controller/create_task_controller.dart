@@ -12,12 +12,20 @@ import 'package:task_manger/presentation_layer/utils/shard_function/formmat_time
 import 'package:task_manger/presentation_layer/utils/shard_function/printing_function_red.dart';
 
 class CreateTaskController extends GetxController {
+  var selectedColorIndex = (-1).obs;
+  int? selectedColor;
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
-  double sliderValue1 = 1;
-  double sliderValue2 = 1;
-  double sliderValue3 = 1;
+  int pomotime = 25;
+  double sliderValue1 = 3;
+  double sliderValue2 = 15;
+  double sliderValue3 = 8;
   TabAppController tabController = Get.find();
+  void setSliderValue(int value) {
+    pomotime = value;
+    update();
+  }
+
   void setSliderValue1(double value) {
     sliderValue1 = value;
     update();
@@ -91,6 +99,12 @@ class CreateTaskController extends GetxController {
         update();
         return;
       }
+      if (selectedColor == null) {
+        showToast('Please make sure you put a color');
+        isloading = false;
+        update();
+        return;
+      }
       final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
       Random random = Random();
       int randomIndex = random.nextInt(notificationList.length);
@@ -116,13 +130,15 @@ class CreateTaskController extends GetxController {
             .doc(timestamp)
             .set({
           'title': title,
-          'longBreak': sliderValue1.toInt(),
-          'workSessions': sliderValue2.toInt(),
+          'longBreak': sliderValue2.toInt(),
+          'pomotime': pomotime,
+          'workSessions': sliderValue1.toInt(),
           'shortBreak': sliderValue3.toInt(),
           'timeOfDay':
               convertTo12HourFormat(timeOfDay!.hour, timeOfDay!.minute),
           'datatime': '${dataTime!.year}/${dataTime!.month}/${dataTime!.day}',
-          'catogery': catogery,
+          'catogery': catogery ?? "",
+          'color': selectedColor,
           'done': false,
           'timestamp': timestamp,
         });

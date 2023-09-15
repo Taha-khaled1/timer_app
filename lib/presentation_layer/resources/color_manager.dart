@@ -10,7 +10,7 @@ class ColorManager {
   static const Color white = const Color(0xffFFFFFF);
   static const Color black = const Color(0xff000000);
   static const Color kPrimaryButton = const Color(0xFF7206FC);
-
+  static const Color kPrimary3 = const Color(0xFF0FB9B1);
   static const Color fillColor = const Color(0xFFF9F9F9);
 
   LinearGradient kPrimaryGradient = LinearGradient(

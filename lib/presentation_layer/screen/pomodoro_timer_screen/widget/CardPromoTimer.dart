@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
+
+import '../pomodoro_timer_controller/pomodoro_timer_controller.dart';
 
 class CardPromoTimer extends StatelessWidget {
   const CardPromoTimer({
@@ -11,6 +14,8 @@ class CardPromoTimer extends StatelessWidget {
   final bool istowSubtitle;
   @override
   Widget build(BuildContext context) {
+    PomodoroTimerController pomodoroTimerController =
+        Get.put(PomodoroTimerController());
     return Container(
       alignment: Alignment.center,
       width: double.infinity,
@@ -63,9 +68,6 @@ class CardPromoTimer extends StatelessWidget {
                   height: 28,
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(),
-                  child: Stack(children: [
-                    Image.asset(taskModel.image),
-                  ]),
                 ),
               ],
             ),
@@ -95,7 +97,7 @@ class CardPromoTimer extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: Text(
-                      '25 minutes',
+                      '${taskModel.pomotime} minutes',
                       style: TextStyle(
                         color: Color(0xFF616161),
                         fontSize: 14,
@@ -110,40 +112,40 @@ class CardPromoTimer extends StatelessWidget {
               ),
             ),
           ),
-          // Container(
-          //   child: Column(
-          //     mainAxisSize: MainAxisSize.min,
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     crossAxisAlignment: CrossAxisAlignment.end,
-          //     children: [
-          //       if (istowSubtitle)
-          //         Text(
-          //           '2/4',
-          //           textAlign: TextAlign.right,
-          //           style: TextStyle(
-          //             color: Color(0xFF424242),
-          //             fontSize: 20,
-          //             fontFamily: 'Urbanist',
-          //             fontWeight: FontWeight.w700,
-          //             height: 1.20,
-          //           ),
-          //         ),
-          //       const SizedBox(height: 8),
-          //       Text(
-          //         '${taskModel.subtitle}',
-          //         textAlign: TextAlign.right,
-          //         style: TextStyle(
-          //           color: Color(0xFF616161),
-          //           fontSize: 14,
-          //           fontFamily: 'Urbanist',
-          //           fontWeight: FontWeight.w500,
-          //           height: 1.40,
-          //           letterSpacing: 0.20,
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
+          Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                if (istowSubtitle)
+                  Text(
+                    '${pomodoroTimerController.endWork}/${taskModel.workSessions}',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: Color(0xFF424242),
+                      fontSize: 20,
+                      fontFamily: 'Urbanist',
+                      fontWeight: FontWeight.w700,
+                      height: 1.20,
+                    ),
+                  ),
+                // const SizedBox(height: 8),
+                // Text(
+                //   '${taskModel.subtitle}',
+                //   textAlign: TextAlign.right,
+                //   style: TextStyle(
+                //     color: Color(0xFF616161),
+                //     fontSize: 14,
+                //     fontFamily: 'Urbanist',
+                //     fontWeight: FontWeight.w500,
+                //     height: 1.40,
+                //     letterSpacing: 0.20,
+                //   ),
+                // ),
+              ],
+            ),
+          ),
         ],
       ),
     );

@@ -9,6 +9,7 @@ import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/pomodoro_timer_controller/pomodoro_timer_controller.dart';
+import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/pomodoro_timer_screen.dart';
 import 'package:task_manger/presentation_layer/screen/succss_screen.dart';
 
 class CircularPomodoro extends StatefulWidget {
@@ -35,7 +36,7 @@ class _CircularPomodoroState extends State<CircularPomodoro> {
     return Center(
       child: CircularCountDownTimer(
         // Countdown duration in Seconds.
-        duration: pomodoroTimerController.duration,
+        duration: widget.taskModel.pomotime! * 60,
 
         // Countdown initial elapsed Duration in Seconds.
         initialDuration: 0,
@@ -107,15 +108,20 @@ class _CircularPomodoroState extends State<CircularPomodoro> {
 
         // This Callback will execute when the Countdown Ends.
         onComplete: () async {
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(sharedPreferences.getString('id'))
-              .collection('tasks')
-              .doc(widget.taskModel.id)
-              .update({
-            'done': true,
-          });
-          Get.to(() => SuccssScreen());
+          if (pomodoroTimerController.endWork <
+              widget.taskModel.workSessions!) {
+            showAlert(pomodoroTimerController, widget.taskModel);
+          } else {
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(sharedPreferences.getString('id'))
+                .collection('tasks')
+                .doc(widget.taskModel.id)
+                .update({
+              'done': true,
+            });
+            Get.to(() => SuccssScreen());
+          }
         },
 
         // This Callback will execute when the Countdown Changes.

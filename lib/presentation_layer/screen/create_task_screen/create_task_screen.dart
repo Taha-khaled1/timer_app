@@ -130,19 +130,61 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                     },
                   ),
                   SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Text(
-                      'Select Category',
-                      style: MangeStyles().getBoldStyle(
-                        color: ColorManager.black,
-                        fontSize: FontSize.s18,
-                      ),
-                      textAlign: TextAlign.left,
+                  Text(
+                    'Chose color',
+                    style: MangeStyles().getBoldStyle(
+                      color: ColorManager.black,
+                      fontSize: FontSize.s18,
                     ),
+                    textAlign: TextAlign.left,
                   ),
                   SizedBox(height: 10),
-                  MyDropdownButton(),
+                  SizedBox(
+                    height: 50,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: colorsTask.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () {
+                            _controller.selectedColorIndex.value =
+                                index; // Update the selected color index
+                            _controller.selectedColor = colorsTask[index];
+                          },
+                          child: Obx(
+                            () => Container(
+                              width: 50,
+                              height: 40,
+                              margin: EdgeInsets.only(right: 10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Color(colorsTask[index]),
+                              ),
+                              child: _controller.selectedColorIndex.value ==
+                                      index
+                                  ? Icon(Icons.check,
+                                      color: Colors
+                                          .white) // Show checkmark if color is selected
+                                  : null,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 10),
+                  //   child: Text(
+                  //     'Select Category',
+                  //     style: MangeStyles().getBoldStyle(
+                  //       color: ColorManager.black,
+                  //       fontSize: FontSize.s18,
+                  //     ),
+                  //     textAlign: TextAlign.left,
+                  //   ),
+                  // ),
+                  // SizedBox(height: 10),
+                  // MyDropdownButton(),
                   SizedBox(height: 20),
                   GetBuilder<CreateTaskController>(
                     builder: (controller) {
@@ -152,7 +194,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                           Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: Text(
-                              'Working Sessions',
+                              'set of pomo',
                               style: MangeStyles().getBoldStyle(
                                 color: ColorManager.black,
                                 fontSize: FontSize.s18,
@@ -162,12 +204,42 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                           ),
                           SizedBox(height: 10),
                           SfSlider(
-                            min: 0,
-                            max: 8,
-                            activeColor: ColorManager.kPrimary,
+                            min: 1,
+                            max: 60,
+                            activeColor: Color(0xff0FB9B1),
+                            inactiveColor: ColorManager.grey2,
+                            value: _controller.pomotime.toInt(),
+                            interval: 59,
+                            showTicks: false,
+                            showLabels: true,
+                            enableTooltip: true,
+                            minorTicksPerInterval: 0,
+                            thumbShape: SfThumbShape(),
+                            onChanged: (dynamic value) {
+                              _controller.setSliderValue(
+                                value.toInt(),
+                              );
+                            },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                              'set of pomo',
+                              style: MangeStyles().getBoldStyle(
+                                color: ColorManager.black,
+                                fontSize: FontSize.s18,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          SfSlider(
+                            min: 1,
+                            max: 3,
+                            activeColor: Color(0xff0FB9B1),
                             inactiveColor: ColorManager.grey2,
                             value: _controller.sliderValue1.toInt(),
-                            interval: 8,
+                            interval: 2,
                             showTicks: false,
                             showLabels: true,
                             enableTooltip: true,
@@ -191,12 +263,12 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                           ),
                           SizedBox(height: 20),
                           SfSlider(
-                            min: 0.0,
-                            max: 8.0,
-                            activeColor: ColorManager.kPrimary,
+                            min: 1,
+                            max: 15.0,
+                            activeColor: Color(0xff0FB9B1),
                             inactiveColor: ColorManager.grey2,
                             value: _controller.sliderValue2.toInt(),
-                            interval: 8,
+                            interval: 14.0,
                             showTicks: false,
                             showLabels: true,
                             enableTooltip: true,
@@ -220,12 +292,12 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                           ),
                           SizedBox(height: 20),
                           SfSlider(
-                            min: 0.0,
+                            min: 1,
                             max: 8.0,
-                            activeColor: ColorManager.kPrimary,
+                            activeColor: Color(0xff0FB9B1),
                             inactiveColor: ColorManager.grey2,
                             value: _controller.sliderValue3.toInt(),
-                            interval: 8,
+                            interval: 7.0,
                             showTicks: false,
                             showLabels: true,
                             enableTooltip: true,
@@ -275,3 +347,15 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
     );
   }
 }
+
+List<int> colorsTask = [
+  0xffF4BF52,
+  0xff8854D0,
+  0xffEE3D41,
+  0xffFC5C65,
+  0xffFD9644,
+  0xff799CDE,
+  0xff20BF6B,
+  0xff2D98DA,
+  0xff8854D0
+];

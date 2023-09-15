@@ -9,6 +9,7 @@ import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/screen/create_task_screen/create_task_screen.dart';
 import 'package:task_manger/presentation_layer/screen/home_screen/home_screen.dart';
+import 'package:task_manger/presentation_layer/screen/new_home_screen/new_home_screen.dart';
 import 'package:task_manger/presentation_layer/screen/note_screen/note_screen.dart';
 import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/pomodoro_timer_screen.dart';
 import 'package:task_manger/presentation_layer/screen/statistic_screen/statistic_screen.dart';
@@ -37,12 +38,11 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   List<Color> iconColors = [ColorManager.kPrimary, Colors.grey];
   final List<Widget> _screens = [
-    HomeScreen(),
+    NewHomeScreen(),
     TaskScreen(),
     CreateTaskScreen(),
     StatisticScreen(),
     NoteScreen(),
-    PomodoroTimerScreen(taskModel: taskmodelList[0]),
   ];
 
   final tabController = Get.put(TabAppController());

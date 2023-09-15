@@ -6,7 +6,6 @@ import 'package:task_manger/presentation_layer/components/appbar.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
-import 'package:task_manger/presentation_layer/screen/home_screen/widget/card_task.dart';
 import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/widget/CardPromoTimer.dart';
 import 'package:task_manger/presentation_layer/screen/statistic_screen/statistic_controller/statistic_controller.dart';
 import 'package:task_manger/presentation_layer/screen/statistic_screen/widget/chart.dart';
@@ -43,7 +42,7 @@ class StatisticScreen extends StatelessWidget {
                         // if we got our data
                       } else if (snapshot.hasData) {
                         final data = snapshot.data;
-                        int totalTasks = data!.length;
+                        // int totalTasks = data!.length;
                         return Column(
                           children: [
                             Transform.translate(
@@ -87,10 +86,8 @@ class StatisticScreen extends StatelessWidget {
                             ListView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount: data.length,
+                              itemCount: data!.length,
                               itemBuilder: (context, index) {
-                                int ind = taskmodelList.indexWhere((element) =>
-                                    element.title == data[index]['catogery']);
                                 return data[index]['done'] == true
                                     ? Dismissible(
                                         onDismissed: (direction) {
@@ -122,11 +119,9 @@ class StatisticScreen extends StatelessWidget {
                                         key: UniqueKey(),
                                         child: CardPromoTimer(
                                           taskModel: TaskModel(
-                                            color: taskmodelList[ind].color,
-                                            image: taskmodelList[ind].image,
-                                            title: taskmodelList[ind].title,
-                                            subtitle:
-                                                taskmodelList[ind].subtitle,
+                                            color: Color(data[index]['color'] ??
+                                                0xffffffff),
+                                            subtitle: "25 minute",
                                             id: data[index]['timestamp'],
                                             data: data[index]['datatime'],
                                             time: data[index]['timeOfDay'],

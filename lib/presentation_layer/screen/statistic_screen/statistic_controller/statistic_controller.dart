@@ -11,7 +11,7 @@ class StatisticController extends GetxController {
   List<FlSpot> spotsController = [];
   Future<List<Map<String, dynamic>>> retrieveTodayTasks() async {
     String userId = sharedPreferences.getString('id') ?? '';
-
+    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     DateTime now = DateTime.now();
     DateTime startOfDay = DateTime(now.year, now.month, now.day);
 
@@ -26,11 +26,13 @@ class StatisticController extends GetxController {
           descending: false,
         )
         .get();
-
+    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     List<Map<String, dynamic>> tasks = taskSnapshot.docs
         .map((DocumentSnapshot document) =>
             document.data() as Map<String, dynamic>)
         .toList();
+    print(
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@${tasks.length}@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     await getStatic();
     return tasks;
   }

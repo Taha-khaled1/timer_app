@@ -9,11 +9,13 @@ import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/widget/CircularPomodoro.dart';
 
 class PomodoroTimerController extends GetxController {
+  PomodoroTimerController();
+
   final int duration = (25 * 60);
   final CountDownController controller = CountDownController();
   DateTime firstDateTime = DateTime.now();
   static const String _keyPrefix = 'user_activity_';
-
+  int endWork = 1;
   final List<Color> colorsPomodoro = [
     ColorManager.kPrimary,
     Color(0xFF1AB65C),
@@ -22,8 +24,13 @@ class PomodoroTimerController extends GetxController {
   int randomIndex = Random().nextInt(2);
   bool isplay = false;
   bool isFirstplay = true;
+
   void changePlay(bool value) {
     isplay = value;
+    update();
+  }
+
+  void changeupdate() {
     update();
   }
 

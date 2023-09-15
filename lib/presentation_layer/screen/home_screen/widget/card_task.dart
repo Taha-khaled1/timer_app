@@ -71,20 +71,7 @@ class CardTask extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 28,
-                    height: 28,
-                    clipBehavior: Clip.antiAlias,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(),
-                    child: Stack(
-                      children: [
-                        Image.asset(taskModel.image),
-                      ],
-                    ),
-                  ),
-                ],
+                children: [],
               ),
             ),
             SizedBox(width: 10),

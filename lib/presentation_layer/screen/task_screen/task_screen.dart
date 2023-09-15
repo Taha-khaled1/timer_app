@@ -111,26 +111,9 @@ class _TaskScreenState extends State<TaskScreen> {
                                       index)
                                     TaskInfoDataCard(
                                       taskModel: TaskModel(
-                                        color: taskmodelList[taskmodelList
-                                                .indexWhere((element) =>
-                                                    element.title ==
-                                                    task['catogery'])]
-                                            .color,
-                                        image: taskmodelList[taskmodelList
-                                                .indexWhere((element) =>
-                                                    element.title ==
-                                                    task['catogery'])]
-                                            .image,
-                                        title: taskmodelList[taskmodelList
-                                                .indexWhere((element) =>
-                                                    element.title ==
-                                                    task['catogery'])]
-                                            .title,
-                                        subtitle: taskmodelList[taskmodelList
-                                                .indexWhere((element) =>
-                                                    element.title ==
-                                                    task['catogery'])]
-                                            .subtitle,
+                                        color:
+                                            Color(task['color'] ?? 0xffffffff),
+                                        subtitle: "25 minute",
                                         id: task['timestamp'],
                                         data: task['datatime'],
                                         time: task['timeOfDay'],
@@ -170,26 +153,9 @@ class _TaskScreenState extends State<TaskScreen> {
                                       index)
                                     TaskInfoDataCard(
                                       taskModel: TaskModel(
-                                        color: taskmodelList[taskmodelList
-                                                .indexWhere((element) =>
-                                                    element.title ==
-                                                    task['catogery'])]
-                                            .color,
-                                        image: taskmodelList[taskmodelList
-                                                .indexWhere((element) =>
-                                                    element.title ==
-                                                    task['catogery'])]
-                                            .image,
-                                        title: taskmodelList[taskmodelList
-                                                .indexWhere((element) =>
-                                                    element.title ==
-                                                    task['catogery'])]
-                                            .title,
-                                        subtitle: taskmodelList[taskmodelList
-                                                .indexWhere((element) =>
-                                                    element.title ==
-                                                    task['catogery'])]
-                                            .subtitle,
+                                        color:
+                                            Color(task['color'] ?? 0xffffffff),
+                                        subtitle: "25 minute",
                                         id: task['timestamp'],
                                         data: task['datatime'],
                                         time: task['timeOfDay'],

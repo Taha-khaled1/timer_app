@@ -39,14 +39,10 @@ class WhatchTaskScreen extends StatelessWidget {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: data!.length,
                     itemBuilder: (context, index) {
-                      int ind = taskmodelList.indexWhere((element) =>
-                          element.title == data[index]['catogery']);
                       return CardTask(
                         taskModel: TaskModel(
-                          color: taskmodelList[ind].color,
-                          image: taskmodelList[ind].image,
-                          title: taskmodelList[ind].title,
-                          subtitle: taskmodelList[ind].subtitle,
+                          color: Color(data[index]['color'] ?? 0xffffffff),
+                          subtitle: "25 minute",
                           id: data[index]['timestamp'],
                           data: data[index]['datatime'],
                           time: data[index]['timeOfDay'],
