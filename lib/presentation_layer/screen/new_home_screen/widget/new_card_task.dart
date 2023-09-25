@@ -74,7 +74,7 @@ class NewCardTask extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         margin: EdgeInsets.only(left: 5, right: 5),
-        width: 140,
+        width: 138,
         height: 100,
         decoration: BoxDecoration(
           color: taskModel.color,
@@ -103,35 +103,32 @@ class NewCardTask extends StatelessWidget {
             //   height: 10,
             // ),
 
-            GestureDetector(
-              onTap: () {},
-              child: CircleAvatar(
-                backgroundColor: ColorManager.grey2.withOpacity(0.4),
-                radius: 50,
-                child: !taskModel.isdone!
-                    ? Text(
-                        "${taskModel.pomotime}' ",
-                        style: MangeStyles().getBoldStyle(
-                          color: ColorManager.white,
-                          fontSize: 40,
-                        ),
-                        textAlign: TextAlign.center,
-                      )
-                    : Icon(
-                        Icons.check,
-                        color: Colors.green,
-                        size: 65,
+            CircleAvatar(
+              backgroundColor: ColorManager.grey2.withOpacity(0.4),
+              radius: 50,
+              child: !taskModel.isdone!
+                  ? Text(
+                      "${taskModel.pomotime}' ",
+                      style: MangeStyles().getBoldStyle(
+                        color: ColorManager.white,
+                        fontSize: 40,
                       ),
-              ),
+                      textAlign: TextAlign.center,
+                    )
+                  : Icon(
+                      Icons.check,
+                      color: Colors.green,
+                      size: 65,
+                    ),
             ),
             SizedBox(
               height: 10,
             ),
             Text(
-              subString(taskModel.taskName ?? "", 12),
+              subString(taskModel.taskName ?? "", 10),
               style: MangeStyles().getBoldStyle(
                 color: ColorManager.white,
-                fontSize: 25,
+                fontSize: 20,
               ),
               textAlign: TextAlign.center,
             ),
@@ -139,7 +136,7 @@ class NewCardTask extends StatelessWidget {
               '$formattedTime - ${adjustedTime.hour}:${adjustedTime.minute} ',
               style: MangeStyles().getBoldStyle(
                 color: ColorManager.white,
-                fontSize: 21,
+                fontSize: 18,
               ),
               textAlign: TextAlign.center,
             ),

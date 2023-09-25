@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
-import 'package:task_manger/presentation_layer/screen/task_screen/widget/task_info_data_card.dart';
+import 'package:task_manger/presentation_layer/resources/font_manager.dart';
+import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 
 import 'task_controller/task_controller.dart';
@@ -59,118 +60,23 @@ class _TaskScreenState extends State<TaskScreen> {
                   } else if (snapshot.hasData) {
                     final data = snapshot.data;
                     int totalTasks = data!.length;
-                    return ListView.custom(
-                      childrenDelegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                          if (index == DateTime.now().hour) {
-                            return Column(
-                              children: [
-                                Stack(
-                                  alignment: AlignmentDirectional.center,
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.center,
-                                      height: DateTime.now().minute * 1.0,
-                                      color: index.isEven
-                                          ? Colors.grey[200]
-                                          : Colors.white,
-                                    ),
-                                    Container(
-                                      alignment: Alignment.center,
-                                      height: 20,
-                                      color: index.isEven
-                                          ? Colors.grey[200]
-                                          : Colors.white,
-                                      child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 16.0),
-                                          child: Text(
-                                            "$index:00",
-                                            style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 65, top: 43),
-                                      child: Transform.translate(
-                                        offset: Offset(0, -25),
-                                        child: CustomLine(),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                for (var task in data)
-                                  if (parseTime(task['timeOfDay']).hour ==
-                                      index)
-                                    TaskInfoDataCard(
-                                      taskModel: TaskModel(
-                                        color:
-                                            Color(task['color'] ?? 0xffffffff),
-                                        subtitle: "25 minute",
-                                        id: task['timestamp'],
-                                        data: task['datatime'],
-                                        time: task['timeOfDay'],
-                                        isdone: task['done'],
-                                        taskName: task['title'],
-                                      ),
-                                      taslength: totalTasks,
-                                      index: index,
-                                    ),
-                              ],
-                            );
-                          } else {
-                            return Column(
-                              children: [
-                                Container(
-                                  height: 60.0,
-                                  color: index.isEven
-                                      ? Colors.grey[200]
-                                      : Colors.white,
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 16.0),
-                                      child: Text(
-                                        "$index:00",
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                for (var task in data)
-                                  if (parseTime(task['timeOfDay']).hour ==
-                                      index)
-                                    TaskInfoDataCard(
-                                      taskModel: TaskModel(
-                                        color:
-                                            Color(task['color'] ?? 0xffffffff),
-                                        subtitle: "25 minute",
-                                        id: task['timestamp'],
-                                        data: task['datatime'],
-                                        time: task['timeOfDay'],
-                                        isdone: task['done'],
-                                        taskName: task['title'],
-                                      ),
-                                      taslength: totalTasks,
-                                      index: index,
-                                    ),
-                              ],
-                            );
-                          }
-                        },
-                        childCount: 24,
-                      ),
+                    return ListView.builder(
+                      itemCount: totalTasks,
+                      itemBuilder: (BuildContext context, int index) {
+                        return NewTimeTask(
+                          taslength: totalTasks,
+                          index: index,
+                          taskModel: TaskModel(
+                            color: Color(data[index]['color'] ?? 0xffffffff),
+                            subtitle: "25 minute",
+                            id: data[index]['timestamp'],
+                            data: data[index]['datatime'],
+                            time: data[index]['timeOfDay'],
+                            isdone: data[index]['done'],
+                            taskName: data[index]['title'],
+                          ),
+                        );
+                      },
                     );
                   }
                 }
@@ -182,6 +88,93 @@ class _TaskScreenState extends State<TaskScreen> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class NewTimeTask extends StatelessWidget {
+  const NewTimeTask({
+    super.key,
+    required this.taskModel,
+    required this.taslength,
+    required this.index,
+  });
+
+  final TaskModel taskModel;
+  final int taslength;
+  final int index;
+  @override
+  Widget build(BuildContext context) {
+    String timeString = taskModel.time!; // Replace with your actual time string
+    int minutesToAdd = 25;
+
+// Parse the time string
+    List<String> timeParts = timeString.split(' ');
+    String timeWithoutMeridiem = timeParts[0];
+    String meridiem = timeParts[1];
+
+    List<String> timeComponents = timeWithoutMeridiem.split(':');
+    int hours = int.parse(timeComponents[0]);
+    int minutes = int.parse(timeComponents[1]);
+
+// Convert to 24-hour format if meridiem is 'pm'
+    if (meridiem == 'pm' && hours != 12) {
+      hours += 12;
+    }
+
+// Create a DateTime object with today's date and the adjusted time
+    DateTime currentTime = DateTime.now();
+    DateTime adjustedTime = DateTime(
+      currentTime.year,
+      currentTime.month,
+      currentTime.day,
+      hours,
+      minutes,
+    ).add(Duration(minutes: minutesToAdd));
+
+    String time = (taskModel.time!.split(' ').first); // Output: 3:06 PM
+
+    List<String> parts = time.split(':');
+    int hoursk = int.parse(parts[0]);
+    int minutesk = int.parse(parts[1]);
+
+// Convert the hours to a 12-hour format
+    int formattedHours = hoursk > 12 ? hoursk - 12 : hoursk;
+
+// Determine if it's morning (AM) or afternoon/evening (PM)
+    String period = hoursk >= 12 ? 'PM' : 'AM';
+
+// Format the time
+    String formattedTime = '$formattedHours:$minutesk $period';
+    bool isLine = taslength - 1 == index;
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      width: double.infinity,
+      height: 75,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        color: taskModel.color,
+      ),
+      child: Row(
+        children: [
+          Text(
+            taskModel.taskName ?? "",
+            style: MangeStyles().getBoldStyle(
+              color: ColorManager.black,
+              fontSize: FontSize.s17,
+            ),
+          ),
+          Expanded(child: SizedBox()),
+          Text(
+            '$formattedTime - ${adjustedTime.hour}:${adjustedTime.minute} ',
+            style: MangeStyles().getBoldStyle(
+              color: ColorManager.black,
+              fontSize: FontSize.s17,
+            ),
+          ),
+        ],
       ),
     );
   }

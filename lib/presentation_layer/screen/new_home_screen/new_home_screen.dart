@@ -24,9 +24,12 @@ class NewHomeScreen extends StatefulWidget {
 }
 
 class _NewHomeScreenState extends State<NewHomeScreen> {
+  bool isfliterdone = false;
+  bool deleteload = false;
   @override
   Widget build(BuildContext context) {
     final NewHomeController _controller = Get.put(NewHomeController());
+
     return Scaffold(
       backgroundColor: ColorManager.background,
       appBar: appbarMain(),
@@ -143,36 +146,61 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
                                 ),
                               ),
                             ),
-                            HeaderUi(),
+                            HeaderUi(
+                              onTap: () {
+                                print(isfliterdone);
+                              },
+                              onTap2: () {
+                                setState(() {
+                                  isfliterdone = true;
+                                  print(isfliterdone);
+                                });
+                              },
+                            ),
                             SizedBox(
-                              height: 214,
+                              height: 218,
+                              // width: 140,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 // shrinkWrap: true,
                                 // physics: NeverScrollableScrollPhysics(),
                                 itemCount: data.length > 3 ? 3 : data.length,
                                 itemBuilder: (context, index) {
-                                  return NewCardTask(
-                                    onTap: () async {
-                                      await _controller
-                                          .deleteTask(data[index]['timestamp']);
-                                      setState(() {});
-                                    },
-                                    taskModel: TaskModel(
-                                      color: Color(
-                                          data[index]['color'] ?? 0xffffffff),
-                                      subtitle: "25 minute",
-                                      id: data[index]['timestamp'],
-                                      pomotime: data[index]['pomotime'],
-                                      data: data[index]['datatime'],
-                                      time: data[index]['timeOfDay'],
-                                      isdone: data[index]['done'],
-                                      taskName: data[index]['title'],
-                                      workSessions: data[index]['workSessions'],
-                                      longBreak: data[index]['longBreak'],
-                                      shortBreak: data[index]['shortBreak'],
-                                    ),
-                                  );
+                                  return data[index]['done'] && isfliterdone
+                                      ? SizedBox()
+                                      : !deleteload
+                                          ? NewCardTask(
+                                              onTap: () async {
+                                                setState(() {
+                                                  deleteload = true;
+                                                });
+                                                await _controller.deleteTask(
+                                                    data[index]['timestamp']);
+                                                setState(() {
+                                                  deleteload = false;
+                                                });
+                                              },
+                                              taskModel: TaskModel(
+                                                color: Color(data[index]
+                                                        ['color'] ??
+                                                    0xffffffff),
+                                                subtitle: "25 minute",
+                                                id: data[index]['timestamp'],
+                                                pomotime: data[index]
+                                                    ['pomotime'],
+                                                data: data[index]['datatime'],
+                                                time: data[index]['timeOfDay'],
+                                                isdone: data[index]['done'],
+                                                taskName: data[index]['title'],
+                                                workSessions: data[index]
+                                                    ['workSessions'],
+                                                longBreak: data[index]
+                                                    ['longBreak'],
+                                                shortBreak: data[index]
+                                                    ['shortBreak'],
+                                              ),
+                                            )
+                                          : SizedBox();
                                 },
                               ),
                             ),
@@ -204,14 +232,17 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
 class HeaderUi extends StatelessWidget {
   const HeaderUi({
     super.key,
+    this.onTap,
+    this.onTap2,
   });
-
+  final void Function()? onTap;
+  final void Function()? onTap2;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: 12,
-        vertical: 10,
+        horizontal: 8,
+        vertical: 5,
       ),
       child: Row(
         children: [
@@ -219,16 +250,16 @@ class HeaderUi extends StatelessWidget {
             'Tasks',
             style: MangeStyles().getBoldStyle(
               color: ColorManager.kPrimary,
-              fontSize: FontSize.s30,
+              fontSize: FontSize.s25,
             ),
             textAlign: TextAlign.center,
           ),
           Expanded(child: SizedBox()),
-          Tag(text: 'Not complete'),
+          GestureDetector(onTap: onTap, child: Tag(text: 'Not complete')),
           SizedBox(
             width: 8,
           ),
-          Tag(text: 'Today'),
+          GestureDetector(onTap: onTap2, child: Tag(text: 'Today')),
         ],
       ),
     );
@@ -258,7 +289,7 @@ class Tag extends StatelessWidget {
         text,
         style: TextStyle(
           color: textColor,
-          fontSize: 16,
+          fontSize: 14,
         ),
       ),
     );

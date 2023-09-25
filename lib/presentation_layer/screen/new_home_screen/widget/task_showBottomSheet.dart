@@ -87,7 +87,7 @@ customtaskShowBottomSheet(BuildContext context) {
                             children: [
                               for (int i = 0; i < data!.length; i++)
                                 Container(
-                                  width: 180,
+                                  width: 155,
                                   height: 220,
                                   margin: EdgeInsets.only(bottom: 10),
                                   // color: Colors.black,

@@ -28,150 +28,6 @@ class _NoteScreenState extends State<NoteScreen> {
     return Scaffold(
       backgroundColor: ColorManager.background,
       appBar: appbarProfile(title: 'Notes', isBack: false),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          showModalBottomSheet(
-            backgroundColor: ColorManager.background,
-            context: context,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(25),
-                topRight: Radius.circular(25),
-              ),
-            ),
-            isScrollControlled: true, // Added this line
-            builder: (BuildContext context) {
-              return Container(
-                height: 640,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context)
-                        .viewInsets
-                        .bottom, // Adjust for keyboard
-                    left: 16.0,
-                    right: 16.0,
-                    top: 16.0,
-                  ),
-                  child: ListView(
-                    // mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Title',
-                          style: MangeStyles().getBoldStyle(
-                            color: ColorManager.black,
-                            fontSize: FontSize.s18,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      TextFormField(
-                        onChanged: (p0) {
-                          title = p0.toString();
-                        },
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          filled: true,
-                          fillColor: ColorManager.fillColor,
-                          labelText: 'Title',
-                          hintStyle: TextStyle(
-                            color: Color(0xFF9E9E9E),
-                            fontSize: 14,
-                            fontFamily: 'Urbanist',
-                            fontWeight: FontWeight.w400,
-                            height: 1.40,
-                            letterSpacing: 0.20,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Notes',
-                          style: MangeStyles().getBoldStyle(
-                            color: ColorManager.black,
-                            fontSize: FontSize.s18,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      TextFormField(
-                        onChanged: (p0) {
-                          message = p0.toString();
-                        },
-                        minLines: 5,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          filled: true,
-                          fillColor: ColorManager.fillColor,
-                          labelText: 'Description',
-                          hintStyle: TextStyle(
-                            color: Color(0xFF9E9E9E),
-                            fontSize: 14,
-                            fontFamily: 'Urbanist',
-                            fontWeight: FontWeight.w400,
-                            height: 1.40,
-                            letterSpacing: 0.20,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 15),
-                      isNoteLoad
-                          ? CircularProgressIndicator(
-                              color: ColorManager.kPrimary,
-                            )
-                          : CustomButton(
-                              width: double.infinity,
-                              haigh: 60,
-                              color: ColorManager.kPrimary,
-                              text: 'Create New Note',
-                              press: () async {
-                                if (message.isEmpty || title.isEmpty) {
-                                  showToast('There are some empty fields');
-                                } else {
-                                  isNoteLoad = true;
-                                  // setState(() {});
-                                  await FirebaseFirestore.instance
-                                      .collection('users')
-                                      .doc(sharedPreferences.getString('id'))
-                                      .collection('notes')
-                                      .add({
-                                    'title': title,
-                                    'note': message,
-                                  });
-                                  title = '';
-                                  message = '';
-                                  isNoteLoad = false;
-                                  Get.back();
-                                  showToast('Note added successfully');
-                                  setState(() {});
-                                }
-                              },
-                              rectangel: 25,
-                            ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
-        },
-        child: Icon(Icons.add),
-        backgroundColor: ColorManager.kPrimary,
-      ),
       body: InfoWidget(
         builder: (context, deviceInfo) {
           return Padding(
@@ -198,12 +54,24 @@ class _NoteScreenState extends State<NoteScreen> {
                         final data = snapshot.data;
                         // print(data.data());
                         return Expanded(
-                          child: ListView.builder(
+                          child: GridView.builder(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount:
+                                  2, // This defines the number of items in a row. Adjust as needed.
+                              childAspectRatio:
+                                  1.0, // Adjust for your desired width/height ratio
+                              crossAxisSpacing:
+                                  10, // Spacing between the items in a row
+                              mainAxisSpacing: 10, // Spacing between the rows
+                            ),
                             itemCount: data?.docs.length,
                             itemBuilder: (BuildContext context, int index) {
                               return NoteCard(
                                 des: data?.docs[index]['note'],
                                 title: data?.docs[index]['title'],
+                                id: data?.docs[index]['id'],
+                                star: data?.docs[index]['star'],
                               );
                             },
                           ),
