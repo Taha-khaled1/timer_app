@@ -10,6 +10,7 @@ import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/screen/create_task_screen/create_task_screen.dart';
 import 'package:task_manger/presentation_layer/screen/home_screen/home_screen.dart';
 import 'package:task_manger/presentation_layer/screen/new_home_screen/new_home_screen.dart';
+import 'package:task_manger/presentation_layer/screen/note_screen/add_note_screen.dart';
 import 'package:task_manger/presentation_layer/screen/note_screen/note_screen.dart';
 import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/pomodoro_timer_screen.dart';
 import 'package:task_manger/presentation_layer/screen/statistic_screen/statistic_screen.dart';
@@ -46,13 +47,52 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   final tabController = Get.put(TabAppController());
+  bool middleButtonPressed = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(),
       body: Obx(
-        () => _screens[tabController.currentIndex.value],
+        () => Stack(
+          children: [
+            _screens[tabController.currentIndex.value],
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Visibility(
+                visible: middleButtonPressed,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FloatingActionButton(
+                        isExtended: true,
+                        onPressed: () {
+                          Get.to(() => CreateTaskScreen());
+                          print("First FAB Pressed");
+                        },
+                        heroTag: null,
+                        child: Text("Task"),
+                        backgroundColor: Colors.blue,
+                      ),
+                      SizedBox(width: 16.0),
+                      FloatingActionButton(
+                        onPressed: () {
+                          Get.to(() => AddNoteScreen());
+                          print("Second FAB Pressed");
+                        },
+                        heroTag: null,
+                        child: Text("Note"),
+                        backgroundColor: Colors.green,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: GetBuilder<TabAppController>(
         init: TabAppController(),
@@ -72,7 +112,19 @@ class _MainScreenState extends State<MainScreen> {
             selectedLabelStyle: TextStyle(color: Colors.red),
             currentIndex: tabController.currentIndex.value,
             onTap: (index) {
-              tabController.changeTabIndex(index);
+              if (index == 2) {
+                // Toggle the middle button state
+                setState(() {
+                  middleButtonPressed = !middleButtonPressed;
+                });
+              } else {
+                // Change the tab
+                setState(() {
+                  middleButtonPressed = false;
+                  // Change this to the appropriate index based on your tabs
+                });
+                tabController.changeTabIndex(index);
+              }
             },
             items: [
               for (int i = 0; i < 5; i++)

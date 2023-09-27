@@ -72,6 +72,7 @@ class _NoteScreenState extends State<NoteScreen> {
                                 title: data?.docs[index]['title'],
                                 id: data?.docs[index]['id'],
                                 star: data?.docs[index]['star'],
+                                pass: data?.docs[index]['pass'],
                               );
                             },
                           ),

@@ -12,21 +12,30 @@ import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/screen/auth/create_password/create_password.dart';
 import 'package:task_manger/presentation_layer/screen/auth/otp_screeen/widget/pinIn_put_widget.dart';
+import 'package:task_manger/presentation_layer/screen/note_screen/note_detalis_screen.dart';
 
-class OtpScreen extends StatefulWidget {
-  const OtpScreen({Key? key, required this.id}) : super(key: key);
-  final String id;
+class OtpOpenScreen extends StatefulWidget {
+  const OtpOpenScreen(
+      {Key? key,
+      required this.id,
+      required this.title,
+      required this.des,
+      this.pass,
+      required this.star})
+      : super(key: key);
+
+  final String title, des, id;
+  final String? pass;
+  final bool star;
   @override
-  State<OtpScreen> createState() => _OtpScreenState();
+  State<OtpOpenScreen> createState() => _OtpOpenScreenState();
 }
 
-class _OtpScreenState extends State<OtpScreen> {
+class _OtpOpenScreenState extends State<OtpOpenScreen> {
   final pinController = TextEditingController();
   final focusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
-  bool _isSending = false;
-  int _remainingTime = 60; // تحديد الوقت المحدد للانتظار هنا
-  bool _isTimerRunning = false; // تحديد متغير لتتبع تشغيل العداد التنازلي
+
   @override
   void dispose() {
     pinController.dispose();
@@ -59,7 +68,6 @@ class _OtpScreenState extends State<OtpScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Spacer(), Spacer(),
           Align(
             alignment: Alignment.center,
             child: Text(
@@ -80,80 +88,30 @@ class _OtpScreenState extends State<OtpScreen> {
             defaultPinTheme: defaultPinTheme,
             focusedBorderColor: focusedBorderColor,
             fillColor: fillColor,
+            validator: (value) {
+              print(widget.pass);
+              return value == widget.pass ? null : 'Pin is incorrect';
+            },
           ),
           SizedBox(
             height: 20,
           ),
-          // _isTimerRunning
-          //     ? Text(
-          //         'Resend code in $_remainingTime s',
-          //         style: MangeStyles().getBoldStyle(
-          //           color: ColorManager.kTextlightgray,
-          //           fontSize: FontSize.s16,
-          //         ),
-          //       )
-          //     : TextButton(
-          //         onPressed: _isTimerRunning
-          //             ? null
-          //             : () {
-          //                 // يتم بدء العداد التنازلي هنا
-          //                 setState(() {
-          //                   _isTimerRunning = true;
-          //                 });
-          //                 startTimer();
-          //               },
-          //         child: Text(
-          //           'Resend code',
-          //           style: MangeStyles().getBoldStyle(
-          //             color: ColorManager.kPrimary,
-          //             fontSize: FontSize.s16,
-          //           ),
-          //         ),
-          //       ),
-          // Spacer(),
-          // Spacer(),
-
-          // Spacer(),
           TextButton(
             onPressed: () {
-              focusNode.unfocus();
-              //    setState(() {
-              //   isStar = !isStar;
-              // });
-              if (pinController.text.length == 4) {
-                FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(sharedPreferences.getString('id'))
-                    .collection('notes')
-                    .doc(widget.id)
-                    .update({
-                  'pass': pinController.text,
-                });
-                Get.back();
+              if (formKey.currentState!.validate()) {
+                Get.to(() => NoteDetalis(
+                      des: widget.des,
+                      id: widget.id,
+                      star: widget.star,
+                      title: widget.title,
+                      pass: widget.pass,
+                    ));
               }
-
-              // formKey.currentState!.validate();
             },
             child: const Text('Confirm'),
           ),
         ],
       ),
     );
-  }
-
-  void startTimer() {
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        _remainingTime--;
-      });
-      if (_remainingTime <= 0) {
-        // يتم إيقاف العداد التنازلي هنا
-        timer.cancel();
-        setState(() {
-          _isTimerRunning = false;
-          _remainingTime = 60;
-        });
-      }
-    });
   }
 }

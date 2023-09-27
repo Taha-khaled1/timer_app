@@ -4,7 +4,10 @@ import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
+import 'package:task_manger/presentation_layer/screen/auth/otp_screeen/OtpOpenScreen.dart';
 import 'package:task_manger/presentation_layer/screen/auth/otp_screeen/otp_screeen.dart';
+import 'package:task_manger/presentation_layer/screen/note_screen/note_controller/note_controller.dart';
+import 'package:task_manger/presentation_layer/screen/note_screen/note_detalis_screen.dart';
 import 'package:task_manger/presentation_layer/src/get_packge.dart';
 import 'package:task_manger/presentation_layer/utils/sub_string/sub_string.dart';
 
@@ -15,8 +18,10 @@ class NoteCard extends StatefulWidget {
     required this.des,
     required this.star,
     required this.id,
+    this.pass,
   });
   final String title, des, id;
+  final String? pass;
   final bool star;
   @override
   State<NoteCard> createState() => _NoteCardState();
@@ -34,7 +39,24 @@ class _NoteCardState extends State<NoteCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(OtpScreen());
+        if (widget.pass == null) {
+          Get.to(() => NoteDetalis(
+                des: widget.des,
+                id: widget.id,
+                star: widget.star,
+                title: widget.title,
+                pass: widget.pass,
+              ));
+          Get.delete<NoteController>();
+        } else {
+          Get.to(OtpOpenScreen(
+            des: widget.des,
+            id: widget.id,
+            star: widget.star,
+            title: widget.title,
+            pass: widget.pass,
+          ));
+        }
       },
       child: Container(
         width: 380,
@@ -93,6 +115,14 @@ class _NoteCardState extends State<NoteCard> {
                 textAlign: TextAlign.center,
               ),
             ),
+            if (widget.pass != null)
+              Positioned(
+                bottom: 0,
+                // bottom: 0,
+                // right: 0,
+                left: 0,
+                child: Icon(Icons.lock),
+              ),
           ],
         ),
       ),

@@ -32,7 +32,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
     final CreateTaskController _controller = Get.put(CreateTaskController());
     return Scaffold(
       backgroundColor: ColorManager.background,
-      appBar: appbarProfile(title: 'Create New Task', isBack: false),
+      appBar: appbarProfile(title: 'Create New Task', isBack: true),
       body: InfoWidget(
         builder: (context, deviceInfo) {
           return Padding(

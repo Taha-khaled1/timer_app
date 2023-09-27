@@ -10,6 +10,7 @@ class PinInPutWidget extends StatelessWidget {
     required this.defaultPinTheme,
     required this.focusedBorderColor,
     required this.fillColor,
+    this.validator,
   });
 
   final GlobalKey<FormState> formKey;
@@ -18,7 +19,7 @@ class PinInPutWidget extends StatelessWidget {
   final PinTheme defaultPinTheme;
   final Color focusedBorderColor;
   final Color fillColor;
-
+  final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -35,17 +36,15 @@ class PinInPutWidget extends StatelessWidget {
             listenForMultipleSmsOnAndroid: true,
             defaultPinTheme: defaultPinTheme,
             separatorBuilder: (index) => const SizedBox(width: 12),
-            validator: (value) {
-              return value == '2222' ? null : 'Pin is incorrect';
-            },
+            validator: validator,
             // onClipboardFound: (value) {
             //   debugPrint('onClipboardFound: $value');
             //   pinController.setText(value);
             // },
             hapticFeedbackType: HapticFeedbackType.lightImpact,
-            onCompleted: (pin) {
-              debugPrint('onCompleted: $pin');
-            },
+            // onCompleted: (pin) {
+            //   debugPrint('onCompleted: $pin');
+            // },
             onChanged: (value) {
               debugPrint('onChanged: $value');
             },
