@@ -72,10 +72,8 @@ class StatisticScreen extends StatelessWidget {
                                     children: [
                                       HeaderContainer(
                                         title: 'Focus Time (min)',
-                                        text: sharedPreferences
-                                                .getInt("user_activity")
-                                                .toString() ??
-                                            '0',
+                                        text:
+                                            "${sharedPreferences.getInt("user_activity") ?? 0}",
                                       ),
                                       Expanded(child: SizedBox()),
                                       HeaderContainer(
@@ -100,9 +98,8 @@ class StatisticScreen extends StatelessWidget {
                                     children: [
                                       HeaderContainer(
                                         title: 'Focus Time (min)',
-                                        text: sharedPreferences
-                                            .getInt(key)
-                                            .toString(),
+                                        text:
+                                            "${sharedPreferences.getInt(key) ?? 0}",
                                       ),
                                       Expanded(child: SizedBox()),
                                       HeaderContainer(

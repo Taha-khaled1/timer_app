@@ -154,9 +154,6 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: 15,
-                            ),
                             GestureDetector(
                               onVerticalDragUpdate: (details) {
                                 if (details.delta.dy < 0) {
@@ -168,73 +165,92 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
                                 // This captures the drag gesture so that it doesn't propagate to parent widgets
                                 // GestureBinding.instance.gestureArena.add(details.localPosition);
                               },
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                  "assets/images/hamburger.png",
-                                  width: 35,
-                                  height: 35,
-                                  color: Colors.black.withOpacity(0.7),
-                                ),
-                              ),
-                            ),
-                            HeaderUi(
-                              onTap: () {
-                                setState(() {
-                                  isfliterdone = true;
-                                  print(isfliterdone);
-                                });
-                              },
-                              onTap2: () {
-                                print(isfliterdone);
-                              },
-                            ),
-                            SizedBox(
-                              height: 218,
-                              // width: 140,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                // shrinkWrap: true,
-                                // physics: NeverScrollableScrollPhysics(),
-                                // data.length > 3 ? 3 :
-                                itemCount: data.length,
-                                itemBuilder: (context, index) {
-                                  return data[index]['done'] && isfliterdone
-                                      ? SizedBox()
-                                      : !deleteload
-                                          ? NewCardTask(
-                                              onTap: () async {
-                                                setState(() {
-                                                  deleteload = true;
-                                                });
-                                                await _controller.deleteTask(
-                                                    data[index]['timestamp']);
-                                                setState(() {
-                                                  deleteload = false;
-                                                });
-                                              },
-                                              taskModel: TaskModel(
-                                                color: Color(data[index]
-                                                        ['color'] ??
-                                                    0xffffffff),
-                                                subtitle: "25 minute",
-                                                id: data[index]['timestamp'],
-                                                pomotime: data[index]
-                                                    ['pomotime'],
-                                                data: data[index]['datatime'],
-                                                time: data[index]['timeOfDay'],
-                                                isdone: data[index]['done'],
-                                                taskName: data[index]['title'],
-                                                workSessions: data[index]
-                                                    ['workSessions'],
-                                                longBreak: data[index]
-                                                    ['longBreak'],
-                                                shortBreak: data[index]
-                                                    ['shortBreak'],
-                                              ),
-                                            )
-                                          : SizedBox();
-                                },
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      "assets/images/hamburger.png",
+                                      width: 25,
+                                      height: 25,
+                                      color: Colors.black.withOpacity(0.7),
+                                    ),
+                                  ),
+                                  HeaderUi(
+                                    onTap: () {
+                                      setState(() {
+                                        isfliterdone = true;
+                                        print(isfliterdone);
+                                      });
+                                    },
+                                    onTap2: () {
+                                      setState(() {
+                                        isfliterdone = false;
+                                        print(isfliterdone);
+                                      });
+                                      print(isfliterdone);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 218,
+                                    // width: 140,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      // shrinkWrap: true,
+                                      // physics: NeverScrollableScrollPhysics(),
+                                      // data.length > 3 ? 3 :
+                                      itemCount: data.length,
+                                      itemBuilder: (context, index) {
+                                        return data[index]['done'] &&
+                                                isfliterdone
+                                            ? SizedBox()
+                                            : !deleteload
+                                                ? NewCardTask(
+                                                    onTap: () async {
+                                                      setState(() {
+                                                        deleteload = true;
+                                                      });
+                                                      await _controller
+                                                          .deleteTask(data[
+                                                                  index]
+                                                              ['timestamp']);
+                                                      setState(() {
+                                                        deleteload = false;
+                                                      });
+                                                    },
+                                                    taskModel: TaskModel(
+                                                      color: Color(data[index]
+                                                              ['color'] ??
+                                                          0xffffffff),
+                                                      subtitle: "25 minute",
+                                                      id: data[index]
+                                                          ['timestamp'],
+                                                      pomotime: data[index]
+                                                          ['pomotime'],
+                                                      data: data[index]
+                                                          ['datatime'],
+                                                      time: data[index]
+                                                          ['timeOfDay'],
+                                                      isdone: data[index]
+                                                          ['done'],
+                                                      taskName: data[index]
+                                                          ['title'],
+                                                      workSessions: data[index]
+                                                          ['workSessions'],
+                                                      longBreak: data[index]
+                                                          ['longBreak'],
+                                                      shortBreak: data[index]
+                                                          ['shortBreak'],
+                                                    ),
+                                                  )
+                                                : SizedBox();
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
