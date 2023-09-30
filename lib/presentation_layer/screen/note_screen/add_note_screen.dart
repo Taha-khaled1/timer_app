@@ -28,144 +28,149 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.background,
-      body: InfoWidget(
-        builder: (context, deviceInfo) {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 25,
-                ),
-                Row(
-                  children: [
-                    BackButton(
-                      onPressed: () {
-                        Get.off(() => MainScreen());
-                      },
-                    ),
-                    Expanded(child: SizedBox()),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          if (fontSize >= 90) {
-                            fontSize = 20;
-                          }
-                          fontSize += 5;
-                        });
-                        print(fontSize);
-                      },
-                      icon: Image.asset(
-                        "assets/icons/aa.png",
-                        width: 25,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          if (textOpacity <= 0.1) {
-                            textOpacity = 1.0;
-                          }
-                          textOpacity -= 0.1;
-                        });
-                      },
-                      icon: Image.asset(
-                        "assets/icons/a.png",
-                        width: 25,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                TextFormField(
-                  autocorrect: false,
-                  enableSuggestions: false,
-                  maxLines: 1,
-                  onChanged: (p0) {
-                    title = p0.toString();
-                  },
-                  style: TextStyle(fontSize: 18),
-                  decoration: InputDecoration(
-                    helperText: "Title",
-                    hintStyle: TextStyle(
-                      color: Color(0xFF9E9E9E),
-                      fontSize: 17,
-                      fontFamily: 'Urbanist',
-                      fontWeight: FontWeight.w400,
-                      height: 1.40,
-                      letterSpacing: 0.20,
-                    ),
+      body: SafeArea(
+        child: InfoWidget(
+          builder: (context, deviceInfo) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                Opacity(
-                  opacity: textOpacity,
-                  child: TextFormField(
-                    autocorrect: false,
-                    enableSuggestions: false,
-                    maxLines: null,
-                    onChanged: (p0) {
-                      message = p0.toString();
-                    },
-                    style: TextStyle(fontSize: fontSize),
-                    decoration: InputDecoration(
-                      helperText: "Content",
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
+                  Row(
+                    children: [
+                      BackButton(
+                        onPressed: () {
+                          Get.off(() => MainScreen());
+                        },
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
+                      Expanded(child: SizedBox()),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            if (fontSize >= 90) {
+                              fontSize = 20;
+                            }
+                            fontSize += 5;
+                          });
+                          print(fontSize);
+                        },
+                        icon: Image.asset(
+                          "assets/icons/aa.png",
+                          width: 25,
+                        ),
                       ),
-                      hintStyle: TextStyle(
-                        color: Color(0xFF9E9E9E),
-                        fontSize: 20,
-                        fontFamily: 'Urbanist',
-                        fontWeight: FontWeight.w400,
-                        height: 1.40,
-                        letterSpacing: 0.20,
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            if (textOpacity <= 0.1) {
+                              textOpacity = 1.0;
+                            }
+                            textOpacity -= 0.1;
+                          });
+                        },
+                        icon: Image.asset(
+                          "assets/icons/a.png",
+                          width: 25,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: TextFormField(
+                      autocorrect: false,
+                      enableSuggestions: false,
+                      maxLines: 1,
+                      onChanged: (p0) {
+                        title = p0.toString();
+                      },
+                      style: TextStyle(fontSize: 18),
+                      decoration: InputDecoration(
+                        helperText: "Title",
+                        hintStyle: TextStyle(
+                          color: Color(0xFF9E9E9E),
+                          fontSize: 17,
+                          fontFamily: 'Urbanist',
+                          fontWeight: FontWeight.w400,
+                          height: 1.40,
+                          letterSpacing: 0.20,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: CustomButton(
-                    width: deviceInfo.localWidth * 0.9,
-                    haigh: 55,
-                    color: ColorManager.kPrimary,
-                    text: "save",
-                    press: () async {
-                      if (message.isEmpty || title.isEmpty) {
-                        showToast('There are some empty fields');
-                      } else {
-                        DateTime now = DateTime.now();
-                        await FirebaseFirestore.instance
-                            .collection('users')
-                            .doc(sharedPreferences.getString('id'))
-                            .collection('notes')
-                            .doc(now.millisecondsSinceEpoch.toString())
-                            .set({
-                          'title': title,
-                          'pass': "",
-                          'note': message,
-                          'star': false,
-                          'id': now.millisecondsSinceEpoch.toString(),
-                        });
-                        Get.off(() => MainScreen());
-                        showToast('Note added successfully');
-                      }
-                    },
+                  Opacity(
+                    opacity: textOpacity,
+                    child: TextFormField(
+                      autocorrect: false,
+                      enableSuggestions: false,
+                      maxLines: null,
+                      onChanged: (p0) {
+                        message = p0.toString();
+                      },
+                      style: TextStyle(fontSize: fontSize),
+                      decoration: InputDecoration(
+                        helperText: "Content",
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        hintStyle: TextStyle(
+                          color: Color(0xFF9E9E9E),
+                          fontSize: 20,
+                          fontFamily: 'Urbanist',
+                          fontWeight: FontWeight.w400,
+                          height: 1.40,
+                          letterSpacing: 0.20,
+                        ),
+                      ),
+                    ),
                   ),
-                )
-              ],
-            ),
-          );
-        },
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: CustomButton(
+                      width: deviceInfo.localWidth * 0.9,
+                      haigh: 55,
+                      color: ColorManager.kPrimary,
+                      text: "save",
+                      press: () async {
+                        if (message.isEmpty || title.isEmpty) {
+                          showToast('There are some empty fields');
+                        } else {
+                          DateTime now = DateTime.now();
+                          await FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(sharedPreferences.getString('id'))
+                              .collection('notes')
+                              .doc(now.millisecondsSinceEpoch.toString())
+                              .set({
+                            'title': title,
+                            'pass': "",
+                            'note': message,
+                            'star': false,
+                            'id': now.millisecondsSinceEpoch.toString(),
+                          });
+                          Get.off(() => MainScreen());
+                          showToast('Note added successfully');
+                        }
+                      },
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

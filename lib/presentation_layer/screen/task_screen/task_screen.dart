@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
@@ -60,23 +61,81 @@ class _TaskScreenState extends State<TaskScreen> {
                   } else if (snapshot.hasData) {
                     final data = snapshot.data;
                     int totalTasks = data!.length;
-                    return ListView.builder(
-                      itemCount: totalTasks,
-                      itemBuilder: (BuildContext context, int index) {
-                        return NewTimeTask(
-                          taslength: totalTasks,
-                          index: index,
-                          taskModel: TaskModel(
-                            color: Color(data[index]['color'] ?? 0xffffffff),
-                            subtitle: "25 minute",
-                            id: data[index]['timestamp'],
-                            data: data[index]['datatime'],
-                            time: data[index]['timeOfDay'],
-                            isdone: data[index]['done'],
-                            taskName: data[index]['title'],
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                getDayName(DateTime.now()),
+                                style: MangeStyles().getRegularStyle(
+                                  color: ColorManager.black,
+                                  fontSize: FontSize.s20,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                DateFormat("MMMM d").format(DateTime.now()),
+                                style: MangeStyles().getRegularStyle(
+                                  color: ColorManager.black,
+                                  fontSize: FontSize.s20,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
-                        );
-                      },
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: totalTasks,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Dismissible(
+                                onDismissed: (direction) {
+                                  _controller
+                                      .deleteTask(data[index]['timestamp']);
+                                },
+                                background: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 15),
+                                  decoration: BoxDecoration(
+                                    color: Colors.redAccent,
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                  alignment: Alignment.centerRight,
+                                  padding: EdgeInsets.only(right: 16),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                    ),
+                                    child: Icon(
+                                      Icons.delete,
+                                      color: ColorManager.white,
+                                      size: 30,
+                                    ),
+                                  ),
+                                ),
+                                direction: DismissDirection.endToStart,
+                                key: UniqueKey(),
+                                child: NewTimeTask(
+                                  taslength: totalTasks,
+                                  index: index,
+                                  taskModel: TaskModel(
+                                    color: Color(
+                                        data[index]['color'] ?? 0xffffffff),
+                                    subtitle: "25 minute",
+                                    id: data[index]['timestamp'],
+                                    data: data[index]['datatime'],
+                                    time: data[index]['timeOfDay'],
+                                    isdone: data[index]['done'],
+                                    taskName: data[index]['title'],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     );
                   }
                 }
@@ -90,6 +149,19 @@ class _TaskScreenState extends State<TaskScreen> {
         },
       ),
     );
+  }
+
+  String getDayName(DateTime date) {
+    final weekdays = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday'
+    ];
+    return weekdays[date.weekday - 1];
   }
 }
 

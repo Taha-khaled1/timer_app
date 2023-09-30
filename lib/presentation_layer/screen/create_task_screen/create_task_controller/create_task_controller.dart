@@ -151,7 +151,8 @@ class CreateTaskController extends GetxController {
         showToast('The task was created successfully');
         isloading = false;
         update();
-        tabController.changeTabIndex(0);
+        Get.off(() => MainScreen());
+        // tabController.changeTabIndex(0);
       }
     } catch (e) {
       isloading = false;

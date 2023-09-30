@@ -7,10 +7,12 @@ import 'package:quickalert/widgets/quickalert_dialog.dart';
 void showDilog(BuildContext context, String massg,
     {QuickAlertType? type,
     void Function()? onConfirmBtnTap,
+    void Function()? onCancelBtnTap,
     bool? barrierDismissible}) {
   QuickAlert.show(
     title: '',
     context: context,
+    showCancelBtn: true,
     barrierDismissible: barrierDismissible ?? true,
     type: type ?? QuickAlertType.success,
     text: massg,
@@ -21,5 +23,8 @@ void showDilog(BuildContext context, String massg,
           Get.back();
         },
     confirmBtnColor: Colors.green,
+    onCancelBtnTap: () {
+      Get.back();
+    },
   );
 }

@@ -35,8 +35,8 @@ class _CircularPomodoroState extends State<CircularPomodoro> {
         Get.put(PomodoroTimerController());
     return Center(
       child: CircularCountDownTimer(
-        // Countdown duration in Seconds.
-        duration: widget.taskModel.pomotime! * 60,
+        // Countdown duration in Seconds. widget.taskModel.pomotime!
+        duration: 1 * 60,
 
         // Countdown initial elapsed Duration in Seconds.
         initialDuration: 0,
@@ -112,7 +112,8 @@ class _CircularPomodoroState extends State<CircularPomodoro> {
               widget.taskModel.workSessions!) {
             showAlert(pomodoroTimerController, widget.taskModel);
           } else {
-            await FirebaseFirestore.instance
+            Get.off(() => SuccssScreen());
+            FirebaseFirestore.instance
                 .collection('users')
                 .doc(sharedPreferences.getString('id'))
                 .collection('tasks')
@@ -120,7 +121,6 @@ class _CircularPomodoroState extends State<CircularPomodoro> {
                 .update({
               'done': true,
             });
-            Get.to(() => SuccssScreen());
           }
         },
 

@@ -160,34 +160,34 @@ class StatisticScreen extends StatelessWidget {
                             //   itemCount: data!.length,
                             //   itemBuilder: (context, index) {
                             //     return data[index]['done'] == true
-                            //         ? Dismissible(
-                            //             onDismissed: (direction) {
-                            //               _controller.deleteTask(
-                            //                   data[index]['timestamp']);
-                            //             },
-                            //             background: Container(
-                            //               margin: EdgeInsets.symmetric(
-                            //                   horizontal: 15),
-                            //               decoration: BoxDecoration(
-                            //                 color: Colors.redAccent,
-                            //                 borderRadius:
-                            //                     BorderRadius.circular(25),
-                            //               ),
-                            //               alignment: Alignment.centerRight,
-                            //               padding: EdgeInsets.only(right: 16),
-                            //               child: Padding(
-                            //                 padding: const EdgeInsets.symmetric(
-                            //                   horizontal: 10,
-                            //                 ),
-                            //                 child: Icon(
-                            //                   Icons.delete,
-                            //                   color: ColorManager.white,
-                            //                   size: 30,
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //             direction: DismissDirection.endToStart,
-                            //             key: UniqueKey(),
+                            // ? Dismissible(
+                            //     onDismissed: (direction) {
+                            //       _controller.deleteTask(
+                            //           data[index]['timestamp']);
+                            //     },
+                            //     background: Container(
+                            //       margin: EdgeInsets.symmetric(
+                            //           horizontal: 15),
+                            //       decoration: BoxDecoration(
+                            //         color: Colors.redAccent,
+                            //         borderRadius:
+                            //             BorderRadius.circular(25),
+                            //       ),
+                            //       alignment: Alignment.centerRight,
+                            //       padding: EdgeInsets.only(right: 16),
+                            //       child: Padding(
+                            //         padding: const EdgeInsets.symmetric(
+                            //           horizontal: 10,
+                            //         ),
+                            //         child: Icon(
+                            //           Icons.delete,
+                            //           color: ColorManager.white,
+                            //           size: 30,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     direction: DismissDirection.endToStart,
+                            //     key: UniqueKey(),
                             //             child: CardPromoTimer(
                             //               taskModel: TaskModel(
                             //                 color: Color(data[index]['color'] ??
