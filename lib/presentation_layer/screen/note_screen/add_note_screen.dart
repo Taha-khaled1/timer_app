@@ -79,16 +79,18 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                   height: 25,
                 ),
                 TextFormField(
+                  autocorrect: false,
+                  enableSuggestions: false,
                   maxLines: 1,
                   onChanged: (p0) {
                     title = p0.toString();
                   },
-                  style: TextStyle(fontSize: fontSize),
+                  style: TextStyle(fontSize: 18),
                   decoration: InputDecoration(
                     helperText: "Title",
                     hintStyle: TextStyle(
                       color: Color(0xFF9E9E9E),
-                      fontSize: 20,
+                      fontSize: 17,
                       fontFamily: 'Urbanist',
                       fontWeight: FontWeight.w400,
                       height: 1.40,
@@ -99,6 +101,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                 Opacity(
                   opacity: textOpacity,
                   child: TextFormField(
+                    autocorrect: false,
+                    enableSuggestions: false,
                     maxLines: null,
                     onChanged: (p0) {
                       message = p0.toString();
@@ -116,7 +120,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                       ),
                       hintStyle: TextStyle(
                         color: Color(0xFF9E9E9E),
-                        fontSize: 14,
+                        fontSize: 20,
                         fontFamily: 'Urbanist',
                         fontWeight: FontWeight.w400,
                         height: 1.40,
@@ -139,15 +143,20 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                       if (message.isEmpty || title.isEmpty) {
                         showToast('There are some empty fields');
                       } else {
+                        DateTime now = DateTime.now();
                         await FirebaseFirestore.instance
                             .collection('users')
                             .doc(sharedPreferences.getString('id'))
                             .collection('notes')
-                            .add({
+                            .doc(now.millisecondsSinceEpoch.toString())
+                            .set({
                           'title': title,
+                          'pass': "",
                           'note': message,
+                          'star': false,
+                          'id': now.millisecondsSinceEpoch.toString(),
                         });
-                        Get.back();
+                        Get.off(() => MainScreen());
                         showToast('Note added successfully');
                       }
                     },

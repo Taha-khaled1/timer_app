@@ -39,7 +39,7 @@ class _NoteCardState extends State<NoteCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (widget.pass == null) {
+        if (widget.pass == null || widget.pass!.isEmpty) {
           Get.to(() => NoteDetalis(
                 des: widget.des,
                 id: widget.id,
@@ -115,7 +115,7 @@ class _NoteCardState extends State<NoteCard> {
                 textAlign: TextAlign.center,
               ),
             ),
-            if (widget.pass != null)
+            if (widget.pass != null && widget.pass!.isNotEmpty)
               Positioned(
                 bottom: 0,
                 // bottom: 0,

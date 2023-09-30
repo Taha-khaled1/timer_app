@@ -126,7 +126,7 @@ class _NoteDetalisState extends State<NoteDetalis> {
                       icon: !isStar
                           ? Icon(
                               Icons.star_border,
-                              color: ColorManager.white,
+                              color: ColorManager.black,
                             )
                           : Icon(
                               Icons.star,

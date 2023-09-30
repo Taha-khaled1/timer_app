@@ -9,6 +9,8 @@ import 'package:task_manger/presentation_layer/utils/shard_function/convert-time
 
 class StatisticController extends GetxController {
   List<FlSpot> spotsController = [];
+  String todayTasks = "";
+  String totalTasks = "";
   Future<List<Map<String, dynamic>>> retrieveTodayTasks() async {
     String userId = sharedPreferences.getString('id') ?? '';
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -34,6 +36,8 @@ class StatisticController extends GetxController {
     print(
         "@@@@@@@@@@@@@@@@@@@@@@@@@@@${tasks.length}@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     await getStatic();
+    todayTasks = await todayTaskTotal();
+    totalTasks = await TaskTotal();
     return tasks;
   }
 
@@ -45,6 +49,39 @@ class StatisticController extends GetxController {
         .collection('tasks')
         .doc(id)
         .delete();
+  }
+
+  Future<String> TaskTotal() async {
+    QuerySnapshot totalTaskSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(sharedPreferences.getString('id'))
+        .collection('tasks')
+        .get();
+
+    return totalTaskSnapshot.docs.length.toString();
+  }
+
+  Future<String> todayTaskTotal() async {
+    DateTime now = DateTime.now();
+    DateTime startOfDay = DateTime(now.year, now.month, now.day);
+    DateTime endOfDay =
+        startOfDay.add(Duration(days: 1)).subtract(Duration(seconds: 1));
+
+// Convert DateTime objects to string in 'yyyy/M/dd' format
+    String startOfDayString =
+        '${startOfDay.year}/${startOfDay.month}/${startOfDay.day}';
+    String endOfDayString =
+        '${endOfDay.year}/${endOfDay.month}/${endOfDay.day}';
+
+    QuerySnapshot todayTaskSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(sharedPreferences.getString('id'))
+        .collection('tasks')
+        .where('datatime', isGreaterThanOrEqualTo: startOfDayString)
+        .where('datatime', isLessThanOrEqualTo: endOfDayString)
+        .get();
+
+    return todayTaskSnapshot.docs.length.toString();
   }
 
   Future<void> getStatic() async {

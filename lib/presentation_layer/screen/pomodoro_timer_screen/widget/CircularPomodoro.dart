@@ -154,12 +154,15 @@ class _CircularPomodoroState extends State<CircularPomodoro> {
 
 class UserActivityTracker {
   static const String _keyPrefix = 'user_activity_';
-
+  static const String _keyPrefixtotal = 'user_activity';
   static Future<void> logActivity(DateTime dateTime, int minutes) async {
     final formattedDate = "${dateTime.year}-${dateTime.month}-${dateTime.day}";
     final key = '$_keyPrefix$formattedDate';
     final existingMinutes = sharedPreferences.getInt(key) ?? 0;
-    sharedPreferences.setInt(key, existingMinutes + minutes);
+    final totalMinutes = sharedPreferences.getInt(_keyPrefixtotal) ?? 0;
+    sharedPreferences.setInt(key, existingMinutes + 1);
+    sharedPreferences.setInt(_keyPrefixtotal, totalMinutes + 1);
+    print("---------> ${existingMinutes + 1} : ${totalMinutes + 1}");
   }
 
   static Future<int> getMinutesForDay(DateTime dateTime) async {

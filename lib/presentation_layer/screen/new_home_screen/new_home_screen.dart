@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -15,6 +16,7 @@ import 'package:task_manger/presentation_layer/screen/new_home_screen/widget/tas
 import 'package:task_manger/presentation_layer/screen/whatch_task_screen/whatch_task_screen.dart';
 import 'package:task_manger/presentation_layer/src/get_packge.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
+import 'package:task_manger/presentation_layer/utils/shard_function/convert-time.dart';
 
 import '../../../main.dart';
 
@@ -94,31 +96,61 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
                             SizedBox(
                               height: 15,
                             ),
-                            Container(
-                              alignment: Alignment.center,
-                              width: 200,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: Color(0xff0FB9B1),
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 30,
-                                    offset: Offset(
-                                      0,
-                                      5,
-                                    ), // changes position of shadow
+                            GestureDetector(
+                              onTap: () async {
+                                DateTime? dataTime = DateTime.now();
+                                TimeOfDay? timeOfDay = TimeOfDay.now();
+                                final timestamp = DateTime.now()
+                                    .millisecondsSinceEpoch
+                                    .toString();
+                                await FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(sharedPreferences.getString('id'))
+                                    .collection('tasks')
+                                    .doc(timestamp)
+                                    .set({
+                                  'title': "Task 1",
+                                  'longBreak': 8,
+                                  'pomotime': 25,
+                                  'workSessions': 4,
+                                  'shortBreak': 5,
+                                  'timeOfDay': convertTo12HourFormat(
+                                      timeOfDay!.hour, timeOfDay!.minute),
+                                  'datatime':
+                                      '${dataTime!.year}/${dataTime!.month}/${dataTime!.day}',
+                                  'catogery': "",
+                                  'color': 0xffF4BF52,
+                                  'done': false,
+                                  'timestamp': timestamp,
+                                });
+                                setState(() {});
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: 200,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  color: Color(0xff0FB9B1),
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 30,
+                                      offset: Offset(
+                                        0,
+                                        5,
+                                      ), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  'START',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ],
-                              ),
-                              child: Text(
-                                'START',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -148,13 +180,13 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
                             ),
                             HeaderUi(
                               onTap: () {
-                                print(isfliterdone);
-                              },
-                              onTap2: () {
                                 setState(() {
                                   isfliterdone = true;
                                   print(isfliterdone);
                                 });
+                              },
+                              onTap2: () {
+                                print(isfliterdone);
                               },
                             ),
                             SizedBox(
@@ -164,7 +196,8 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
                                 scrollDirection: Axis.horizontal,
                                 // shrinkWrap: true,
                                 // physics: NeverScrollableScrollPhysics(),
-                                itemCount: data.length > 3 ? 3 : data.length,
+                                // data.length > 3 ? 3 :
+                                itemCount: data.length,
                                 itemBuilder: (context, index) {
                                   return data[index]['done'] && isfliterdone
                                       ? SizedBox()
