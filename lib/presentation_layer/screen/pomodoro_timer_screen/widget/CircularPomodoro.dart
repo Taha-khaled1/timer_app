@@ -36,7 +36,7 @@ class _CircularPomodoroState extends State<CircularPomodoro> {
     return Center(
       child: CircularCountDownTimer(
         // Countdown duration in Seconds. widget.taskModel.pomotime!
-        duration: 1 * 60,
+        duration: widget.taskModel.pomotime! * 60,
 
         // Countdown initial elapsed Duration in Seconds.
         initialDuration: 0,
@@ -141,7 +141,7 @@ class _CircularPomodoroState extends State<CircularPomodoro> {
         timeFormatterFunction: (defaultFormatterFunction, duration) {
           if (duration.inSeconds == 0) {
             // only format for '0'
-            return "Start";
+            return "END";
           } else {
             // other durations by it's default format
             return Function.apply(defaultFormatterFunction, [duration]);

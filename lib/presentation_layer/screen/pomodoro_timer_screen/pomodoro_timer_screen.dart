@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
 import 'package:task_manger/presentation_layer/components/custom_butten.dart';
 import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/widget/custom_circle_Image.dart';
+import 'package:task_manger/presentation_layer/screen/create_task_screen/create_task_screen.dart';
 import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/pomodoro_timer_controller/pomodoro_timer_controller.dart';
 import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/widget/CardPromoTimer.dart';
 import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/widget/CircularPomodoro.dart';
@@ -44,15 +46,39 @@ class PomodoroTimerScreen extends StatelessWidget {
                     );
                   },
                 ),
-                InkWell(
-                  onTap: () {
-                    print("object");
-                    showAlert(pomodoroTimerController, taskModel);
-                  },
-                  child: SizedBox(
-                    height: 350,
-                    child: CircularPomodoro(taskModel: taskModel),
-                  ),
+                Stack(
+                  children: [
+                    SizedBox(
+                      height: 350,
+                      child: CircularPomodoro(taskModel: taskModel),
+                    ),
+                    Positioned(
+                      right: 20,
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(() => CreateTaskScreen(), arguments: {
+                                "taskModel": taskModel,
+                              });
+                            },
+                            child: Image.asset(
+                              "assets/icons/image 8.png",
+                              // color: Colors.black,
+                              width: 45,
+                              height: 50,
+                            ),
+                          ),
+                          Image.asset(
+                            "assets/icons/image 9.png",
+                            // color: Colors.black,
+                            width: 45,
+                            height: 50,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
                 GetBuilder<PomodoroTimerController>(
                   init: PomodoroTimerController(),

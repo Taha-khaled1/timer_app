@@ -29,7 +29,7 @@ customtaskShowBottomSheet(BuildContext context) {
           return Container(
             height: MediaQuery.of(context).size.height * 0.7,
             width: double.infinity,
-            padding: EdgeInsets.all(16.0),
+            // padding: EdgeInsets.all(16.0),
             child: InfoWidget(
               builder: (context, deviceInfo) {
                 return SingleChildScrollView(
@@ -101,43 +101,82 @@ customtaskShowBottomSheet(BuildContext context) {
                               // Extracting data from snapshot object
                               final data = snapshot.data;
 
-                              return Wrap(
-                                alignment: WrapAlignment.start,
-                                runAlignment: WrapAlignment.start,
-                                direction: Axis.horizontal,
-                                crossAxisAlignment: WrapCrossAlignment.start,
-                                // direction: Axis.horizontal,
-                                children: [
-                                  for (int i = 0; i < data!.length; i++)
-                                    data[i]['done'] && isfliterdone
-                                        ? SizedBox()
-                                        : Container(
-                                            width: 155,
-                                            height: 220,
-                                            margin: EdgeInsets.only(bottom: 10),
-                                            // color: Colors.black,
-                                            child: NewCardTask(
-                                              onTap: () async {
-                                                await _controller.deleteTask(
-                                                    data[i]['timestamp']);
-                                                Get.to(() => MainScreen());
-                                                // setState(() {});
-                                              },
-                                              taskModel: TaskModel(
-                                                color: Color(data[i]['color'] ??
-                                                    0xffffffff),
-                                                subtitle: "25 minute",
-                                                id: data![i]['timestamp'],
-                                                pomotime: data[i]['pomotime'],
-                                                data: data[i]['datatime'],
-                                                time: data[i]['timeOfDay'],
-                                                isdone: data[i]['done'],
-                                                taskName: data[i]['title'],
-                                              ),
-                                            ),
-                                          ),
-                                ],
+                              return SizedBox(
+                                height: 500,
+                                child: GridView.builder(
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    childAspectRatio: 6 / 10.5,
+                                  ),
+                                  itemCount: 3,
+                                  itemBuilder: (BuildContext context, int i) {
+                                    return Container(
+                                      width: 140,
+                                      height: 200,
+                                      margin: EdgeInsets.only(bottom: 10),
+                                      // color: Colors.black,
+                                      child: NewCardTask(
+                                        onTap: () async {
+                                          await _controller
+                                              .deleteTask(data[i]['timestamp']);
+                                          Get.to(() => MainScreen());
+                                          // setState(() {});
+                                        },
+                                        taskModel: TaskModel(
+                                          color: Color(
+                                              data![i]['color'] ?? 0xffffffff),
+                                          subtitle: "25 minute",
+                                          id: data![i]['timestamp'],
+                                          pomotime: data[i]['pomotime'],
+                                          data: data[i]['datatime'],
+                                          time: data[i]['timeOfDay'],
+                                          isdone: data[i]['done'],
+                                          taskName: data[i]['title'],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
                               );
+
+                              // Wrap(
+                              //   alignment: WrapAlignment.start,
+                              //   runAlignment: WrapAlignment.start,
+                              //   direction: Axis.horizontal,
+                              //   crossAxisAlignment: WrapCrossAlignment.start,
+                              //   // direction: Axis.horizontal,
+                              //   children: [
+                              //     for (int i = 0; i < data!.length; i++)
+                              //       data[i]['done'] && isfliterdone
+                              //           ? SizedBox()
+                              //           : Container(
+                              //               width: 140,
+                              //               height: 200,
+                              //               margin: EdgeInsets.only(bottom: 10),
+                              //               // color: Colors.black,
+                              //               child: NewCardTask(
+                              //                 onTap: () async {
+                              //                   await _controller.deleteTask(
+                              //                       data[i]['timestamp']);
+                              //                   Get.to(() => MainScreen());
+                              //                   // setState(() {});
+                              //                 },
+                              //                 taskModel: TaskModel(
+                              //                   color: Color(data[i]['color'] ??
+                              //                       0xffffffff),
+                              //                   subtitle: "25 minute",
+                              //                   id: data![i]['timestamp'],
+                              //                   pomotime: data[i]['pomotime'],
+                              //                   data: data[i]['datatime'],
+                              //                   time: data[i]['timeOfDay'],
+                              //                   isdone: data[i]['done'],
+                              //                   taskName: data[i]['title'],
+                              //                 ),
+                              //               ),
+                              //             ),
+                              //   ],
+                              // );
                             }
                           }
 

@@ -3,15 +3,19 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/components/nav_bar.dart';
 import 'package:task_manger/presentation_layer/notification_service/notification_service.dart';
+import 'package:task_manger/presentation_layer/screen/create_task_screen/create_task_screen.dart';
+import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/pomodoro_timer_screen.dart';
 import 'package:task_manger/presentation_layer/src/show_toast.dart';
 import 'package:task_manger/presentation_layer/utils/shard_function/convert-time.dart';
 import 'package:task_manger/presentation_layer/utils/shard_function/formmat_time.dart';
 import 'package:task_manger/presentation_layer/utils/shard_function/printing_function_red.dart';
 
 class CreateTaskController extends GetxController {
+  Map? argument = Get.arguments;
   var selectedColorIndex = (-1).obs;
   int? selectedColor;
   TextEditingController dateController = TextEditingController();
@@ -20,6 +24,36 @@ class CreateTaskController extends GetxController {
   double sliderValue1 = 3;
   double sliderValue2 = 15;
   double sliderValue3 = 8;
+  late TaskModel? taskModel;
+  bool isloading = false;
+  String? title;
+  int? longBreak, workSessions, shortBreak;
+  DateTime? dataTime;
+  TimeOfDay? timeOfDay;
+  String catogery = 'Meditation';
+  Future<void> intalizedData() async {
+    // argument = await Get.arguments;
+    taskModel = argument?['taskModel'];
+    if (argument == null) {
+      pomotime = 25;
+      sliderValue1 = 3;
+      sliderValue2 = 15;
+      sliderValue3 = 8;
+    } else {
+      title = taskModel!.taskName!;
+
+      print("$title       object      ${taskModel!.taskName!}");
+      selectedColor = taskModel!.color!.value;
+      selectedColorIndex =
+          colorsTask.indexWhere((element) => element == selectedColor).obs;
+      pomotime = taskModel!.pomotime!;
+      sliderValue1 = taskModel!.workSessions!.toDouble();
+      sliderValue2 = taskModel!.longBreak!.toDouble();
+      sliderValue3 = taskModel!.shortBreak!.toDouble();
+    }
+    update();
+  }
+
   TabAppController tabController = Get.find();
   void setSliderValue(int value) {
     pomotime = value;
@@ -76,12 +110,34 @@ class CreateTaskController extends GetxController {
     }
   }
 
-  bool isloading = false;
-  String? title;
-  int? longBreak, workSessions, shortBreak;
-  DateTime? dataTime;
-  TimeOfDay? timeOfDay;
-  String catogery = 'Meditation';
+  Future<void> editeTask() async {
+    isloading = true;
+    update();
+    if (title == null || title!.length < 3) {
+      showToast('Please make sure you put a correct title');
+      isloading = false;
+      update();
+      return;
+    }
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(sharedPreferences.getString('id'))
+        .collection('tasks')
+        .doc(taskModel!.id)
+        .update({
+      'title': title,
+      'longBreak': sliderValue2.toInt(),
+      'pomotime': pomotime,
+      'workSessions': sliderValue1.toInt(),
+      'shortBreak': sliderValue3.toInt(),
+      'color': selectedColor,
+    });
+    showToast('The task has been modified successfully');
+    isloading = false;
+    update();
+    Get.offAll(() => MainScreen());
+  }
+
   void createTask() async {
     isloading = true;
     update();
@@ -162,6 +218,14 @@ class CreateTaskController extends GetxController {
     }
     isloading = false;
     update();
+  }
+
+  @override
+  void onInit() async {
+    await intalizedData();
+    print(
+        "===========$argument=====${argument?['taskModel']}==${argument?['taskModel']}====");
+    super.onInit();
   }
 
   @override

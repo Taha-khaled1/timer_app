@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_manger/main.dart';
 
 class NewHomeController extends GetxController {
   int? totalusers;
+  List<Widget> ximageoffer = [];
   Future<List<Map<String, dynamic>>> retrieveTodayTasks() async {
     String userId = sharedPreferences.getString('id') ?? '';
 

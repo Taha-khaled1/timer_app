@@ -86,7 +86,7 @@ class NewCardTask extends StatelessWidget {
             Align(
               alignment: Alignment.topRight,
               child: Transform.translate(
-                offset: Offset(0, -5),
+                offset: Offset(0, -8),
                 child: GestureDetector(
                   onTap: onTap,
                   child: CircleAvatar(
