@@ -108,7 +108,7 @@
 //                                 child: Row(
 //                                   children: [
 //                                     CircularPercentIndicator(
-//                                       backgroundColor: ColorManager.grey2,
+                                      // backgroundColor: ColorManager.grey2,
 //                                       radius: 60.0,
 //                                       lineWidth: 15.0,
 //                                       percent: completionPercentage.isNaN

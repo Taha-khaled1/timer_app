@@ -16,10 +16,10 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.background,
-      appBar: appbarProfile(title: 'Notifications'),
+      appBar: AppbarProfile(title: 'Notifications'),
       body: InfoWidget(
         builder: (context, deviceInfo) {
-          return notfModelList == null || notfModelList.isEmpty
+          return notfModelList.isEmpty
               ? Center(
                   child: Align(
                     alignment: Alignment.center,

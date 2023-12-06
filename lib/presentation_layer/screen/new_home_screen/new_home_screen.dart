@@ -34,7 +34,7 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
 
     return Scaffold(
       backgroundColor: ColorManager.background,
-      appBar: appbarMain(),
+      appBar: AppbarProfile(),
       body: InfoWidget(
         builder: (context, deviceInfo) {
           return SingleChildScrollView(

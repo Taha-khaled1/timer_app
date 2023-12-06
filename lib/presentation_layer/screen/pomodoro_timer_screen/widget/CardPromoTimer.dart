@@ -15,7 +15,7 @@ class CardPromoTimer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PomodoroTimerController pomodoroTimerController =
-        Get.put(PomodoroTimerController());
+        Get.put(PomodoroTimerController(taskModel));
     return Container(
       alignment: Alignment.center,
       width: double.infinity,

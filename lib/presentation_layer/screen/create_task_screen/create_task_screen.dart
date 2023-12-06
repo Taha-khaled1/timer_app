@@ -39,7 +39,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.background,
-      appBar: appbarProfile(title: 'Create New Task', isBack: true),
+      appBar: AppbarProfile(title: 'Create New Task', isBack: true),
       body: GetBuilder<CreateTaskController>(
         builder: (controller) {
           return InfoWidget(
@@ -62,7 +62,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                       ),
                       SizedBox(height: 10),
                       CustomTextfield(
-                        inialvalue: '${controller.title}',
+                        inialvalue: '${controller.title ?? ''}',
                         valid: (p0) {
                           return validInput(p0.toString(), 3, 100, 'name');
                         },

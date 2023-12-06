@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:4715718055:android:4207769f64b462ff574282",
         "android_client_info": {
-          "package_name": "com.example.Timekeeping_pro"
+          "package_name": "com.Timekeeping.proApp"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "4715718055-db83td4jgrm7ki7abf56jgegh1f2r5uk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.Timekeeping_pro",
+            "package_name": "com.Timekeeping.proApp",
             "certificate_hash": "917855d086c4eda8722607c910bef50a76ad0c72"
           }
         },

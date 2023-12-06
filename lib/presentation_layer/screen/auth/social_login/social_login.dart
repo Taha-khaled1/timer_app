@@ -43,21 +43,21 @@ class SocialScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
               children: [
-                SocialCard(
-                  image: 'assets/icons/facebook.svg',
-                  title: 'Continue with Facebook',
-                ),
-                SizedBox(height: 15),
+                // SocialCard(
+                //   image: 'assets/icons/facebook.svg',
+                //   title: 'Continue with Facebook',
+                // ),
+                // SizedBox(height: 15),
                 SocialCard(
                   image: 'assets/icons/google.svg',
                   title: 'Continue with Google',
                   onTap: signInWithGoogle,
                 ),
-                SizedBox(height: 15),
-                SocialCard(
-                  image: 'assets/icons/apple.svg',
-                  title: 'Continue with Apple',
-                ),
+                // SizedBox(height: 15),
+                // SocialCard(
+                //   image: 'assets/icons/apple.svg',
+                //   title: 'Continue with Apple',
+                // ),
               ],
             ),
           ),

@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
-import 'package:task_manger/presentation_layer/resources/font_manager.dart';
-import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/screen/sound_screen/widget/SoundCard.dart';
 
 int selectedOption = 1;

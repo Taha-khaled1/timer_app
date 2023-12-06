@@ -12,12 +12,12 @@ class StandSocialLogin extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        CircleSocialButton(image: 'assets/icons/facebook.svg'),
+        // CircleSocialButton(image: 'assets/icons/facebook.svg'),
         CircleSocialButton(
           image: 'assets/icons/google.svg',
           onTap: signInWithGoogle,
         ),
-        CircleSocialButton(image: 'assets/icons/apple.svg'),
+        // CircleSocialButton(image: 'assets/icons/apple.svg'),
       ],
     );
   }

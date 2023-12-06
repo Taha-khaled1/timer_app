@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
@@ -10,21 +10,37 @@ import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/w
 import 'package:task_manger/presentation_layer/screen/create_task_screen/create_task_screen.dart';
 import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/pomodoro_timer_controller/pomodoro_timer_controller.dart';
 import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/widget/CardPromoTimer.dart';
-import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/widget/CircularPomodoro.dart';
+import 'package:task_manger/presentation_layer/screen/sound_screen/sound_screen.dart';
 import 'package:task_manger/presentation_layer/screen/succss_screen.dart';
 import 'package:task_manger/presentation_layer/src/get_packge.dart';
 import 'package:task_manger/presentation_layer/src/style_packge.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 
-class PomodoroTimerScreen extends StatelessWidget {
+class PomodoroTimerScreen extends StatefulWidget {
   const PomodoroTimerScreen({Key? key, required this.taskModel})
       : super(key: key);
   // final String image,name,
   final TaskModel taskModel;
+
+  @override
+  State<PomodoroTimerScreen> createState() => _PomodoroTimerScreenState();
+}
+
+class _PomodoroTimerScreenState extends State<PomodoroTimerScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() async {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     PomodoroTimerController pomodoroTimerController =
-        Get.put(PomodoroTimerController());
+        Get.put(PomodoroTimerController(widget.taskModel));
     return Scaffold(
       backgroundColor: ColorManager.background,
       appBar: appbar(title: 'Pomodoro Timer'),
@@ -40,48 +56,122 @@ class PomodoroTimerScreen extends StatelessWidget {
                 ),
                 GetBuilder<PomodoroTimerController>(
                   builder: (controller) {
-                    return CardPromoTimer(
-                      taskModel: taskModel,
-                      istowSubtitle: true,
+                    return InkWell(
+                      onTap: () {
+                        pomodoroTimerController.stopWatchTimer!.onAddLap();
+                      },
+                      child: CardPromoTimer(
+                        taskModel: widget.taskModel,
+                        istowSubtitle: true,
+                      ),
                     );
                   },
                 ),
-                Stack(
-                  children: [
-                    SizedBox(
-                      height: 350,
-                      child: CircularPomodoro(taskModel: taskModel),
-                    ),
-                    Positioned(
-                      right: 20,
-                      child: Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Get.to(() => CreateTaskScreen(), arguments: {
-                                "taskModel": taskModel,
-                              });
-                            },
-                            child: Image.asset(
-                              "assets/icons/image 8.png",
-                              // color: Colors.black,
-                              width: 45,
-                              height: 50,
-                            ),
-                          ),
-                          Image.asset(
-                            "assets/icons/image 9.png",
-                            // color: Colors.black,
-                            width: 45,
-                            height: 50,
-                          ),
-                        ],
+                SizedBox(
+                  width: double.infinity,
+                  child: Stack(
+                    children: [
+                      GetBuilder<PomodoroTimerController>(
+                        builder: (controller) {
+                          return pomodoroTimerController.stopWatchTimer == null
+                              ? Center(child: CircularProgressIndicator())
+                              : Center(
+                                  child: SizedBox(
+                                    height: 350,
+                                    child: StreamBuilder<int>(
+                                      stream: pomodoroTimerController
+                                          .stopWatchTimer!.rawTime,
+                                      initialData: pomodoroTimerController
+                                          .stopWatchTimer!.rawTime.value,
+                                      builder: (context, snap) {
+                                        final value = snap.data!;
+                                        final displayTime =
+                                            StopWatchTimer.getDisplayTime(
+                                          value,
+                                          hours: true,
+                                          milliSecond: false,
+                                        );
+                                        final parts = displayTime.split(':');
+                                        final hours = parts[0];
+                                        final minutes = parts[1];
+                                        final seconds = parts[2];
+                                        final totalDuration = Duration(
+                                          seconds: controller.duration,
+                                        ); // Example duration of a Pomodoro
+
+                                        final remainingTime =
+                                            totalDuration.inMilliseconds -
+                                                value;
+                                        final completedPercentage = 1.0 -
+                                            (remainingTime /
+                                                totalDuration.inMilliseconds);
+                                        // .clamp(0.0, 1.0);
+                                        print(
+                                            "totalDuration : ${totalDuration.inMilliseconds} value : ${value}  completedPercentage : $completedPercentage  === ${totalDuration.inMilliseconds - value}");
+                                        return SizedBox(
+                                          child: CircularPercentIndicator(
+                                            backgroundColor:
+                                                ColorManager.kPrimary,
+                                            radius: 120.0,
+                                            lineWidth: 20.0,
+                                            percent: completedPercentage,
+                                            center: TimeDisplay(
+                                              hours: hours,
+                                              minutes: minutes,
+                                              seconds: seconds,
+                                            ),
+                                            progressColor: ColorManager.grey2,
+                                          ),
+                                        );
+
+                                        // TimeDisplay(
+                                        //   hours: hours,
+                                        //   minutes: minutes,
+                                        //   seconds: seconds,
+                                        // );
+                                      },
+                                    ),
+                                    // child: CircularPomodoro(taskModel: taskModel),
+                                  ),
+                                );
+                        },
                       ),
-                    )
-                  ],
+                      Positioned(
+                        right: 0,
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => CreateTaskScreen(), arguments: {
+                                  "taskModel": widget.taskModel,
+                                });
+                              },
+                              child: Image.asset(
+                                "assets/icons/image 8.png",
+                                // color: Colors.black,
+                                width: 45,
+                                height: 50,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => SoundScreen());
+                              },
+                              child: Image.asset(
+                                "assets/icons/image 9.png",
+                                // color: Colors.black,
+                                width: 45,
+                                height: 50,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 GetBuilder<PomodoroTimerController>(
-                  init: PomodoroTimerController(),
+                  init: PomodoroTimerController(widget.taskModel),
                   initState: (_) {},
                   builder: (_) {
                     return Row(
@@ -132,7 +222,8 @@ class PomodoroTimerScreen extends StatelessWidget {
   }
 }
 
-void showAlert(PomodoroTimerController controller, TaskModel taskModel) {
+void showAlert(TaskModel taskModel) {
+  PomodoroTimerController controller = Get.find();
   int breakis = 0;
   Duration? timeDuration;
   Get.dialog(
@@ -305,6 +396,67 @@ class _ProgressExampleState extends State<ProgressExample> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class TimeDisplay extends StatelessWidget {
+  final String hours;
+  final String minutes;
+  final String seconds;
+
+  TimeDisplay(
+      {required this.hours, required this.minutes, required this.seconds});
+
+  Widget _timeBlock(String value, String label) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: TextStyle(
+              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black),
+        ),
+        SizedBox(height: 5),
+        Text(
+          label,
+          style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Colors.grey[700]),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // margin: EdgeInsets.symmetric(horizontal: 10),
+      // padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+      height: 50,
+      // decoration: BoxDecoration(
+      //   color: ColorManager.background,
+      //   borderRadius: BorderRadius.circular(20),
+      //   boxShadow: [
+      //     BoxShadow(
+      //       color: Colors.grey.withOpacity(0.2),
+      //       spreadRadius: 5,
+      //       blurRadius: 7,
+      //       offset: Offset(0, 3),
+      //     ),
+      //   ],
+      // ),
+
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // _timeBlock(hours, "HOURS"),
+          // VerticalDivider(color: Colors.grey[300], thickness: 1.5),
+          _timeBlock(minutes, "MINUTES"),
+          VerticalDivider(color: Colors.grey[300], thickness: 1.5),
+          _timeBlock(seconds, "SECONDS"),
+        ],
       ),
     );
   }

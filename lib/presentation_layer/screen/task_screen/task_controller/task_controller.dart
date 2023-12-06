@@ -28,7 +28,7 @@ class TaskController extends GetxController {
 
   Future<void> deleteTask(id) async {
     String userId = sharedPreferences.getString('id') ?? '';
-    var taskSnapshot = await FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
         .collection('tasks')

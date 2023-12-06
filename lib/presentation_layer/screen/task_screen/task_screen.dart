@@ -37,12 +37,28 @@ class _TaskScreenState extends State<TaskScreen> {
     return TimeOfDay(hour: hour, minute: minute);
   }
 
+  DateTime selectedDate = DateTime.now();
+
+  // This function is triggered when the date widget is tapped
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000, 1),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     final TaskController _controller = Get.put(TaskController());
     return Scaffold(
       backgroundColor: ColorManager.background,
-      appBar: appbarMain(title: 'Pomodoro Task'),
+      appBar: AppbarProfile(title: 'Pomodoro Task'),
       body: InfoWidget(
         builder: (context, deviceInfo) {
           return Padding(
@@ -63,30 +79,35 @@ class _TaskScreenState extends State<TaskScreen> {
                     int totalTasks = data!.length;
                     return Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                getDayName(DateTime.now()),
-                                style: MangeStyles().getRegularStyle(
-                                  color: ColorManager.black,
-                                  fontSize: FontSize.s20,
+                        GestureDetector(
+                          onTap: () => _selectDate(context),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  DateFormat('EEEE').format(selectedDate),
+                                  style: MangeStyles().getRegularStyle(
+                                    color: ColorManager.black,
+                                    fontSize: FontSize.s20,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                              Text(
-                                DateFormat("MMMM d").format(DateTime.now()),
-                                style: MangeStyles().getRegularStyle(
-                                  color: ColorManager.black,
-                                  fontSize: FontSize.s20,
+                                Text(
+                                  DateFormat('yMMMM').format(selectedDate),
+                                  style: MangeStyles().getRegularStyle(
+                                    color: ColorManager.black,
+                                    fontSize: FontSize.s20,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
+
+                        // DateWidget(),
                         Expanded(
                           child: ListView.builder(
                             itemCount: totalTasks,
@@ -143,7 +164,7 @@ class _TaskScreenState extends State<TaskScreen> {
                   child: CircularProgressIndicator(),
                 );
               },
-              future: _controller.getTasksBydata(dateTime),
+              future: _controller.getTasksBydata(selectedDate),
             ),
           );
         },
@@ -219,7 +240,7 @@ class NewTimeTask extends StatelessWidget {
 
 // Format the time
     String formattedTime = '$formattedHours:$minutesk $period';
-    bool isLine = taslength - 1 == index;
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -247,6 +268,62 @@ class NewTimeTask extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class DateWidget extends StatefulWidget {
+  @override
+  _DateWidgetState createState() => _DateWidgetState();
+}
+
+class _DateWidgetState extends State<DateWidget> {
+  DateTime selectedDate = DateTime.now();
+
+  // This function is triggered when the date widget is tapped
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000, 1),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _selectDate(context),
+      child: Container(
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          border: Border.all(),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          children: <Widget>[
+            Text(
+              "${selectedDate.toLocal()}"
+                  .split(' ')[0], // Displays the selected date
+              style: TextStyle(fontSize: 55, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              DateFormat('EEEE')
+                  .format(selectedDate), // Displays the name of the day
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              DateFormat('yMMMM')
+                  .format(selectedDate), // Displays year and month
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
       ),
     );
   }

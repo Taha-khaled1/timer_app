@@ -60,7 +60,7 @@ class PrivacyScreen extends StatelessWidget {
 
   <h2>Information We Collect</h2>
   <p>
-    Timekeeping pro collects the information you provide when registering on the application, including your username and email address. We also collect technical information such as IP address and browser information to improve our services and provide a better user experience.
+    Timekeeping pro collects the information you provide when registering on the application, including your username and email address. for provide a better user experience.
   </p>
 
   <h2>Use of Information</h2>

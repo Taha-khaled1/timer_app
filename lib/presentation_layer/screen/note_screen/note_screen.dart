@@ -1,16 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
-import 'package:task_manger/presentation_layer/components/custom_butten.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/screen/note_screen/widget/NoteCard.dart';
 import 'package:task_manger/presentation_layer/src/show_toast.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
-
-import '../../resources/font_manager.dart';
-import '../../resources/styles_manager.dart';
 
 class NoteScreen extends StatefulWidget {
   const NoteScreen({Key? key}) : super(key: key);
@@ -27,7 +22,7 @@ class _NoteScreenState extends State<NoteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.background,
-      appBar: appbarProfile(title: 'Notes', isBack: false),
+      appBar: AppbarProfile(title: 'Notes', isBack: false),
       body: InfoWidget(
         builder: (context, deviceInfo) {
           return Padding(

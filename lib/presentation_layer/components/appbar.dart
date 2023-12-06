@@ -25,60 +25,57 @@ PreferredSizeWidget appbar({String? title}) {
   );
 }
 
-PreferredSizeWidget appbarProfile({String? title, bool isBack = true}) {
-  return AppBar(
-    elevation: 0,
-    backgroundColor: ColorManager.background,
-    leading: isBack == true
-        ? BackButton(
-            color: ColorManager.black,
-          )
-        : SizedBox(),
-    centerTitle: false,
-    title: Transform.translate(
-      offset: Offset(isBack == false ? -38 : 0, 0),
-      child: Text(
-        title ?? '',
-        style: TextStyle(
-          color: Color(0xFF212121),
-          fontSize: 24,
-          fontFamily: 'Urbanist',
-          fontWeight: FontWeight.w700,
-          height: 1.20,
-        ),
-      ),
-    ),
-    actions: [
-      Padding(
-        padding: const EdgeInsets.only(right: 10),
-        child: GestureDetector(
-          onTap: () {
-            Get.to(() => ProfileScreen());
-          },
-          child: SvgPicture.asset('assets/icons/pro.svg'),
-        ),
-      ),
-    ],
-  );
+class AppbarProfile extends StatefulWidget implements PreferredSizeWidget {
+  final String? title;
+  final bool isBack;
+
+  AppbarProfile({Key? key, this.title, this.isBack = true}) : super(key: key);
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+
+  @override
+  State<AppbarProfile> createState() => _AppbarProfileState();
 }
 
-PreferredSizeWidget appbarMain({String? title, String? image, Widget? widget}) {
-  return AppBar(
-    elevation: 0,
-    backgroundColor: ColorManager.background,
-    leading: Padding(
-      padding: const EdgeInsets.only(left: 10),
-      child: Image.asset(image ?? 'assets/logo (1).png'),
-    ),
-    title: Text(
-      title ?? 'Timekeeping pro',
-      style: MangeStyles().getBoldStyle(
-        color: ColorManager.black,
-        fontSize: FontSize.s20,
+class _AppbarProfileState extends State<AppbarProfile> {
+  bool moreIcon = false;
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      elevation: 0,
+      backgroundColor: ColorManager.background,
+      leading: widget.isBack
+          ? BackButton(
+              color: ColorManager.black,
+            )
+          : SizedBox(),
+      centerTitle: false,
+      title: Transform.translate(
+        offset: Offset(widget.isBack ? -38 : 0, 0),
+        child: Text(
+          widget.title ?? '',
+          style: TextStyle(
+            color: Color(0xFF212121),
+            fontSize: 24,
+            fontFamily: 'Urbanist',
+            fontWeight: FontWeight.w700,
+            height: 1.20,
+          ),
+        ),
       ),
-    ),
-    actions: [
-      widget ??
+      actions: [
+        if (moreIcon)
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: GestureDetector(
+              onTap: () {
+                Get.to(() => ProfileScreen());
+              },
+              child: SvgPicture.asset('assets/icons/pro.svg'),
+            ),
+          ),
+        if (moreIcon)
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: GestureDetector(
@@ -88,6 +85,22 @@ PreferredSizeWidget appbarMain({String? title, String? image, Widget? widget}) {
               child: SvgPicture.asset('assets/icons/train.svg'),
             ),
           ),
-    ],
-  );
+        Padding(
+          padding: const EdgeInsets.only(right: 10),
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                moreIcon = !moreIcon;
+                print(moreIcon);
+              });
+            },
+            child: Icon(
+              Icons.more_horiz,
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }

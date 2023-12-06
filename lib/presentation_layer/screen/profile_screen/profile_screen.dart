@@ -6,7 +6,6 @@ import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/screen/Pomo_Setting_screen/Pomo_Setting_screen.dart';
-import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/widget/EditImage.dart';
 import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/widget/custom_circle_Image.dart';
 import 'package:task_manger/presentation_layer/screen/edit_screen/edit_screen.dart';
 import 'package:task_manger/presentation_layer/screen/notification_screen/notification_screen.dart';
@@ -23,7 +22,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.background,
-      appBar: appbarMain(title: 'Profile'),
+      appBar: AppbarProfile(title: 'Profile'),
       body: InfoWidget(
         builder: (context, deviceInfo) {
           return SingleChildScrollView(
@@ -77,11 +76,7 @@ class ProfileScreen extends StatelessWidget {
                   titel: 'Pomo Settings',
                   image: 'assets/icons/star.svg',
                 ),
-                CustomListtile(
-                  onTap: () {},
-                  titel: 'Help',
-                  image: 'assets/icons/Help.svg',
-                ),
+
                 CustomListtile(
                   onTap: () {
                     Get.to(() => ShareApp());
