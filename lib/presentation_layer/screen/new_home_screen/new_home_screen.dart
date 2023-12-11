@@ -1,24 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:flutter_overlay_window/flutter_overlay_window.dart';
+
 import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
-import 'package:task_manger/presentation_layer/notification_service/notification_service.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
-import 'package:task_manger/presentation_layer/screen/home_screen/widget/card_task.dart';
 import 'package:task_manger/presentation_layer/screen/new_home_screen/new_home_controller.dart';
+import 'package:task_manger/presentation_layer/screen/new_home_screen/widget/HeaderUi.dart';
 import 'package:task_manger/presentation_layer/screen/new_home_screen/widget/new_card_task.dart';
 import 'package:task_manger/presentation_layer/screen/new_home_screen/widget/task_showBottomSheet.dart';
-import 'package:task_manger/presentation_layer/screen/whatch_task_screen/whatch_task_screen.dart';
 import 'package:task_manger/presentation_layer/src/get_packge.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
-import 'package:task_manger/presentation_layer/utils/shard_function/convert-time.dart';
-
-import '../../../main.dart';
 
 class NewHomeScreen extends StatefulWidget {
   @override
@@ -98,32 +91,89 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
                             ),
                             GestureDetector(
                               onTap: () async {
-                                DateTime? dataTime = DateTime.now();
-                                TimeOfDay? timeOfDay = TimeOfDay.now();
-                                final timestamp = DateTime.now()
-                                    .millisecondsSinceEpoch
-                                    .toString();
-                                await FirebaseFirestore.instance
-                                    .collection('users')
-                                    .doc(sharedPreferences.getString('id'))
-                                    .collection('tasks')
-                                    .doc(timestamp)
-                                    .set({
-                                  'title': "Task 1",
-                                  'longBreak': 8,
-                                  'pomotime': 25,
-                                  'workSessions': 4,
-                                  'shortBreak': 5,
-                                  'timeOfDay': convertTo12HourFormat(
-                                      timeOfDay!.hour, timeOfDay!.minute),
-                                  'datatime':
-                                      '${dataTime!.year}/${dataTime!.month}/${dataTime!.day}',
-                                  'catogery': "",
-                                  'color': 0xffF4BF52,
-                                  'done': false,
-                                  'timestamp': timestamp,
-                                });
-                                setState(() {});
+                                final bool? status = await FlutterOverlayWindow
+                                    .requestPermission();
+                                print(status);
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: 200,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  color: Color(0xff0FB9B1),
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 30,
+                                      offset: Offset(
+                                        0,
+                                        5,
+                                      ), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  'START',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () async {},
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: 200,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  color: Color(0xff0FB9B1),
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 30,
+                                      offset: Offset(
+                                        0,
+                                        5,
+                                      ), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  'START',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () async {
+                                final bool status = await FlutterOverlayWindow
+                                    .isPermissionGranted();
+                                if (status) {
+                                  print(WindowSize.matchParent);
+                                  await FlutterOverlayWindow.showOverlay(
+                                    enableDrag: false,
+                                    overlayTitle: "X-SLAYER",
+                                    overlayContent: 'Overlay Enabled',
+                                    flag: OverlayFlag.defaultFlag,
+                                    visibility:
+                                        NotificationVisibility.visibilityPublic,
+                                    positionGravity: PositionGravity.auto,
+                                    height: 1200,
+                                    width: 900,
+                                  );
+                                  print("FlutterOverlayWindow");
+                                }
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -273,73 +323,6 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class HeaderUi extends StatelessWidget {
-  const HeaderUi({
-    super.key,
-    this.onTap,
-    this.onTap2,
-  });
-  final void Function()? onTap;
-  final void Function()? onTap2;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8,
-        vertical: 5,
-      ),
-      child: Row(
-        children: [
-          Text(
-            'Tasks',
-            style: MangeStyles().getBoldStyle(
-              color: ColorManager.kPrimary,
-              fontSize: FontSize.s25,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          Expanded(child: SizedBox()),
-          GestureDetector(onTap: onTap, child: Tag(text: 'Not complete')),
-          SizedBox(
-            width: 8,
-          ),
-          GestureDetector(onTap: onTap2, child: Tag(text: 'Today')),
-        ],
-      ),
-    );
-  }
-}
-
-class Tag extends StatelessWidget {
-  final String text;
-  final Color color;
-  final Color textColor;
-
-  Tag({
-    required this.text,
-    this.color = ColorManager.kPrimary,
-    this.textColor = Colors.white,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-          color: textColor,
-          fontSize: 14,
-        ),
       ),
     );
   }

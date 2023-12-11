@@ -1,18 +1,14 @@
 // ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/screen/create_task_screen/create_task_screen.dart';
-import 'package:task_manger/presentation_layer/screen/home_screen/home_screen.dart';
 import 'package:task_manger/presentation_layer/screen/new_home_screen/new_home_screen.dart';
 import 'package:task_manger/presentation_layer/screen/note_screen/add_note_screen.dart';
 import 'package:task_manger/presentation_layer/screen/note_screen/note_screen.dart';
-import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/pomodoro_timer_screen.dart';
 import 'package:task_manger/presentation_layer/screen/statistic_screen/statistic_screen.dart';
 import 'package:task_manger/presentation_layer/screen/task_screen/task_screen.dart';
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_window/flutter_overlay_window.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
@@ -7,8 +8,124 @@ import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
-
 import 'task_controller/task_controller.dart';
+
+class TaskOverlay extends StatefulWidget {
+  const TaskOverlay({super.key});
+
+  @override
+  State<TaskOverlay> createState() => _TaskOverlayState();
+}
+
+class _TaskOverlayState extends State<TaskOverlay> {
+  DateTime selectedDate = DateTime.now();
+
+  // This function is triggered when the date widget is tapped
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000, 1),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final TaskController _controller = Get.put(TaskController());
+    return Material(
+      child: FutureBuilder(
+        builder: (ctx, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text(
+                  '${snapshot.error} occurred',
+                  style: TextStyle(fontSize: 18),
+                ),
+              );
+            } else if (snapshot.hasData) {
+              final data = snapshot.data;
+              int totalTasks = data!.length;
+              return Column(
+                children: [
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      onPressed: () async {
+                        await FlutterOverlayWindow.closeOverlay();
+                      },
+                      icon: Icon(
+                        Icons.exit_to_app,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+
+                  // DateWidget(),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: totalTasks,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Dismissible(
+                          onDismissed: (direction) {
+                            _controller.deleteTask(data[index]['timestamp']);
+                          },
+                          background: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 15),
+                            decoration: BoxDecoration(
+                              color: Colors.redAccent,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            alignment: Alignment.centerRight,
+                            padding: EdgeInsets.only(right: 16),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
+                              child: Icon(
+                                Icons.delete,
+                                color: ColorManager.white,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                          direction: DismissDirection.endToStart,
+                          key: UniqueKey(),
+                          child: NewTimeTask(
+                            taslength: totalTasks,
+                            index: index,
+                            taskModel: TaskModel(
+                              color: Color(data[index]['color'] ?? 0xffffffff),
+                              subtitle: "25 minute",
+                              id: data[index]['timestamp'],
+                              data: data[index]['datatime'],
+                              time: data[index]['timeOfDay'],
+                              isdone: data[index]['done'],
+                              taskName: data[index]['title'],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            }
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+        future: _controller.getTasksBydata(selectedDate),
+      ),
+    );
+  }
+}
 
 class TaskScreen extends StatefulWidget {
   const TaskScreen({Key? key}) : super(key: key);

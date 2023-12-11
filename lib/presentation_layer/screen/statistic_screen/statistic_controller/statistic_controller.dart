@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/widget/CircularPomodoro.dart';
 import 'package:task_manger/presentation_layer/screen/statistic_screen/widget/BarChartWidget.dart';
+import 'package:task_manger/presentation_layer/src/style_packge.dart';
 
 class StatisticController extends GetxController {
+  // late TabController tabController;
   List<String> weeknams = [
     'Th',
     'Fr',
@@ -194,7 +196,13 @@ class StatisticController extends GetxController {
   @override
   void onInit() {
     // getStatic();
-
+    // tabController = TabController(length: 2, vsync: AnimatedListState());
     super.onInit();
+  }
+
+  @override
+  void dispose() {
+    // tabController.dispose();
+    super.dispose();
   }
 }

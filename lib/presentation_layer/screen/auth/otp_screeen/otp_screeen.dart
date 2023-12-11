@@ -6,11 +6,9 @@ import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
-import 'package:task_manger/presentation_layer/components/custom_butten.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
-import 'package:task_manger/presentation_layer/screen/auth/create_password/create_password.dart';
 import 'package:task_manger/presentation_layer/screen/auth/otp_screeen/widget/pinIn_put_widget.dart';
 
 class OtpScreen extends StatefulWidget {
@@ -24,9 +22,8 @@ class _OtpScreenState extends State<OtpScreen> {
   final pinController = TextEditingController();
   final focusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
-  bool _isSending = false;
   int _remainingTime = 60; // تحديد الوقت المحدد للانتظار هنا
-  bool _isTimerRunning = false; // تحديد متغير لتتبع تشغيل العداد التنازلي
+  // bool _isTimerRunning = false; // تحديد متغير لتتبع تشغيل العداد التنازلي
   @override
   void dispose() {
     pinController.dispose();
@@ -150,7 +147,7 @@ class _OtpScreenState extends State<OtpScreen> {
         // يتم إيقاف العداد التنازلي هنا
         timer.cancel();
         setState(() {
-          _isTimerRunning = false;
+          // _isTimerRunning = false;
           _remainingTime = 60;
         });
       }

@@ -1,16 +1,10 @@
-import 'dart:async';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
-import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
-import 'package:task_manger/presentation_layer/components/custom_butten.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
-import 'package:task_manger/presentation_layer/screen/auth/create_password/create_password.dart';
 import 'package:task_manger/presentation_layer/screen/auth/otp_screeen/widget/pinIn_put_widget.dart';
 import 'package:task_manger/presentation_layer/screen/note_screen/note_detalis_screen.dart';
 

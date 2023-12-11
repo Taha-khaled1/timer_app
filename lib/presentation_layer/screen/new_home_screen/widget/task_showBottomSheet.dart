@@ -3,10 +3,8 @@ import 'package:get/get.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/presentation_layer/components/nav_bar.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
-import 'package:task_manger/presentation_layer/resources/font_manager.dart';
-import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/screen/new_home_screen/new_home_controller.dart';
-import 'package:task_manger/presentation_layer/screen/new_home_screen/new_home_screen.dart';
+import 'package:task_manger/presentation_layer/screen/new_home_screen/widget/HeaderUi.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 import 'new_card_task.dart';
 

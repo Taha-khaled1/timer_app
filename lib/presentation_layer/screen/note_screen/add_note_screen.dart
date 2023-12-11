@@ -2,14 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_manger/presentation_layer/components/custom_butten.dart';
-import 'package:task_manger/presentation_layer/components/custom_text_field.dart';
 import 'package:task_manger/presentation_layer/components/nav_bar.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
-import 'package:task_manger/presentation_layer/resources/font_manager.dart';
-import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/src/show_toast.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
-
 import '../../../main.dart';
 
 class AddNoteScreen extends StatefulWidget {

@@ -106,7 +106,18 @@ class StatisticScreen extends StatelessWidget {
                               ),
                             ),
                             SizedBox(height: 20),
-                            SizedBox(height: 400, child: BarChartWidget()),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Focus Time",
+                                style: MangeStyles().getRegularStyle(
+                                  color: ColorManager.black,
+                                  fontSize: FontSize.s20,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            SizedBox(height: 400, child: TabBarViewWidget()),
                           ],
                         );
                       }
@@ -122,6 +133,58 @@ class StatisticScreen extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class TabBarViewWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      initialIndex: 1,
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          toolbarHeight: 10,
+          // backgroundColor: Colors.blueGrey.shade500,
+          // title: Text('TabBar Widget'),
+          bottom: TabBar(
+            indicatorColor: Colors.lime,
+            indicatorWeight: 5.0,
+            labelColor: Colors.black,
+            labelPadding: EdgeInsets.only(top: 10.0),
+            unselectedLabelColor: Colors.grey,
+            tabs: [
+              Tab(
+                text: 'Recent Days',
+                // icon: Icon(
+                //   Icons.cake,
+                //   color: Colors.white,
+                // ),
+                // iconMargin: EdgeInsets.only(bottom: 10.0),
+              ),
+              Tab(
+                text: 'Recent Weeks',
+                // icon: Icon(
+                //   Icons.radio,
+                //   color: Colors.white,
+                // ),
+                // iconMargin: EdgeInsets.only(bottom: 10.0),
+              ),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            // Content for Tab 1
+            SizedBox(height: 400, child: BarChartWidget()),
+            // Content for Tab 2
+            SizedBox(height: 400, child: BarChartWidget()),
+          ],
+        ),
       ),
     );
   }

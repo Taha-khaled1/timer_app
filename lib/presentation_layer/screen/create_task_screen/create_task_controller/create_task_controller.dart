@@ -8,7 +8,6 @@ import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/components/nav_bar.dart';
 import 'package:task_manger/presentation_layer/notification_service/notification_service.dart';
 import 'package:task_manger/presentation_layer/screen/create_task_screen/create_task_screen.dart';
-import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/pomodoro_timer_screen.dart';
 import 'package:task_manger/presentation_layer/src/show_toast.dart';
 import 'package:task_manger/presentation_layer/utils/shard_function/convert-time.dart';
 import 'package:task_manger/presentation_layer/utils/shard_function/formmat_time.dart';
@@ -193,7 +192,7 @@ class CreateTaskController extends GetxController {
           'timeOfDay':
               convertTo12HourFormat(timeOfDay!.hour, timeOfDay!.minute),
           'datatime': '${dataTime!.year}/${dataTime!.month}/${dataTime!.day}',
-          'catogery': catogery ?? "",
+          'catogery': catogery,
           'color': selectedColor,
           'done': false,
           'timestamp': timestamp,
