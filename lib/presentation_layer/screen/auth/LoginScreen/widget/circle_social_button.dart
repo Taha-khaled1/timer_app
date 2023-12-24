@@ -19,7 +19,7 @@ class CircleSocialButton extends StatelessWidget {
         height: 60,
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 18),
         decoration: ShapeDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.background,
           shape: RoundedRectangleBorder(
             side: BorderSide(width: 0.50, color: Colors.grey.withOpacity(0.5)),
             borderRadius: BorderRadius.circular(16),

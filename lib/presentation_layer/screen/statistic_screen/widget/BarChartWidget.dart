@@ -13,6 +13,7 @@ class BarChartWidget extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Container(
+          color: Theme.of(context).colorScheme.background,
           child: OrientationBuilder(
             builder: (context, orientation) {
               return Container(

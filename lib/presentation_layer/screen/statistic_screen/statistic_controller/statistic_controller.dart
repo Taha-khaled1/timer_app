@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/widget/CircularPomodoro.dart';
 import 'package:task_manger/presentation_layer/screen/statistic_screen/widget/BarChartWidget.dart';
-import 'package:task_manger/presentation_layer/src/style_packge.dart';
 
 class StatisticController extends GetxController {
   // late TabController tabController;
@@ -24,7 +23,6 @@ class StatisticController extends GetxController {
     String userId = sharedPreferences.getString('id') ?? '';
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     DateTime now = DateTime.now();
-    DateTime startOfDay = DateTime(now.year, now.month, now.day);
 
     QuerySnapshot taskSnapshot = await FirebaseFirestore.instance
         .collection('users')
@@ -52,7 +50,7 @@ class StatisticController extends GetxController {
 
   Future<void> deleteTask(id) async {
     String userId = sharedPreferences.getString('id') ?? '';
-    var taskSnapshot = await FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
         .collection('tasks')
@@ -125,9 +123,9 @@ class StatisticController extends GetxController {
     //     .get();
 
     // Initialize a Map to hold counts for each day of the week.
-    Map<int, double> weeklyCounts = {
-      for (var i = 0; i < 7; i++) i: 0.0,
-    };
+    // Map<int, double> weeklyCounts = {
+    //   for (var i = 0; i < 7; i++) i: 0.0,
+    // };
 
     // for (var element in taskSnapshot.docs) {
     //   // print('---');

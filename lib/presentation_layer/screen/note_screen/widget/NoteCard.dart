@@ -5,7 +5,6 @@ import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/screen/auth/otp_screeen/OtpOpenScreen.dart';
-import 'package:task_manger/presentation_layer/screen/auth/otp_screeen/otp_screeen.dart';
 import 'package:task_manger/presentation_layer/screen/note_screen/note_controller/note_controller.dart';
 import 'package:task_manger/presentation_layer/screen/note_screen/note_detalis_screen.dart';
 import 'package:task_manger/presentation_layer/src/get_packge.dart';

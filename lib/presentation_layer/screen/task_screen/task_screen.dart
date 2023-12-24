@@ -174,7 +174,7 @@ class _TaskScreenState extends State<TaskScreen> {
   Widget build(BuildContext context) {
     final TaskController _controller = Get.put(TaskController());
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppbarProfile(title: 'Pomodoro Task'),
       body: InfoWidget(
         builder: (context, deviceInfo) {
@@ -188,7 +188,10 @@ class _TaskScreenState extends State<TaskScreen> {
                     return Center(
                       child: Text(
                         '${snapshot.error} occurred',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
                       ),
                     );
                   } else if (snapshot.hasData) {
@@ -206,7 +209,8 @@ class _TaskScreenState extends State<TaskScreen> {
                                 Text(
                                   DateFormat('EEEE').format(selectedDate),
                                   style: MangeStyles().getRegularStyle(
-                                    color: ColorManager.black,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
                                     fontSize: FontSize.s20,
                                   ),
                                   textAlign: TextAlign.center,
@@ -214,7 +218,8 @@ class _TaskScreenState extends State<TaskScreen> {
                                 Text(
                                   DateFormat('yMMMM').format(selectedDate),
                                   style: MangeStyles().getRegularStyle(
-                                    color: ColorManager.black,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
                                     fontSize: FontSize.s20,
                                   ),
                                   textAlign: TextAlign.center,
@@ -372,7 +377,7 @@ class NewTimeTask extends StatelessWidget {
           Text(
             taskModel.taskName ?? "",
             style: MangeStyles().getBoldStyle(
-              color: ColorManager.black,
+              color: Theme.of(context).colorScheme.secondary,
               fontSize: FontSize.s17,
             ),
           ),
@@ -380,7 +385,7 @@ class NewTimeTask extends StatelessWidget {
           Text(
             '$formattedTime - ${adjustedTime.hour}:${adjustedTime.minute} ',
             style: MangeStyles().getBoldStyle(
-              color: ColorManager.black,
+              color: Theme.of(context).colorScheme.secondary,
               fontSize: FontSize.s17,
             ),
           ),

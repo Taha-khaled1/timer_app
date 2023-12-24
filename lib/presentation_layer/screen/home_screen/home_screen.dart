@@ -19,7 +19,7 @@
 //   Widget build(BuildContext context) {
 //     final HomeController _controller = Get.put(HomeController());
 //     return Scaffold(
-//       backgroundColor: ColorManager.background,
+//       backgroundColor:Theme.of(context).colorScheme.background,
 //       appBar: appbarMain(),
 //       body: InfoWidget(
 //         builder: (context, deviceInfo) {

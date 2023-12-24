@@ -12,7 +12,7 @@ import 'package:task_manger/presentation_layer/utils/responsive_design/ui_compon
 
 customLogoutShowBottomSheet(BuildContext context) {
   showModalBottomSheet(
-    backgroundColor: ColorManager.background,
+    backgroundColor: Theme.of(context).colorScheme.background,
     context: context,
     shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -99,7 +99,7 @@ customLogoutShowBottomSheet(BuildContext context) {
 
 customRatingShowBottomSheet(BuildContext context) {
   showModalBottomSheet(
-    backgroundColor: ColorManager.background,
+    backgroundColor: Theme.of(context).colorScheme.background,
     context: context,
     shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(

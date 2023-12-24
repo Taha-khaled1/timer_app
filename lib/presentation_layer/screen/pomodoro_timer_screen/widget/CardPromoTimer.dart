@@ -31,7 +31,7 @@ class CardPromoTimer extends StatelessWidget {
         right: 15,
       ),
       decoration: ShapeDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
@@ -85,7 +85,7 @@ class CardPromoTimer extends StatelessWidget {
                     child: Text(
                       taskModel.taskName ?? "",
                       style: TextStyle(
-                        color: Color(0xFF212121),
+                        color: Theme.of(context).colorScheme.secondary,
                         fontSize: 20,
                         fontFamily: 'Urbanist',
                         fontWeight: FontWeight.w700,
@@ -99,7 +99,7 @@ class CardPromoTimer extends StatelessWidget {
                     child: Text(
                       '${taskModel.pomotime} minutes',
                       style: TextStyle(
-                        color: Color(0xFF616161),
+                        color: Theme.of(context).colorScheme.secondary,
                         fontSize: 14,
                         fontFamily: 'Urbanist',
                         fontWeight: FontWeight.w500,
@@ -123,7 +123,7 @@ class CardPromoTimer extends StatelessWidget {
                     '${pomodoroTimerController.endWork}/${taskModel.workSessions}',
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                      color: Color(0xFF424242),
+                      color: Theme.of(context).colorScheme.secondary,
                       fontSize: 20,
                       fontFamily: 'Urbanist',
                       fontWeight: FontWeight.w700,

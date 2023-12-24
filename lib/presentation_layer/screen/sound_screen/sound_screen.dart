@@ -2,7 +2,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
-import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/screen/sound_screen/widget/SoundCard.dart';
 
 int selectedOption = 1;
@@ -36,7 +35,7 @@ class _SoundScreenState extends State<SoundScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: appbar(title: 'Reminder Ringtone'),
       body: Container(
         padding: EdgeInsets.all(16.0),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
-import 'package:task_manger/presentation_layer/screen/new_home_screen/new_home_controller.dart';
 import 'package:task_manger/presentation_layer/screen/pomodoro_timer_screen/pomodoro_timer_screen.dart';
 import 'package:task_manger/presentation_layer/src/get_packge.dart';
 import 'package:task_manger/presentation_layer/src/show_toast.dart';
@@ -55,7 +54,6 @@ class NewCardTask extends StatelessWidget {
     int formattedHours = hoursk > 12 ? hoursk - 12 : hoursk;
 
 // Determine if it's morning (AM) or afternoon/evening (PM)
-    String period = hoursk >= 12 ? 'PM' : 'AM';
 
 // Format the time
     String formattedTime = '$formattedHours:$minutesk';

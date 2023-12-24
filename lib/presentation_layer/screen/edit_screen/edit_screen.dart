@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +11,7 @@ import 'package:task_manger/presentation_layer/components/custom_butten.dart';
 import 'package:task_manger/presentation_layer/components/custom_listtile.dart';
 import 'package:task_manger/presentation_layer/components/custom_text_field.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
-import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/info_account_screen.dart';
 import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/widget/EditImage.dart';
-import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/widget/custom_phone_number.dart';
 import 'package:task_manger/presentation_layer/screen/profile_screen/profile_screen.dart';
 import 'package:task_manger/presentation_layer/src/show_toast.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
@@ -41,8 +38,8 @@ class _EditScreenState extends State<EditScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.background,
-      appBar: appbar(title: 'Edit Profile'),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      appBar: AppbarProfile(title: 'Edit Profile'),
       body: InfoWidget(
         builder: (context, deviceInfo) {
           return Align(
@@ -69,10 +66,14 @@ class _EditScreenState extends State<EditScreen> {
                   // SizedBox(height: deviceInfo.localHeight * 0.1),
                   CustomTextfield(
                     inialvalue: name,
-                    valid: (p0) {},
-                    onsaved: (p0) {},
-                    onChanged: (p0) {
-                      name = p0.toString();
+                    valid: (value) {
+                      return null;
+                    },
+                    onsaved: (value) {
+                      return null;
+                    },
+                    onChanged: (value) {
+                      name = value.toString();
                     },
                     titel: 'Full Name',
                     width: deviceInfo.localWidth * 0.85,
@@ -81,8 +82,8 @@ class _EditScreenState extends State<EditScreen> {
                   // SizedBox(height: 20),
                   // CustomTextfield(
                   //   inialvalue: 'Christina',
-                  //   valid: (p0) {},
-                  //   onsaved: (p0) {},
+                  //   valid: (value) {return null;},
+                  //   onsaved: (value) {return null;},
                   //   titel: 'Full Name',
                   //   width: deviceInfo.localWidth * 0.85,
                   //   height: 60,
@@ -90,13 +91,17 @@ class _EditScreenState extends State<EditScreen> {
                   SizedBox(height: 20),
                   CustomTextfield(
                     inialvalue: sharedPreferences.getString('email'),
-                    valid: (p0) {},
-                    onsaved: (p0) {},
+                    valid: (value) {
+                      return null;
+                    },
+                    onsaved: (value) {
+                      return null;
+                    },
                     titel: 'Full Email',
                     width: deviceInfo.localWidth * 0.85,
                     height: 60,
-                    onChanged: (p0) {
-                      email = p0.toString();
+                    onChanged: (value) {
+                      email = value.toString();
                     },
                   ),
                   SizedBox(height: 20),
@@ -120,10 +125,10 @@ class _EditScreenState extends State<EditScreen> {
 
                         //  enabled: true,
                         filled: true,
-                        fillColor: ColorManager.fillColor,
+                        fillColor: Theme.of(context).colorScheme.surface,
                         hintText: 'Phone Number',
                         hintStyle: TextStyle(
-                          color: Color(0xFF9E9E9E),
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: 14,
                           fontFamily: 'Urbanist',
                           fontWeight: FontWeight.w400,
@@ -235,7 +240,7 @@ class _EditScreenState extends State<EditScreen> {
   void _handleAttachmentPressed() {
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       builder: (BuildContext context) => Container(
         decoration: BoxDecoration(
           color: Colors.white,

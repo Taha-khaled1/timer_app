@@ -51,7 +51,7 @@
 //       ),
 //     );
 //     return Scaffold(
-//       backgroundColor: ColorManager.background,
+//       backgroundColor:Theme.of(context).colorScheme.background,
 //       appBar: appbar(title: 'Forgot Password'),
 //       body: Column(
 //         crossAxisAlignment: CrossAxisAlignment.center,

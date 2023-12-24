@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 import 'package:task_manger/presentation_layer/components/custom_butten.dart';
 import 'package:task_manger/presentation_layer/components/nav_bar.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
+import 'package:task_manger/presentation_layer/screen/subscribe_screen/subscription_screen.dart';
 import 'package:task_manger/presentation_layer/src/show_toast.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
+import 'package:task_manger/presentation_layer/utils/shard_function/issubscribe.dart';
 import '../../../main.dart';
 
 class AddNoteScreen extends StatefulWidget {
@@ -23,7 +25,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: InfoWidget(
           builder: (context, deviceInfo) {
@@ -54,6 +56,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                         icon: Image.asset(
                           "assets/icons/aa.png",
                           width: 25,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                       IconButton(
@@ -68,6 +71,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                         icon: Image.asset(
                           "assets/icons/a.png",
                           width: 25,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                     ],
@@ -140,6 +144,17 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                       color: ColorManager.kPrimary,
                       text: "save",
                       press: () async {
+                        if (!isSubScribe()) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SubscriptionScreen(),
+                              ),
+                            );
+                          });
+                          return;
+                        }
                         if (message.isEmpty || title.isEmpty) {
                           showToast('There are some empty fields');
                         } else {

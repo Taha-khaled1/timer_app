@@ -6,7 +6,6 @@ import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/screen/auth/forget_password/widget/CenterImage.dart';
 import 'package:task_manger/presentation_layer/screen/auth/forget_password/widget/custom_box.dart';
-import 'package:task_manger/presentation_layer/src/get_packge.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
@@ -14,7 +13,7 @@ class ForgetPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: appbar(title: 'Forgot Password'),
       body: InfoWidget(
         builder: (context, deviceInfo) {

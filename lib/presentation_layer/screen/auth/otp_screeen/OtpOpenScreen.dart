@@ -56,7 +56,7 @@ class _OtpOpenScreenState extends State<OtpOpenScreen> {
       ),
     );
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: appbar(title: 'Password'),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

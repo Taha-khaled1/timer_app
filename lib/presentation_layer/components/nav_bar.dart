@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
@@ -16,8 +17,8 @@ List<String> svgIcon = [
   'assets/icons/Home.svg',
   'assets/icons/Calendar.svg',
   'assets/icons/Plus.svg',
-  'assets/icons/Chart.svg',
   'assets/icons/static.svg',
+  'assets/icons/Chart.svg',
 ];
 List<String> titles = [
   'Home',
@@ -95,6 +96,7 @@ class _MainScreenState extends State<MainScreen> {
         initState: (_) {},
         builder: (_) {
           return BottomNavigationBar(
+            backgroundColor: Theme.of(context).colorScheme.background,
             type: BottomNavigationBarType.fixed,
             enableFeedback: false,
             elevation: 10,
@@ -152,10 +154,24 @@ class _MainScreenState extends State<MainScreen> {
 
 class TabAppController extends GetxController {
   var currentIndex = 0.obs;
+  var isDarkMode = false.obs;
+  void changeTheme() {
+    isDarkMode.value = !isDarkMode.value;
+    sharedPreferences.setBool("isDarkMode", isDarkMode.value);
+  }
 
   void changeTabIndex(int index) {
     currentIndex.value = index;
     update();
+  }
+
+  @override
+  void onInit() {
+    if (sharedPreferences.getBool("isDarkMode") == true) {
+      changeTheme();
+    }
+    // changeTheme();
+    super.onInit();
   }
 }
 

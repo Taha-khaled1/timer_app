@@ -24,7 +24,7 @@ class SocialScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: appbar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -33,7 +33,7 @@ class SocialScreen extends StatelessWidget {
           Text(
             'Let’s you in',
             style: MangeStyles().getBoldStyle(
-              color: ColorManager.black,
+              color: Theme.of(context).colorScheme.secondary,
               fontSize: FontSize.s40,
             ),
             textAlign: TextAlign.center,
@@ -135,7 +135,7 @@ Future<UserCredential> signInWithGoogle() async {
       image: googelInfo.user!.photoURL!,
       id: googelInfo.user!.uid,
     );
-    final String userId = sharedPreferences.getString('id')!;
+
     final userDoc = FirebaseFirestore.instance
         .collection('users')
         .doc(sharedPreferences.getString('id'));

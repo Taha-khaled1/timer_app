@@ -10,7 +10,6 @@ class NewHomeController extends GetxController {
     String userId = sharedPreferences.getString('id') ?? '';
 
     DateTime now = DateTime.now();
-    DateTime startOfDay = DateTime(now.year, now.month, now.day);
 
     QuerySnapshot taskSnapshot = await FirebaseFirestore.instance
         .collection('users')
@@ -40,7 +39,7 @@ class NewHomeController extends GetxController {
 
   Future<void> deleteTask(id) async {
     String userId = sharedPreferences.getString('id') ?? '';
-    var taskSnapshot = await FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
         .collection('tasks')

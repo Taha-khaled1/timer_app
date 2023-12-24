@@ -1,17 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_overlay_window/flutter_overlay_window.dart';
-
 import 'package:task_manger/data_layer/models/task_model.dart';
+import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
-import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/screen/new_home_screen/new_home_controller.dart';
 import 'package:task_manger/presentation_layer/screen/new_home_screen/widget/HeaderUi.dart';
 import 'package:task_manger/presentation_layer/screen/new_home_screen/widget/new_card_task.dart';
 import 'package:task_manger/presentation_layer/screen/new_home_screen/widget/task_showBottomSheet.dart';
+import 'package:task_manger/presentation_layer/screen/subscribe_screen/subscription_screen.dart';
 import 'package:task_manger/presentation_layer/src/get_packge.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
+import 'package:task_manger/presentation_layer/utils/shard_function/convert-time.dart';
+import 'package:task_manger/presentation_layer/utils/shard_function/issubscribe.dart';
 
 class NewHomeScreen extends StatefulWidget {
   @override
@@ -26,7 +28,7 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
     final NewHomeController _controller = Get.put(NewHomeController());
 
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppbarProfile(),
       body: InfoWidget(
         builder: (context, deviceInfo) {
@@ -44,7 +46,7 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
                       child: Text(
                         'Start where you are, use what you have, do what you can.',
                         style: MangeStyles().getRegularStyle(
-                          color: ColorManager.black,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: FontSize.s30,
                         ),
                         textAlign: TextAlign.left,
@@ -81,7 +83,7 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
                             Text(
                               'The number of active users ${_controller.totalusers ?? 1}',
                               style: MangeStyles().getRegularStyle(
-                                color: ColorManager.black,
+                                color: Theme.of(context).colorScheme.secondary,
                                 fontSize: FontSize.s20,
                               ),
                               textAlign: TextAlign.left,
@@ -91,89 +93,45 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
                             ),
                             GestureDetector(
                               onTap: () async {
-                                final bool? status = await FlutterOverlayWindow
-                                    .requestPermission();
-                                print(status);
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                width: 200,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  color: Color(0xff0FB9B1),
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.5),
-                                      spreadRadius: 5,
-                                      blurRadius: 30,
-                                      offset: Offset(
-                                        0,
-                                        5,
-                                      ), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: Text(
-                                  'START',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () async {},
-                              child: Container(
-                                alignment: Alignment.center,
-                                width: 200,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  color: Color(0xff0FB9B1),
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.5),
-                                      spreadRadius: 5,
-                                      blurRadius: 30,
-                                      offset: Offset(
-                                        0,
-                                        5,
-                                      ), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: Text(
-                                  'START',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () async {
-                                final bool status = await FlutterOverlayWindow
-                                    .isPermissionGranted();
-                                if (status) {
-                                  print(WindowSize.matchParent);
-                                  await FlutterOverlayWindow.showOverlay(
-                                    enableDrag: false,
-                                    overlayTitle: "X-SLAYER",
-                                    overlayContent: 'Overlay Enabled',
-                                    flag: OverlayFlag.defaultFlag,
-                                    visibility:
-                                        NotificationVisibility.visibilityPublic,
-                                    positionGravity: PositionGravity.auto,
-                                    height: 1200,
-                                    width: 900,
-                                  );
-                                  print("FlutterOverlayWindow");
+                                if (!isSubScribe()) {
+                                  WidgetsBinding.instance
+                                      .addPostFrameCallback((_) {
+                                    Navigator.push(
+                                      ctx,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            SubscriptionScreen(),
+                                      ),
+                                    );
+                                  });
+                                  return;
                                 }
+                                DateTime? dataTime = DateTime.now();
+                                TimeOfDay? timeOfDay = TimeOfDay.now();
+                                final timestamp = DateTime.now()
+                                    .millisecondsSinceEpoch
+                                    .toString();
+                                await FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(sharedPreferences.getString('id'))
+                                    .collection('tasks')
+                                    .doc(timestamp)
+                                    .set({
+                                  'title': "Task 1",
+                                  'longBreak': 8,
+                                  'pomotime': 25,
+                                  'workSessions': 4,
+                                  'shortBreak': 5,
+                                  'timeOfDay': convertTo12HourFormat(
+                                      timeOfDay.hour, timeOfDay.minute),
+                                  'datatime':
+                                      '${dataTime.year}/${dataTime.month}/${dataTime.day}',
+                                  'catogery': "",
+                                  'color': 0xffF4BF52,
+                                  'done': false,
+                                  'timestamp': timestamp,
+                                });
+                                setState(() {});
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -223,11 +181,12 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
                                   Align(
                                     alignment: Alignment.center,
                                     child: Image.asset(
-                                      "assets/images/hamburger.png",
-                                      width: 25,
-                                      height: 25,
-                                      color: Colors.black.withOpacity(0.7),
-                                    ),
+                                        "assets/images/hamburger.png",
+                                        width: 25,
+                                        height: 25,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary),
                                   ),
                                   HeaderUi(
                                     onTap: () {

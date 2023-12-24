@@ -33,7 +33,7 @@ if (keystorePropertiesFile.exists()) {
 }
 android {
     namespace "com.Timekeeping.proApp"
-    compileSdkVersion 33
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {

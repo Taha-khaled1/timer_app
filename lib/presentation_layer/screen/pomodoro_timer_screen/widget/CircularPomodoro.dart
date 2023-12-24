@@ -44,7 +44,7 @@ import 'package:task_manger/main.dart';
 //         ringGradient: null,
 //         fillColor: ColorManager.kPrimary,
 //         fillGradient: null,
-//         backgroundColor: ColorManager.background,
+//         backgroundColor:Theme.of(context).colorScheme.background,
 //         backgroundGradient: null,
 //         strokeWidth: 20.0,
 //         strokeCap: StrokeCap.round,

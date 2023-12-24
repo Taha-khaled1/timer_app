@@ -50,7 +50,7 @@ class _OtpScreenState extends State<OtpScreen> {
       ),
     );
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: appbar(title: 'Password'),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

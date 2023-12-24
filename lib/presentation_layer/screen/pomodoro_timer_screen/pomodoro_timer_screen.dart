@@ -42,8 +42,8 @@ class _PomodoroTimerScreenState extends State<PomodoroTimerScreen> {
     PomodoroTimerController pomodoroTimerController =
         Get.put(PomodoroTimerController(widget.taskModel));
     return Scaffold(
-      backgroundColor: ColorManager.background,
-      appBar: appbar(title: 'Pomodoro Timer'),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      appBar: AppbarProfile(title: 'Pomodoro Timer'),
       body: InfoWidget(
         builder: (context, deviceInfo) {
           return SingleChildScrollView(
@@ -228,106 +228,110 @@ void showAlert(TaskModel taskModel) {
   Duration? timeDuration;
   Get.dialog(
     barrierDismissible: false,
-    Dialog(
-      child: InfoWidget(
-        builder: (context, deviceInfo) {
-          return StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-            return Column(
-              mainAxisSize: MainAxisSize.min, // Use minimum space vertically
-              children: [
-                // Title
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    "Take a break",
-                    style: MangeStyles().getBoldStyle(
-                      color: ColorManager.kPrimary,
-                      fontSize: FontSize.s25,
+    Builder(builder: (context) {
+      return Dialog(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        child: InfoWidget(
+          builder: (context, deviceInfo) {
+            return StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+              return Column(
+                mainAxisSize: MainAxisSize.min, // Use minimum space vertically
+                children: [
+                  // Title
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      "Take a break",
+                      style: MangeStyles().getBoldStyle(
+                        color: ColorManager.kPrimary,
+                        fontSize: FontSize.s25,
+                      ),
                     ),
                   ),
-                ),
-                // Line
-                Divider(),
-                // Emotion (I'm using an emoji as an example)
-                SizedBox(),
-                // Image.asset("name"),
-                if (breakis != 0) ProgressExample(timeDuration: timeDuration!),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    "just relax and continue to work after a break",
-                    style: MangeStyles().getBoldStyle(
-                      color: ColorManager.black,
-                      fontSize: FontSize.s16,
+                  // Line
+                  Divider(),
+                  // Emotion (I'm using an emoji as an example)
+                  SizedBox(),
+                  // Image.asset("name"),
+                  if (breakis != 0)
+                    ProgressExample(timeDuration: timeDuration!),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      "just relax and continue to work after a break",
+                      style: MangeStyles().getBoldStyle(
+                        color: Theme.of(context).colorScheme.secondary,
+                        fontSize: FontSize.s16,
+                      ),
                     ),
                   ),
-                ),
-                if (breakis == 0)
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomButton(
-                        width: deviceInfo.localWidth * 0.42,
-                        haigh: 50,
-                        color: ColorManager.kPrimary3,
-                        text: "Short break",
-                        fontSize: 16,
-                        press: () {
-                          timeDuration =
-                              Duration(minutes: taskModel.shortBreak!);
-                          setState(() {
-                            breakis = 1;
-                          });
-                        },
-                      ),
-                      CustomButton(
-                        width: deviceInfo.localWidth * 0.42,
-                        haigh: 50,
-                        color: ColorManager.kPrimary3,
-                        fontSize: 16,
-                        text: "Long break",
-                        press: () {
-                          timeDuration =
-                              Duration(minutes: taskModel.longBreak!);
-                          setState(() {
-                            breakis = 2;
-                          });
-                        },
-                      ),
-                    ],
+                  if (breakis == 0)
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomButton(
+                          width: deviceInfo.localWidth * 0.42,
+                          haigh: 50,
+                          color: ColorManager.kPrimary3,
+                          text: "Short break",
+                          fontSize: 16,
+                          press: () {
+                            timeDuration =
+                                Duration(minutes: taskModel.shortBreak!);
+                            setState(() {
+                              breakis = 1;
+                            });
+                          },
+                        ),
+                        CustomButton(
+                          width: deviceInfo.localWidth * 0.42,
+                          haigh: 50,
+                          color: ColorManager.kPrimary3,
+                          fontSize: 16,
+                          text: "Long break",
+                          press: () {
+                            timeDuration =
+                                Duration(minutes: taskModel.longBreak!);
+                            setState(() {
+                              breakis = 2;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  CustomButton(
+                    width: 160,
+                    haigh: 45,
+                    color: ColorManager.kPrimary3,
+                    text: "continue",
+                    press: () async {
+                      if (controller.endWork >= taskModel.workSessions!) {
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(sharedPreferences.getString('id'))
+                            .collection('tasks')
+                            .doc(taskModel.id)
+                            .update({
+                          'done': true,
+                        });
+                        Get.to(() => SuccssScreen());
+                      } else {
+                        controller.endWork++;
+                        controller.restartPomo();
+                        Get.back();
+                        controller.changeupdate();
+                      }
+                    },
                   ),
-                CustomButton(
-                  width: 160,
-                  haigh: 45,
-                  color: ColorManager.kPrimary3,
-                  text: "continue",
-                  press: () async {
-                    if (controller.endWork >= taskModel.workSessions!) {
-                      await FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(sharedPreferences.getString('id'))
-                          .collection('tasks')
-                          .doc(taskModel.id)
-                          .update({
-                        'done': true,
-                      });
-                      Get.to(() => SuccssScreen());
-                    } else {
-                      controller.endWork++;
-                      controller.restartPomo();
-                      Get.back();
-                      controller.changeupdate();
-                    }
-                  },
-                ),
-              ],
-            );
-          });
-        },
-      ),
-    ),
+                ],
+              );
+            });
+          },
+        ),
+      );
+    }),
   );
 }
 
@@ -410,22 +414,30 @@ class TimeDisplay extends StatelessWidget {
       {required this.hours, required this.minutes, required this.seconds});
 
   Widget _timeBlock(String value, String label) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: TextStyle(
-              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black),
-        ),
-        SizedBox(height: 5),
-        Text(
-          label,
-          style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Colors.grey[700]),
-        ),
-      ],
+    return Builder(
+      builder: (context) {
+        return Column(
+          children: [
+            Text(
+              value,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            ),
+            SizedBox(height: 5),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey[700],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 

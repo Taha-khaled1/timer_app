@@ -62,6 +62,7 @@ class CustomCircleImageAsset extends StatelessWidget {
             image!,
             width: radius / 1.2,
             height: radius / 1.2,
+            // color: Theme.of(context).colorScheme.background,
           ),
         ),
       ),

@@ -57,7 +57,7 @@ class _NoteDetalisState extends State<NoteDetalis> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       bottomNavigationBar: isEdit
           ? Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -118,6 +118,7 @@ class _NoteDetalisState extends State<NoteDetalis> {
                         icon: Image.asset(
                           "assets/icons/aa.png",
                           width: 25,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                       IconButton(
@@ -132,15 +133,21 @@ class _NoteDetalisState extends State<NoteDetalis> {
                         icon: Image.asset(
                           "assets/icons/a.png",
                           width: 25,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                       IconButton(
                           onPressed: () {
-                            Get.to(() => OtpScreen(
-                                  id: widget.id,
-                                ));
+                            Get.to(
+                              () => OtpScreen(
+                                id: widget.id,
+                              ),
+                            );
                           },
-                          icon: Icon(Icons.lock)),
+                          icon: Icon(
+                            Icons.lock,
+                            color: Theme.of(context).colorScheme.secondary,
+                          )),
                       IconButton(
                           onPressed: () async {
                             showDilog(
@@ -150,8 +157,7 @@ class _NoteDetalisState extends State<NoteDetalis> {
                               onConfirmBtnTap: () async {
                                 String userId =
                                     sharedPreferences.getString('id') ?? '';
-                                var taskSnapshot = await FirebaseFirestore
-                                    .instance
+                                await FirebaseFirestore.instance
                                     .collection('users')
                                     .doc(userId)
                                     .collection('notes')
@@ -161,7 +167,10 @@ class _NoteDetalisState extends State<NoteDetalis> {
                               },
                             );
                           },
-                          icon: Icon(Icons.delete)),
+                          icon: Icon(
+                            Icons.delete,
+                            color: Theme.of(context).colorScheme.secondary,
+                          )),
                       IconButton(
                           onPressed: () {
                             setState(() {
@@ -187,7 +196,7 @@ class _NoteDetalisState extends State<NoteDetalis> {
                         icon: !isStar
                             ? Icon(
                                 Icons.star_border,
-                                color: ColorManager.black,
+                                color: Theme.of(context).colorScheme.secondary,
                               )
                             : Icon(
                                 Icons.star,

@@ -8,7 +8,7 @@ class Tag extends StatelessWidget {
 
   Tag({
     required this.text,
-    this.color = ColorManager.kPrimary,
+    this.color = ColorManager.kPrimaryconst,
     this.textColor = Colors.white,
   });
 

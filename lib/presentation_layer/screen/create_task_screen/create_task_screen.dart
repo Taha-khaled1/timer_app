@@ -8,7 +8,6 @@ import 'package:task_manger/presentation_layer/components/custom_text_field.dart
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
-import 'package:task_manger/presentation_layer/screen/create_task_screen/widget/MyDropdownButton.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 
 import 'create_task_controller/create_task_controller.dart';
@@ -38,7 +37,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppbarProfile(title: 'Create New Task', isBack: true),
       body: GetBuilder<CreateTaskController>(
         builder: (controller) {
@@ -55,7 +54,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                       Text(
                         'Title',
                         style: MangeStyles().getBoldStyle(
-                          color: ColorManager.black,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: FontSize.s18,
                         ),
                         textAlign: TextAlign.left,
@@ -63,12 +62,14 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                       SizedBox(height: 10),
                       CustomTextfield(
                         inialvalue: '${controller.title ?? ''}',
-                        valid: (p0) {
-                          return validInput(p0.toString(), 3, 100, 'name');
+                        valid: (value) {
+                          return validInput(value.toString(), 3, 100, 'name');
                         },
-                        onsaved: (p0) {},
-                        onChanged: (p0) {
-                          _controller.title = p0.toString();
+                        onsaved: (value) {
+                          return null;
+                        },
+                        onChanged: (value) {
+                          _controller.title = value.toString();
                         },
                         titel: controller.title ?? 'Task Title',
                         width: deviceInfo.localWidth * 1,
@@ -90,7 +91,9 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                                       child: Text(
                                         'Date',
                                         style: MangeStyles().getBoldStyle(
-                                          color: ColorManager.black,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
                                           fontSize: FontSize.s18,
                                         ),
                                         textAlign: TextAlign.left,
@@ -100,8 +103,12 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                                     CustomTextfield(
                                       readOnly: true,
                                       textController: controller.dateController,
-                                      valid: (p0) {},
-                                      onsaved: (p0) {},
+                                      valid: (value) {
+                                        return null;
+                                      },
+                                      onsaved: (value) {
+                                        return null;
+                                      },
                                       onTap: () =>
                                           _controller.selectDate(context),
                                       titel: 'Date',
@@ -118,7 +125,9 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                                     Text(
                                       'Start Time',
                                       style: MangeStyles().getBoldStyle(
-                                        color: ColorManager.black,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
                                         fontSize: FontSize.s18,
                                       ),
                                       textAlign: TextAlign.left,
@@ -127,8 +136,12 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                                     CustomTextfield(
                                       readOnly: true,
                                       textController: controller.timeController,
-                                      valid: (p0) {},
-                                      onsaved: (p0) {},
+                                      valid: (value) {
+                                        return null;
+                                      },
+                                      onsaved: (value) {
+                                        return null;
+                                      },
                                       onTap: () =>
                                           controller.selectTime(context),
                                       titel: 'Start Time',
@@ -146,7 +159,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                       Text(
                         'Chose color',
                         style: MangeStyles().getBoldStyle(
-                          color: ColorManager.black,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: FontSize.s18,
                         ),
                         textAlign: TextAlign.left,
@@ -196,7 +209,8 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                                 child: Text(
                                   'pomo time',
                                   style: MangeStyles().getBoldStyle(
-                                    color: ColorManager.black,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
                                     fontSize: FontSize.s18,
                                   ),
                                   textAlign: TextAlign.left,
@@ -226,7 +240,8 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                                 child: Text(
                                   'set of pomo',
                                   style: MangeStyles().getBoldStyle(
-                                    color: ColorManager.black,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
                                     fontSize: FontSize.s18,
                                   ),
                                   textAlign: TextAlign.left,
@@ -255,7 +270,8 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                                 child: Text(
                                   'Long Break',
                                   style: MangeStyles().getBoldStyle(
-                                    color: ColorManager.black,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
                                     fontSize: FontSize.s18,
                                   ),
                                   textAlign: TextAlign.left,
@@ -284,7 +300,8 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                                 child: Text(
                                   'Short Break',
                                   style: MangeStyles().getBoldStyle(
-                                    color: ColorManager.black,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
                                     fontSize: FontSize.s18,
                                   ),
                                   textAlign: TextAlign.left,
@@ -324,7 +341,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                                       : 'Edit New Task',
                                   press: () async {
                                     if (controller.argument == null) {
-                                      _controller.createTask();
+                                      _controller.createTask(context);
                                     } else {
                                       _controller.editeTask();
                                       print("edit task sucss");

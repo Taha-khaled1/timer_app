@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget {
     LoginController loginController = Get.put(LoginController());
 
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: appbar(),
       body: InfoWidget(
         builder: (context, deviceInfo) {
@@ -43,7 +43,7 @@ class LoginScreen extends StatelessWidget {
                       child: Text(
                         'Login to your\nAccount',
                         style: MangeStyles().getBoldStyle(
-                          color: ColorManager.black,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: FontSize.s40 + 8,
                         ),
                         textAlign: TextAlign.left,

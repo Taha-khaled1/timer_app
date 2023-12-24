@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
-import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/screen/home_screen/home_controller.dart';
 import 'package:task_manger/presentation_layer/screen/home_screen/widget/card_task.dart';
 import 'package:task_manger/presentation_layer/src/components_packge.dart';
@@ -12,8 +11,8 @@ class WhatchTaskScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final HomeController _controller = Get.put(HomeController());
     return Scaffold(
-      backgroundColor: ColorManager.background,
-      appBar: appbar(title: 'Today Tasks'),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      appBar: AppbarProfile(title: 'Today Tasks'),
       body: FutureBuilder(
         builder: (ctx, snapshot) {
           // Checking if future is resolved or not

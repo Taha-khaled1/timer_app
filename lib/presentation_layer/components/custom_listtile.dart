@@ -30,7 +30,7 @@ class CustomListtile extends StatelessWidget {
             ? image != null
                 ? SvgPicture.asset(
                     image!,
-                    color: Colors.black,
+                    color: Theme.of(context).colorScheme.secondary,
                     height: 25,
                   )
                 : null
@@ -46,9 +46,9 @@ class CustomListtile extends StatelessWidget {
         trailing: istr
             ? Transform.translate(
                 offset: Offset(15, 0),
-                child: const Icon(
+                child: Icon(
                   Icons.arrow_forward_ios,
-                  color: Colors.black,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
               )
             : SizedBox(),

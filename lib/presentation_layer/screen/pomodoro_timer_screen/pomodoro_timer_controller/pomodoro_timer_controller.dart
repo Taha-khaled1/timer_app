@@ -101,17 +101,18 @@ class PomodoroTimerController extends GetxController {
 
   @override
   void onInit() async {
-    duration = (taskModel!.pomotime! * 60);
+    // taskModel!.pomotime!
+    duration = (1 * 60);
     // PomodoroTimerController pomodoroTimerController = Get.find();
     stopWatchTimer = await StopWatchTimer(
       mode: StopWatchMode.countDown,
       presetMillisecond: StopWatchTimer.getMilliSecFromSecond(duration),
       onChangeRawMinute: (value) {
-        print('onChangeRawMinute $value');
+        // print('onChangeRawMinute $value');
         UserActivityTracker.logActivity(firstDateTime, 1);
       },
       onStopped: () {
-        print('onStopped');
+        // print('onStopped');
       },
       onEnded: () async {
         if (endWork < taskModel!.workSessions!) {
@@ -130,12 +131,12 @@ class PomodoroTimerController extends GetxController {
       },
     );
 
-    await stopWatchTimer!.minuteTime
-        .listen((value) => print('minuteTime $value'));
-    await stopWatchTimer!.fetchStopped
-        .listen((value) => print('stopped from stream'));
-    await stopWatchTimer!.fetchEnded
-        .listen((value) => print('ended from stream'));
+    // await stopWatchTimer!.minuteTime
+    //     .listen((value) => print('minuteTime $value'));
+    // await stopWatchTimer!.fetchStopped
+    //     .listen((value) => print('stopped from stream'));
+    // await stopWatchTimer!.fetchEnded
+    //     .listen((value) => print('ended from stream'));
     // stopWatchTimer!.onStartTimer();
     isload = false;
     update();

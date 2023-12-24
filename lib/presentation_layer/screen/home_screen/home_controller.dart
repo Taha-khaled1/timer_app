@@ -7,7 +7,6 @@ class HomeController extends GetxController {
     String userId = sharedPreferences.getString('id') ?? '';
 
     DateTime now = DateTime.now();
-    DateTime startOfDay = DateTime(now.year, now.month, now.day);
 
     QuerySnapshot taskSnapshot = await FirebaseFirestore.instance
         .collection('users')

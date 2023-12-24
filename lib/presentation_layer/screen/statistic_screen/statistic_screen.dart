@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
-import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/screen/statistic_screen/statistic_controller/statistic_controller.dart';
@@ -19,7 +18,7 @@ class StatisticScreen extends StatelessWidget {
     final formattedDate = "${dateTime.year}-${dateTime.month}-${dateTime.day}";
     final key = '$_keyPrefix$formattedDate';
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppbarProfile(title: 'Statistics', isBack: false),
       body: InfoWidget(
         builder: (context, deviceInfo) {
@@ -55,7 +54,9 @@ class StatisticScreen extends StatelessWidget {
                                     child: Text(
                                       "Summary",
                                       style: MangeStyles().getRegularStyle(
-                                        color: ColorManager.black,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
                                         fontSize: FontSize.s20,
                                       ),
                                       textAlign: TextAlign.center,
@@ -82,7 +83,9 @@ class StatisticScreen extends StatelessWidget {
                                     child: Text(
                                       "Today",
                                       style: MangeStyles().getRegularStyle(
-                                        color: ColorManager.black,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
                                         fontSize: FontSize.s20,
                                       ),
                                       textAlign: TextAlign.center,
@@ -111,7 +114,8 @@ class StatisticScreen extends StatelessWidget {
                               child: Text(
                                 "Focus Time",
                                 style: MangeStyles().getRegularStyle(
-                                  color: ColorManager.black,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                   fontSize: FontSize.s20,
                                 ),
                                 textAlign: TextAlign.center,
@@ -147,14 +151,14 @@ class TabBarViewWidget extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).colorScheme.background,
           toolbarHeight: 10,
           // backgroundColor: Colors.blueGrey.shade500,
           // title: Text('TabBar Widget'),
           bottom: TabBar(
             indicatorColor: Colors.lime,
             indicatorWeight: 5.0,
-            labelColor: Colors.black,
+            labelColor: Theme.of(context).colorScheme.secondary,
             labelPadding: EdgeInsets.only(top: 10.0),
             unselectedLabelColor: Colors.grey,
             tabs: [

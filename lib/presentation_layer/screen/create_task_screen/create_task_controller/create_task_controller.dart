@@ -8,9 +8,11 @@ import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/components/nav_bar.dart';
 import 'package:task_manger/presentation_layer/notification_service/notification_service.dart';
 import 'package:task_manger/presentation_layer/screen/create_task_screen/create_task_screen.dart';
+import 'package:task_manger/presentation_layer/screen/subscribe_screen/subscription_screen.dart';
 import 'package:task_manger/presentation_layer/src/show_toast.dart';
 import 'package:task_manger/presentation_layer/utils/shard_function/convert-time.dart';
 import 'package:task_manger/presentation_layer/utils/shard_function/formmat_time.dart';
+import 'package:task_manger/presentation_layer/utils/shard_function/issubscribe.dart';
 import 'package:task_manger/presentation_layer/utils/shard_function/printing_function_red.dart';
 
 class CreateTaskController extends GetxController {
@@ -137,7 +139,16 @@ class CreateTaskController extends GetxController {
     Get.offAll(() => MainScreen());
   }
 
-  void createTask() async {
+  void createTask(BuildContext ctx) async {
+    if (!isSubScribe()) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.push(
+          ctx,
+          MaterialPageRoute(builder: (context) => SubscriptionScreen()),
+        );
+      });
+      return;
+    }
     isloading = true;
     update();
     try {

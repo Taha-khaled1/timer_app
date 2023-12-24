@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:task_manger/data_layer/models/notf_model.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
-import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
@@ -15,7 +14,7 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppbarProfile(title: 'Notifications'),
       body: InfoWidget(
         builder: (context, deviceInfo) {
@@ -30,7 +29,7 @@ class NotificationScreen extends StatelessWidget {
                         Text(
                           'There are no notifications at this time',
                           style: MangeStyles().getBoldStyle(
-                            color: ColorManager.black,
+                            color: Theme.of(context).colorScheme.secondary,
                             fontSize: FontSize.s18,
                           ),
                           textAlign: TextAlign.left,

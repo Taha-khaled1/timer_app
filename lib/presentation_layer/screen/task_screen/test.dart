@@ -29,7 +29,7 @@
 //   Widget build(BuildContext context) {
 //     final TaskController _controller = Get.put(TaskController());
 //     return Scaffold(
-//       backgroundColor: ColorManager.background,
+//       backgroundColor:Theme.of(context).colorScheme.background,
 //       appBar: appbarMain(title: 'Pomodoro Task'),
 //       body: InfoWidget(
 //         builder: (context, deviceInfo) {

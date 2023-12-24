@@ -12,7 +12,7 @@ customShowBottomSheet(BuildContext context, Function setStateCallback) {
   String title = '';
   String message = '';
   showModalBottomSheet(
-    backgroundColor: ColorManager.background,
+    backgroundColor: Theme.of(context).colorScheme.background,
     context: context,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.only(

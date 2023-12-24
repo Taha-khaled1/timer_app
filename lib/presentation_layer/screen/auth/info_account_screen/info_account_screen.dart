@@ -1,22 +1,16 @@
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:task_manger/application_layer/utils/valid.dart';
 import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
 import 'package:task_manger/presentation_layer/components/custom_butten.dart';
-import 'package:task_manger/presentation_layer/components/custom_listtile.dart';
 import 'package:task_manger/presentation_layer/components/custom_text_field.dart';
 import 'package:task_manger/presentation_layer/components/nav_bar.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
-import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/widget/EditImage.dart';
-import 'package:task_manger/presentation_layer/screen/auth/info_account_screen/widget/custom_phone_number.dart';
 import 'package:task_manger/presentation_layer/src/show_toast.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 
@@ -38,7 +32,7 @@ class _InfoAccountState extends State<InfoAccount> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appbar(),
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: InfoWidget(
         builder: (context, deviceInfo) {
           return SingleChildScrollView(
@@ -49,7 +43,7 @@ class _InfoAccountState extends State<InfoAccount> {
                 Text(
                   'Fill Your Profile',
                   style: MangeStyles().getBoldStyle(
-                    color: ColorManager.black,
+                    color: Theme.of(context).colorScheme.secondary,
                     fontSize: FontSize.s30 + 2,
                   ),
                   textAlign: TextAlign.center,
@@ -58,7 +52,7 @@ class _InfoAccountState extends State<InfoAccount> {
                 Text(
                   'Don\'t worry, you can always change it later, or you can skip it for now.',
                   style: MangeStyles().getRegularStyle(
-                    color: ColorManager.black,
+                    color: Theme.of(context).colorScheme.secondary,
                     fontSize: FontSize.s18,
                   ),
                   textAlign: TextAlign.center,
@@ -70,11 +64,11 @@ class _InfoAccountState extends State<InfoAccount> {
                   child: Column(
                     children: [
                       CustomTextfield(
-                        valid: (p0) {
-                          return validInput(p0.toString(), 3, 100, 'name');
+                        valid: (value) {
+                          return validInput(value.toString(), 3, 100, 'name');
                         },
-                        onsaved: (p0) {
-                          name = p0.toString();
+                        onsaved: (value) {
+                          return name = value.toString();
                         },
                         titel: 'Full Name',
                         width: deviceInfo.localWidth * 0.8,
@@ -82,10 +76,12 @@ class _InfoAccountState extends State<InfoAccount> {
                       ),
                       SizedBox(height: 15),
                       CustomTextfield(
-                        valid: (p0) {
-                          return validInput(p0.toString(), 3, 100, 'name');
+                        valid: (value) {
+                          return validInput(value.toString(), 3, 100, 'name');
                         },
-                        onsaved: (p0) {},
+                        onsaved: (value) {
+                          return null;
+                        },
                         titel: 'Nickname',
                         width: deviceInfo.localWidth * 0.8,
                         height: 60,
@@ -94,12 +90,15 @@ class _InfoAccountState extends State<InfoAccount> {
                       SizedBox(
                         width: deviceInfo.localWidth * 0.8,
                         child: IntlPhoneField(
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
                           onSaved: (newValue) {
                             number = newValue!.number.toString();
                           },
-                          validator: (p0) {
+                          validator: (value) {
                             return validInput(
-                              p0!.number.toString(),
+                              value!.number.toString(),
                               6,
                               100,
                               'number',
@@ -121,10 +120,10 @@ class _InfoAccountState extends State<InfoAccount> {
 
                             //  enabled: true,
                             filled: true,
-                            fillColor: ColorManager.fillColor,
+                            fillColor: Theme.of(context).colorScheme.surface,
                             hintText: 'Phone Number',
                             hintStyle: TextStyle(
-                              color: Color(0xFF9E9E9E),
+                              color: Theme.of(context).colorScheme.secondary,
                               fontSize: 14,
                               fontFamily: 'Urbanist',
                               fontWeight: FontWeight.w400,
@@ -278,7 +277,7 @@ class _InfoAccountState extends State<InfoAccount> {
   // void _handleAttachmentPressed() {
   //   showModalBottomSheet<void>(
   //     context: context,
-  //     backgroundColor: ColorManager.background,
+  //     backgroundColor:Theme.of(context).colorScheme.background,
   //     builder: (BuildContext context) => Container(
   //       decoration: BoxDecoration(
   //         color: Colors.white,

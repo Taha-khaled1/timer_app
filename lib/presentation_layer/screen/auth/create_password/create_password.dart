@@ -16,7 +16,7 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//       backgroundColor: ColorManager.background,
+//       backgroundColor:Theme.of(context).colorScheme.background,
 //       appBar: appbar(title: 'Create New Password'),
 //       body: InfoWidget(
 //         builder: (context, deviceInfo) {

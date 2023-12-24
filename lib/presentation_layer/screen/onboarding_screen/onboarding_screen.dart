@@ -35,7 +35,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: InfoWidget(
         builder: (context, deviceInfo) {
           return Column(
@@ -124,11 +124,11 @@ class OnboardingPage extends StatelessWidget {
             height: 200.0,
             width: 200.0,
           ),
-          SizedBox(height: 16.0),
+          SizedBox(height: 8),
           Text(
             description,
             style: MangeStyles().getBoldStyle(
-              color: ColorManager.black,
+              color: Theme.of(context).colorScheme.secondary,
               fontSize: FontSize.s40,
             ),
             textAlign: TextAlign.center,

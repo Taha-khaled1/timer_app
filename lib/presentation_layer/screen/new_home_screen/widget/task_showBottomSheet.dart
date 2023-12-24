@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/presentation_layer/components/nav_bar.dart';
-import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/screen/new_home_screen/new_home_controller.dart';
 import 'package:task_manger/presentation_layer/screen/new_home_screen/widget/HeaderUi.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
@@ -10,10 +9,11 @@ import 'new_card_task.dart';
 
 customtaskShowBottomSheet(BuildContext context) {
   final NewHomeController _controller = Get.put(NewHomeController());
+  // ignore: unused_local_variable
   bool isfliterdone = false;
 
   showModalBottomSheet(
-    backgroundColor: ColorManager.background,
+    backgroundColor: Theme.of(context).colorScheme.background,
     context: context,
     shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -55,7 +55,7 @@ customtaskShowBottomSheet(BuildContext context) {
                               "assets/images/hamburger.png",
                               width: 25,
                               height: 25,
-                              color: Colors.black.withOpacity(0.7),
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
                           ),
                         ),
@@ -125,7 +125,7 @@ customtaskShowBottomSheet(BuildContext context) {
                                           color: Color(
                                               data![i]['color'] ?? 0xffffffff),
                                           subtitle: "25 minute",
-                                          id: data![i]['timestamp'],
+                                          id: data[i]['timestamp'],
                                           pomotime: data[i]['pomotime'],
                                           data: data[i]['datatime'],
                                           time: data[i]['timeOfDay'],

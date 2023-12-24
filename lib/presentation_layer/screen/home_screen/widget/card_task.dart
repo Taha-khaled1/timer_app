@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:task_manger/data_layer/models/task_model.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
@@ -84,7 +82,7 @@ class CardTask extends StatelessWidget {
                   Text(
                     taskModel.taskName ?? '',
                     style: MangeStyles().getRegularStyle(
-                      color: ColorManager.black,
+                      color: Theme.of(context).colorScheme.secondary,
                       fontSize: FontSize.s20,
                     ),
                     textAlign: TextAlign.center,
@@ -93,7 +91,7 @@ class CardTask extends StatelessWidget {
                   Text(
                     '25 minutes',
                     style: MangeStyles().getRegularStyle(
-                      color: ColorManager.black,
+                      color: Theme.of(context).colorScheme.secondary,
                       fontSize: FontSize.s14,
                     ),
                     textAlign: TextAlign.center,

@@ -1,7 +1,6 @@
 import 'package:task_manger/application_layer/middleware/defultMidelware.dart';
 import 'package:task_manger/presentation_layer/components/nav_bar.dart';
 import 'package:task_manger/presentation_layer/resources/routes_manager.dart';
-
 import 'package:get/get.dart';
 import 'package:task_manger/presentation_layer/screen/auth/social_login/social_login.dart';
 import 'package:task_manger/presentation_layer/screen/onboarding_screen/onboarding_screen.dart';

@@ -47,8 +47,11 @@ class CustomTextfield extends StatelessWidget {
       //  height: height,
       child: TextFormField(
         controller: textController,
-        cursorColor: Colors.black,
-        style: TextStyle(color: ColorManager.black, fontSize: 18),
+        cursorColor: Theme.of(context).colorScheme.secondary,
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.secondary,
+          fontSize: 18,
+        ),
         autocorrect: false,
         enableSuggestions: false,
         onTap: onTap,
@@ -85,10 +88,10 @@ class CustomTextfield extends StatelessWidget {
 
           //  enabled: true,
           filled: true,
-          fillColor: ColorManager.fillColor,
+          fillColor: Theme.of(context).colorScheme.surface,
           hintText: titel,
           hintStyle: TextStyle(
-            color: Color(0xFF9E9E9E),
+            color: Theme.of(context).colorScheme.secondary,
             fontSize: 14,
             fontFamily: 'Urbanist',
             fontWeight: FontWeight.w400,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:task_manger/main.dart';
 import 'package:task_manger/presentation_layer/components/appbar.dart';
 import 'package:task_manger/presentation_layer/components/custom_listtile.dart';
+import 'package:task_manger/presentation_layer/components/nav_bar.dart';
 import 'package:task_manger/presentation_layer/resources/color_manager.dart';
 import 'package:task_manger/presentation_layer/resources/font_manager.dart';
 import 'package:task_manger/presentation_layer/resources/styles_manager.dart';
@@ -15,13 +16,16 @@ import 'package:task_manger/presentation_layer/screen/screenseting/sharescreen.d
 import 'package:task_manger/presentation_layer/screen/screenseting/terms_screen.dart';
 import 'package:task_manger/presentation_layer/src/get_packge.dart';
 import 'package:task_manger/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
+import 'package:task_manger/presentation_layer/utils/shard_function/issubscribe.dart';
+
+import '../mange_subscribtion_screen/mange_subscribtion_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppbarProfile(title: 'Profile'),
       body: InfoWidget(
         builder: (context, deviceInfo) {
@@ -40,7 +44,7 @@ class ProfileScreen extends StatelessWidget {
                 Text(
                   sharedPreferences.getString('name')!,
                   style: MangeStyles().getBoldStyle(
-                    color: ColorManager.black,
+                    color: Theme.of(context).colorScheme.secondary,
                     fontSize: FontSize.s25 - 1,
                   ),
                   textAlign: TextAlign.center,
@@ -49,7 +53,7 @@ class ProfileScreen extends StatelessWidget {
                 Text(
                   sharedPreferences.getString('email')!,
                   style: MangeStyles().getRegularStyle(
-                    color: ColorManager.black,
+                    color: Theme.of(context).colorScheme.secondary,
                     fontSize: FontSize.s14,
                   ),
                   textAlign: TextAlign.center,
@@ -76,7 +80,6 @@ class ProfileScreen extends StatelessWidget {
                   titel: 'Pomo Settings',
                   image: 'assets/icons/star.svg',
                 ),
-
                 CustomListtile(
                   onTap: () {
                     Get.to(() => ShareApp());
@@ -84,7 +87,7 @@ class ProfileScreen extends StatelessWidget {
                   titel: 'Share App',
                   widget: Icon(
                     Icons.share_outlined,
-                    color: ColorManager.kTextlightgray,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
                 CustomListtile(
@@ -94,9 +97,19 @@ class ProfileScreen extends StatelessWidget {
                   titel: 'Privacy Policy',
                   widget: Icon(
                     Icons.help_outline_rounded,
-                    color: ColorManager.kTextlightgray,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
+                if (isSubScribe())
+                  CustomListtile(
+                    onTap: () {
+                      Get.to(
+                        () => MangeSubscribtionScreen(),
+                      );
+                    },
+                    titel: 'Manage your plan',
+                    image: 'assets/icons/manage.svg',
+                  ),
                 CustomListtile(
                   onTap: () {
                     Get.to(() => TermsAndConditionsPage());
@@ -104,12 +117,7 @@ class ProfileScreen extends StatelessWidget {
                   titel: 'Terms and Conditions',
                   image: 'assets/icons/Security.svg',
                 ),
-                // CustomListtile(
-                //   onTap: () {},
-                //   titel: 'Security',
-                //   image: 'assets/icons/Security.svg',
-                // ),
-
+                changeMode(),
                 CustomListtile(
                   onTap: () {
                     customLogoutShowBottomSheet(context);
@@ -122,6 +130,79 @@ class ProfileScreen extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class changeMode extends StatefulWidget {
+  const changeMode({
+    super.key,
+  });
+
+  @override
+  State<changeMode> createState() => _changeModeState();
+}
+
+class _changeModeState extends State<changeMode> {
+  late bool isdark;
+  @override
+  void initState() {
+    if (sharedPreferences.getBool("isDarkMode") == true) {
+      isdark = true;
+    } else {
+      isdark = false;
+    }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        SizedBox(
+          width: 25,
+        ),
+        Icon(
+          Icons.visibility,
+          color: Theme.of(context).colorScheme.secondary,
+        ),
+        SizedBox(
+          width: 32,
+        ),
+        Text(
+          'Dark Theme',
+          style: MangeStyles().getBoldStyle(
+            color: ColorManager.kTextlightgray,
+            fontSize: FontSize.s16,
+          ),
+        ),
+        Expanded(child: SizedBox()),
+        // CustomListtile(
+        //   onTap: () {
+        //     Get.find<TabAppController>().changeTheme();
+        //   },
+        //   titel: 'Dark Theme',
+        //   widget: Icon(
+        //     Icons.visibility,
+        //     color: Theme.of(context).colorScheme.secondary,
+        //   ),
+        //   // image: 'assets/icons/Security.svg',
+        // ),
+        Switch(
+          value: isdark,
+          onChanged: (value) async {
+            Get.find<TabAppController>().changeTheme();
+            setState(() {
+              if (sharedPreferences.getBool("isDarkMode") == true) {
+                isdark = true;
+              } else {
+                isdark = false;
+              }
+            });
+          },
+        ),
+      ],
     );
   }
 }

@@ -22,8 +22,8 @@ class _PomoSettingScreenState extends State<PomoSettingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.background,
-      appBar: appbar(title: 'Pomo Settings'),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      appBar: AppbarProfile(title: 'Pomo Settings'),
       body: InfoWidget(
         builder: (context, deviceInfo) {
           return Padding(
@@ -42,7 +42,7 @@ class _PomoSettingScreenState extends State<PomoSettingScreen> {
                     Text(
                       'Do Not Disturb',
                       style: MangeStyles().getRegularStyle(
-                        color: ColorManager.black,
+                        color: Theme.of(context).colorScheme.secondary,
                         fontSize: FontSize.s18,
                       ),
                     ),
@@ -66,7 +66,7 @@ class _PomoSettingScreenState extends State<PomoSettingScreen> {
                     Text(
                       'Reminder',
                       style: MangeStyles().getRegularStyle(
-                        color: ColorManager.black,
+                        color: Theme.of(context).colorScheme.secondary,
                         fontSize: FontSize.s18,
                       ),
                     ),

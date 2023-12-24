@@ -12,8 +12,8 @@ class ShareApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appbar(),
-      backgroundColor: ColorManager.background,
+      appBar: AppbarProfile(),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: LayoutBuilder(
         builder: (context, deviceInfo) {
           return SingleChildScrollView(
@@ -34,7 +34,7 @@ class ShareApp extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -61,8 +61,16 @@ class ShareApp extends StatelessWidget {
                         print('erorrrr  :  $e');
                       }
                     },
-                    icon: const Icon(Icons.share),
-                    label: Text('share app'),
+                    icon: Icon(
+                      Icons.share,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    label: Text(
+                      'share app',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
                   ),
                 ),
               ],

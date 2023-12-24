@@ -32,6 +32,11 @@ class LoginController extends GetxController {
       sharedPreferences.setString('image', user['image'] ?? '');
       sharedPreferences.setString('name', user['name'] ?? '');
       sharedPreferences.setString('phone', user['phone'] ?? '');
+      if (user['pay'] != null && user['pay'] != "" && user['pay'] != false) {
+        sharedPreferences.setString("timepay_at", user['timepay_at']);
+        sharedPreferences.setBool("pay", user['pay']);
+        sharedPreferences.setString("type_pay", user['type_pay']);
+      }
       sharedPreferences.setString("lev", '2');
       Get.offAll(() => MainScreen());
       showToast(

@@ -37,7 +37,7 @@ class RemperCHeckBox extends StatelessWidget {
                 child: Text(
                   'Remember me',
                   style: TextStyle(
-                    color: Color(0xFF212121),
+                    color: Theme.of(context).colorScheme.secondary,
                     fontSize: 14,
                     fontFamily: 'Urbanist',
                     fontWeight: FontWeight.w600,

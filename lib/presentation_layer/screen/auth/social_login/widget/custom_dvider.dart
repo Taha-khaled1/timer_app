@@ -24,7 +24,7 @@ class CustomDvider extends StatelessWidget {
             child: Text(
               title,
               style: MangeStyles().getBoldStyle(
-                color: ColorManager.black,
+                color: Theme.of(context).colorScheme.secondary,
                 fontSize: FontSize.s16,
               ),
               textAlign: TextAlign.center,

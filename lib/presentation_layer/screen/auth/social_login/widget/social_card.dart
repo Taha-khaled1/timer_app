@@ -15,7 +15,7 @@ class SocialCard extends StatelessWidget {
         height: 60,
         alignment: Alignment.center,
         decoration: ShapeDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.surface,
           shape: RoundedRectangleBorder(
             side: BorderSide(width: 0.50, color: Colors.grey.withOpacity(0.5)),
             borderRadius: BorderRadius.circular(16),
@@ -37,7 +37,7 @@ class SocialCard extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-                      color: Color(0xFF212121),
+                      color: Theme.of(context).colorScheme.secondary,
                       fontSize: 16,
                       fontFamily: 'Urbanist',
                       fontWeight: FontWeight.w600,

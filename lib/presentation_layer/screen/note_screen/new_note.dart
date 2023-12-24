@@ -26,12 +26,12 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//       backgroundColor: ColorManager.background,
+//       backgroundColor:Theme.of(context).colorScheme.background,
 //       appBar: appbarProfile(title: 'Notes', isBack: false),
 //       floatingActionButton: FloatingActionButton(
 //         onPressed: () async {
 //           showModalBottomSheet(
-//             backgroundColor: ColorManager.background,
+//             backgroundColor:Theme.of(context).colorScheme.background,
 //             context: context,
 //             shape: RoundedRectangleBorder(
 //               borderRadius: BorderRadius.only(

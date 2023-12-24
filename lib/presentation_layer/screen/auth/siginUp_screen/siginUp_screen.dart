@@ -19,7 +19,7 @@ class SiginUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     SiginUpController siginUpController = Get.put(SiginUpController());
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: appbar(),
       body: InfoWidget(
         builder: (context, deviceInfo) {
@@ -37,7 +37,7 @@ class SiginUpScreen extends StatelessWidget {
                       child: Text(
                         'Create your\nAccount',
                         style: MangeStyles().getBoldStyle(
-                          color: ColorManager.black,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: FontSize.s40 + 8,
                         ),
                         textAlign: TextAlign.left,
@@ -104,7 +104,9 @@ class SiginUpScreen extends StatelessWidget {
                                     child: Text(
                                       'Remember me',
                                       style: TextStyle(
-                                        color: Color(0xFF212121),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
                                         fontSize: 14,
                                         fontFamily: 'Urbanist',
                                         fontWeight: FontWeight.w600,
